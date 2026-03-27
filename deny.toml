@@ -227,6 +227,11 @@ expression = "MIT"
 license-files = []
 
 [[licenses.clarify]]
+name = "tokio-tungstenite-wasm"
+expression = "MIT"
+license-files = []
+
+[[licenses.clarify]]
 name = "aws-lc-sys"
 expression = "ISC AND (Apache-2.0 OR ISC) AND OpenSSL"
 license-files = []
