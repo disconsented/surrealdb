@@ -18,7 +18,7 @@ use crate::val::{Array, Value};
 /// The `foo,bar,*` part of statements like `SELECT foo,bar.* FROM faz`.
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum Fields {
+pub enum Fields {
 	/// Fields had the `VALUE` clause and should only return the given selector
 	///
 	/// This variant should not contain Field::All
@@ -58,7 +58,7 @@ impl Fields {
 		}
 	}
 	/// Create a new `VALUE id` field projection
-	pub(crate) fn value_id() -> Self {
+	pub fn value_id() -> Self {
 		Fields::Value(Box::new(Selector {
 			expr: Expr::Idiom(Idiom(ID.to_vec())),
 			alias: None,
@@ -66,7 +66,7 @@ impl Fields {
 	}
 
 	/// Returns an iterator which returns all fields which are not `Field::All`.
-	pub(crate) fn iter_non_all_fields(&self) -> FieldsIter<'_> {
+	pub fn iter_non_all_fields(&self) -> FieldsIter<'_> {
 		match self {
 			Fields::Value(selector) => FieldsIter::Single(Some(selector)),
 			Fields::Select(fields) => FieldsIter::Multiple(fields.iter()),
@@ -78,7 +78,7 @@ impl Fields {
 		matches!(self, Fields::Value(_))
 	}
 	/// Check if the fields are only about counting
-	pub(crate) fn is_count_all_only(&self) -> bool {
+	pub fn is_count_all_only(&self) -> bool {
 		fn field_is_count(f: &Field) -> bool {
 			match f {
 				Field::All => false,
@@ -105,7 +105,7 @@ impl Fields {
 	}
 
 	/// Process this type returning a computed simple Value
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -298,7 +298,7 @@ impl Fields {
 	}
 }
 
-pub(crate) enum FieldsIter<'a> {
+pub enum FieldsIter<'a> {
 	Single(Option<&'a Selector>),
 	Multiple(Iter<'a, Field>),
 }
@@ -334,7 +334,7 @@ impl ExactSizeIterator for FieldsIter<'_> {}
 
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) enum Field {
+pub enum Field {
 	/// The `*` in `SELECT * FROM ...`
 	#[default]
 	All,
@@ -363,7 +363,7 @@ impl ToSql for Field {
 
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct Selector {
+pub struct Selector {
 	pub expr: Expr,
 	/// The `quality` in `SELECT rating AS quality FROM ...`
 	pub alias: Option<Idiom>,

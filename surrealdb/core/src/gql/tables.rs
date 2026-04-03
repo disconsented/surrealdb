@@ -198,7 +198,7 @@ fn order_desc(field_name: String) -> expr::Order {
 /// function return values). Prefer [`CachedRecord`] when the full record data
 /// has already been fetched.
 #[derive(Clone, Debug)]
-pub(crate) struct VersionedRecord {
+pub struct VersionedRecord {
 	pub rid: RecordId,
 	pub version: Option<Datetime>,
 }
@@ -216,7 +216,7 @@ pub(crate) struct VersionedRecord {
 /// and wraps it in a new `CachedRecord`, so the target's field resolvers also
 /// benefit from caching.
 #[derive(Clone, Debug)]
-pub(crate) struct CachedRecord {
+pub struct CachedRecord {
 	pub rid: RecordId,
 	pub version: Option<Datetime>,
 	/// The full record data. Field resolvers extract values from here
@@ -319,7 +319,7 @@ fn parse_order_arg(
 /// Accepts either `filter` or `where` (aliases of each other). The value must
 /// be a GraphQL input object whose shape matches the generated filter type for
 /// the table.
-pub(crate) fn parse_filter_arg(
+pub fn parse_filter_arg(
 	args: &IndexMap<Name, GqlValue>,
 	fds: &[FieldDefinition],
 	tb_name: &str,
@@ -830,7 +830,7 @@ fn resolve_nested_object_value(
 }
 
 /// Derive the GraphQL filter input type name for a table (e.g. `_filter_person`).
-pub(crate) fn filter_name_from_table(tb_name: impl Display) -> String {
+pub fn filter_name_from_table(tb_name: impl Display) -> String {
 	format!("_filter_{tb_name}")
 }
 

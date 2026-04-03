@@ -15,7 +15,7 @@ pub struct File {
 }
 
 impl File {
-	pub(crate) fn new(bucket: String, key: String) -> Self {
+	pub fn new(bucket: String, key: String) -> Self {
 		let key = if key.starts_with("/") {
 			key
 		} else {
@@ -33,7 +33,7 @@ impl File {
 		types.is_empty() || types.contains(&self.bucket)
 	}
 
-	pub(crate) fn display_inner(&self) -> String {
+	pub fn display_inner(&self) -> String {
 		format!("{}:{}", fmt_inner(&self.bucket, true), fmt_inner(&self.key, false))
 	}
 }

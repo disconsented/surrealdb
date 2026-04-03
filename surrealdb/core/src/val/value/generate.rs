@@ -5,7 +5,7 @@ use crate::err::Error;
 use crate::val::{RecordId, RecordIdKey, TableName, Value};
 
 impl Value {
-	pub(crate) fn generate(self, tb: TableName, retable: bool) -> Result<RecordId> {
+	pub fn generate(self, tb: TableName, retable: bool) -> Result<RecordId> {
 		match self {
 			// There is a floating point number for the id field. Only accept
 			// floats that round-trip exactly to an i64 (finite, whole, in

@@ -5,7 +5,7 @@ use crate::val::Value;
 use crate::val::value::every::ArrayBehaviour;
 
 impl Value {
-	pub(crate) fn merge(&mut self, val: Value) -> Result<()> {
+	pub fn merge(&mut self, val: Value) -> Result<()> {
 		// If this value is not an object, then error
 		ensure!(
 			val.is_object(),

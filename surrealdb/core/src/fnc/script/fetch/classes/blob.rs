@@ -91,10 +91,10 @@ pub(super) fn content_type_from_headers(headers: &reqwest::header::HeaderMap) ->
 #[derive(Clone, Trace, JsLifetime)]
 #[js::class]
 pub struct Blob {
-	pub(crate) mime: String,
+	pub mime: String,
 	// TODO: make bytes?
 	#[qjs(skip_trace)]
-	pub(crate) data: Bytes,
+	pub data: Bytes,
 }
 
 #[js::methods]

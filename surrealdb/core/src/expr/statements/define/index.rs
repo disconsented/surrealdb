@@ -20,7 +20,7 @@ use crate::kvs::index::{IndexBuilder, retire_durable_index};
 use crate::val::{TableName, Value};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineIndexStatement {
+pub struct DefineIndexStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub what: Expr,
@@ -47,7 +47,7 @@ impl Default for DefineIndexStatement {
 impl DefineIndexStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "DefineIndexStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

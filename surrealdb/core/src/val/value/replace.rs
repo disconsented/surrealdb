@@ -4,7 +4,7 @@ use crate::err::Error;
 use crate::val::Value;
 
 impl Value {
-	pub(crate) fn replace(&mut self, val: Value) -> Result<()> {
+	pub fn replace(&mut self, val: Value) -> Result<()> {
 		// If this value is not an object, then error
 		ensure!(
 			val.is_object(),

@@ -8,7 +8,7 @@ use crate::expr::part::Part;
 use crate::val::{Strand, Value};
 
 impl Value {
-	pub(crate) fn patch(&mut self, ops: Value) -> Result<()> {
+	pub fn patch(&mut self, ops: Value) -> Result<()> {
 		let mut this = self.clone();
 		// Create a new object for testing and patching
 		// Loop over the patch operations and apply them

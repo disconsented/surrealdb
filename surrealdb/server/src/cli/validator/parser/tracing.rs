@@ -9,8 +9,8 @@ use crate::telemetry::{filter_from_value, span_filters_from_value};
 
 #[derive(Debug)]
 pub struct CustomFilter {
-	pub(crate) env: EnvFilter,
-	pub(crate) spans: HashMap<String, LevelFilter>,
+	pub env: EnvFilter,
+	pub spans: HashMap<String, LevelFilter>,
 }
 
 impl Clone for CustomFilter {

@@ -8,7 +8,7 @@ use crate::types::PublicNumber;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum Index {
+pub enum Index {
 	/// (Basic) non unique
 	Idx,
 	/// Unique index
@@ -78,7 +78,7 @@ impl From<crate::catalog::FullTextParams> for FullTextParams {
 
 #[derive(Clone, Debug, Eq, PartialEq, PartialOrd, Hash)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct HnswParams {
+pub struct HnswParams {
 	pub dimension: u16,
 	pub distance: Distance,
 	pub vector_type: VectorType,
@@ -127,7 +127,7 @@ impl From<crate::catalog::HnswParams> for HnswParams {
 
 #[derive(Clone, Debug, Eq, PartialEq, PartialOrd, Hash)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct DiskAnnParams {
+pub struct DiskAnnParams {
 	/// The vector dimension.
 	pub dimension: u16,
 	/// The distance metric used by the DiskANN graph.
@@ -174,7 +174,7 @@ impl From<crate::catalog::DiskAnnParams> for DiskAnnParams {
 
 #[derive(Clone, Default, Debug, Eq, PartialEq, PartialOrd, Hash)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum Distance {
+pub enum Distance {
 	/// Chebyshev distance.
 	Chebyshev,
 	/// Cosine distance.

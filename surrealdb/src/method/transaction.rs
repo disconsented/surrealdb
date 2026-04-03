@@ -14,8 +14,8 @@ use crate::{Connection, Surreal};
 #[derive(Debug)]
 #[must_use = "transactions must be committed or cancelled to complete them"]
 pub struct Transaction<C: Connection> {
-	pub(crate) id: Uuid,
-	pub(crate) client: Surreal<C>,
+	pub id: Uuid,
+	pub client: Surreal<C>,
 }
 
 impl<C> Transaction<C>

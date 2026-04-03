@@ -67,7 +67,7 @@ pub mod syn;
 #[doc(hidden)]
 pub mod val;
 
-pub(crate) mod types {
+pub mod types {
 	//! Re-export the types from the types crate for internal use prefixed with Public.
 
 	pub use surrealdb_types::{

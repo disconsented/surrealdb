@@ -30,7 +30,7 @@ use crate::val::{RecordId, RecordIdKey, RecordIdKeyRange, TableName, Value};
 const TARGET: &str = "surrealdb::core::dbs";
 
 #[derive(Clone, Debug)]
-pub(crate) enum Iterable {
+pub enum Iterable {
 	/// Any [Value] which does not exist in storage. This
 	/// could be the result of a query, an arbitrary
 	/// SurrealQL value, object, or array of values.
@@ -130,7 +130,7 @@ pub(crate) enum Iterable {
 /// processor. While `Operable` contains the primary record data, `Workable` provides
 /// supplementary information like relationship endpoints or insert values for `$input`.
 #[derive(Debug)]
-pub(crate) enum Operable {
+pub enum Operable {
 	/// Used for COUNT queries to represent aggregated count results.
 	/// The usize value is the total count from the query.
 	Count(usize),
@@ -162,23 +162,23 @@ pub(crate) enum Operable {
 }
 
 #[derive(Debug)]
-pub(crate) struct Processable {
+pub struct Processable {
 	/// The document context for this document
-	pub(crate) doc_ctx: DocumentContext,
+	pub doc_ctx: DocumentContext,
 	/// Whether this document only fetched keys or just count
-	pub(crate) record_strategy: RecordStrategy,
+	pub record_strategy: RecordStrategy,
 	/// Whether this document needs to have an ID generated
-	pub(crate) generate: Option<TableName>,
+	pub generate: Option<TableName>,
 	/// The record id for this document that should be processed
-	pub(crate) rid: Option<Arc<RecordId>>,
+	pub rid: Option<Arc<RecordId>>,
 	/// The record data for this document that should be processed
-	pub(crate) val: Operable,
+	pub val: Operable,
 	/// The record iterator for this document, used in index scans
-	pub(crate) ir: Option<Arc<IteratorRecord>>,
+	pub ir: Option<Arc<IteratorRecord>>,
 }
 
 #[derive(Default)]
-pub(crate) struct Iterator {
+pub struct Iterator {
 	/// Iterator status
 	canceller: Canceller,
 	/// Iterator limit value
@@ -223,18 +223,18 @@ impl Clone for Iterator {
 
 impl Iterator {
 	/// Creates a new iterator
-	pub(crate) fn new() -> Self {
+	pub fn new() -> Self {
 		Self::default()
 	}
 
 	/// Ingests an iterable for processing
-	pub(crate) fn ingest(&mut self, val: Iterable) {
+	pub fn ingest(&mut self, val: Iterable) {
 		self.entries.push(val)
 	}
 
 	/// Prepares a value for processing
 	#[allow(clippy::too_many_arguments)]
-	pub(crate) async fn prepare(
+	pub async fn prepare(
 		&mut self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -305,7 +305,7 @@ impl Iterator {
 
 	/// Prepares a value for processing
 	#[allow(clippy::too_many_arguments)]
-	pub(crate) async fn prepare_table(
+	pub async fn prepare_table(
 		&mut self,
 		ctx: &FrozenContext,
 		opt: &Options,
@@ -361,7 +361,7 @@ impl Iterator {
 	}
 
 	/// Prepares a RecordId for processing
-	pub(crate) async fn prepare_record_id(
+	pub async fn prepare_record_id(
 		&mut self,
 		ctx: &FrozenContext,
 		opt: &Options,
@@ -420,7 +420,7 @@ impl Iterator {
 	}
 
 	/// Prepares a value for processing
-	pub(crate) async fn prepare_mock(
+	pub async fn prepare_mock(
 		&mut self,
 		ctx: &FrozenContext,
 		opt: &Options,
@@ -479,7 +479,7 @@ impl Iterator {
 
 	/// Prepares a value for processing
 	#[allow(clippy::too_many_arguments)]
-	pub(crate) async fn prepare_lookup(
+	pub async fn prepare_lookup(
 		&mut self,
 		ctx: &FrozenContext,
 		opt: &Options,
@@ -549,7 +549,7 @@ impl Iterator {
 	}
 
 	/// Prepares a value for processing
-	pub(crate) async fn prepare_range(
+	pub async fn prepare_range(
 		&mut self,
 		planner: &mut QueryPlanner,
 		stm_ctx: &StatementContext<'_>,
@@ -651,7 +651,7 @@ impl Iterator {
 
 	/// Prepares a value for processing
 	#[allow(clippy::too_many_arguments)]
-	pub(crate) async fn prepare_array(
+	pub async fn prepare_array(
 		&mut self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -832,7 +832,7 @@ impl Iterator {
 	}
 
 	#[inline]
-	pub(crate) async fn setup_limit(
+	pub async fn setup_limit(
 		&mut self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -848,7 +848,7 @@ impl Iterator {
 	}
 
 	#[inline]
-	pub(crate) fn is_limit_one_or_zero(&self) -> bool {
+	pub fn is_limit_one_or_zero(&self) -> bool {
 		self.limit.map(|v| v <= 1).unwrap_or(false)
 	}
 

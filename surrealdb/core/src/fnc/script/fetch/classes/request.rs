@@ -376,8 +376,8 @@ impl<'js> FromJs<'js> for RequestInit<'js> {
 #[derive(Trace, JsLifetime)]
 pub struct Request<'js> {
 	#[qjs(skip_trace)]
-	pub(crate) url: Url,
-	pub(crate) init: RequestInit<'js>,
+	pub url: Url,
+	pub init: RequestInit<'js>,
 }
 
 #[js::methods]

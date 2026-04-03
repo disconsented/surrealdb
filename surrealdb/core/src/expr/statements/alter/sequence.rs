@@ -17,7 +17,7 @@ use crate::key::database::sq::Sq;
 use crate::val::Duration;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct AlterSequenceStatement {
+pub struct AlterSequenceStatement {
 	pub name: Expr,
 	pub if_exists: bool,
 	pub timeout: Option<Expr>,
@@ -35,7 +35,7 @@ impl Default for AlterSequenceStatement {
 
 impl AlterSequenceStatement {
 	#[instrument(level = "trace", name = "AlterSequenceStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

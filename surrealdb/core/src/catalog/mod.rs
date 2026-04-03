@@ -7,12 +7,12 @@
 #![warn(missing_docs)]
 
 mod access;
-pub(crate) mod aggregation;
+pub mod aggregation;
 mod auth;
 mod database;
 mod module;
 mod namespace;
-pub(crate) mod providers;
+pub mod providers;
 mod record;
 mod schema;
 mod subscription;
@@ -24,15 +24,15 @@ mod compat;
 #[cfg(test)]
 mod test;
 
-pub(crate) use access::*;
-pub(crate) use database::*;
-pub(crate) use module::*;
-pub(crate) use namespace::*;
-pub(crate) use record::*;
+pub use access::*;
+pub use database::*;
+pub use module::*;
+pub use namespace::*;
+pub use record::*;
 pub use schema::ApiMethod;
-pub(crate) use schema::{
+pub use schema::{
 	ApiDefinition, DiskAnnParams, Distance, FullTextParams, HnswParams, Scoring, VectorType, *,
 };
-pub(crate) use subscription::*;
-pub(crate) use table::*;
-pub(crate) use view::*;
+pub use subscription::*;
+pub use table::*;
+pub use view::*;

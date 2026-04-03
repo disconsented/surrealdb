@@ -29,11 +29,11 @@ pub struct Endpoint {
 	pub url: Url,
 	#[doc(hidden)]
 	pub path: String,
-	pub(crate) config: Config,
+	pub config: Config,
 }
 
 impl Endpoint {
-	pub(crate) fn new(url: Url) -> Self {
+	pub fn new(url: Url) -> Self {
 		Self {
 			url,
 			path: String::new(),
@@ -57,7 +57,7 @@ impl Endpoint {
 		not(any(feature = "kv-mem", feature = "kv-surrealkv", feature = "kv-rocksdb")),
 		allow(dead_code)
 	)]
-	pub(crate) fn append_query_param(&mut self, key: &str, value: &str) {
+	pub fn append_query_param(&mut self, key: &str, value: &str) {
 		if self.path.contains('?') {
 			self.path = format!("{}&{key}={value}", self.path);
 		} else {
@@ -69,7 +69,7 @@ impl Endpoint {
 /// A trait for converting inputs to a server address object
 pub trait IntoEndpoint<Scheme>: into_endpoint::Sealed<Scheme> {}
 
-pub(crate) mod into_endpoint {
+pub mod into_endpoint {
 	pub trait Sealed<Scheme> {
 		/// The client implied by this scheme and address combination
 		type Client: super::Connection;
@@ -90,7 +90,7 @@ fn replace_tilde(path: &str) -> String {
 	}
 }
 
-pub(crate) fn path_to_string(protocol: &str, path: impl AsRef<std::path::Path>) -> String {
+pub fn path_to_string(protocol: &str, path: impl AsRef<std::path::Path>) -> String {
 	use std::path::Path;
 
 	use path_clean::PathClean;

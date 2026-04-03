@@ -13,13 +13,13 @@ use crate::expr::statements::info::InfoStructure;
 use crate::syn;
 use crate::val::{Datetime, IndexFormat, TryAdd, TrySub, Value};
 
-pub(crate) static SECONDS_PER_YEAR: u64 = 365 * SECONDS_PER_DAY;
-pub(crate) static SECONDS_PER_WEEK: u64 = 7 * SECONDS_PER_DAY;
-pub(crate) static SECONDS_PER_DAY: u64 = 24 * SECONDS_PER_HOUR;
-pub(crate) static SECONDS_PER_HOUR: u64 = 60 * SECONDS_PER_MINUTE;
-pub(crate) static SECONDS_PER_MINUTE: u64 = 60;
-pub(crate) static NANOSECONDS_PER_MILLISECOND: u32 = 1000000;
-pub(crate) static NANOSECONDS_PER_MICROSECOND: u32 = 1000;
+pub static SECONDS_PER_YEAR: u64 = 365 * SECONDS_PER_DAY;
+pub static SECONDS_PER_WEEK: u64 = 7 * SECONDS_PER_DAY;
+pub static SECONDS_PER_DAY: u64 = 24 * SECONDS_PER_HOUR;
+pub static SECONDS_PER_HOUR: u64 = 60 * SECONDS_PER_MINUTE;
+pub static SECONDS_PER_MINUTE: u64 = 60;
+pub static NANOSECONDS_PER_MILLISECOND: u32 = 1000000;
+pub static NANOSECONDS_PER_MICROSECOND: u32 = 1000;
 
 #[revisioned(revision = 1)]
 #[derive(

@@ -12,7 +12,7 @@ use crate::expr::{Expr, Literal};
 /// For example, `count(->edge) > 5` only needs 6 results to decide truth,
 /// so `LIMIT 6` is injected. The special case `count(->edge) > 0` becomes
 /// `LIMIT 1` (the original "exists" optimisation).
-pub(crate) struct CountLimitRewriter;
+pub struct CountLimitRewriter;
 
 impl MutVisitor for CountLimitRewriter {
 	type Error = ();

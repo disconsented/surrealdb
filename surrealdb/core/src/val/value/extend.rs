@@ -9,7 +9,7 @@ use crate::val::Value;
 use crate::val::array::Uniq;
 
 impl Value {
-	pub(crate) async fn extend(
+	pub async fn extend(
 		&mut self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

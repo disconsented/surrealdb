@@ -5,7 +5,7 @@ use crate::sql::{Cond, Fields, Groups};
 use crate::val::TableName;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) struct View {
+pub struct View {
 	pub expr: Fields,
 	pub what: Vec<TableName>,
 	pub cond: Option<Cond>,

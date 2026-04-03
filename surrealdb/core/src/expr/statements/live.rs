@@ -64,7 +64,7 @@ pub enum LiveFields {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct LiveStatement {
+pub struct LiveStatement {
 	pub id: Uuid,
 	pub node: Uuid,
 	pub fields: LiveFields,
@@ -76,7 +76,7 @@ pub(crate) struct LiveStatement {
 impl LiveStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "LiveStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

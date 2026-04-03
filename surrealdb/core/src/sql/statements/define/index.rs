@@ -5,7 +5,7 @@ use crate::fmt::{CoverStmts, Fmt};
 use crate::sql::{Expr, Index, Literal};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) struct DefineIndexStatement {
+pub struct DefineIndexStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub what: Expr,

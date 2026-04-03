@@ -26,29 +26,29 @@ mod system;
 mod table;
 mod user;
 
-pub(crate) use access::AlterAccessStatement;
-pub(crate) use analyzer::AlterAnalyzerStatement;
-pub(crate) use api::{AlterApiClause, AlterApiStatement};
-pub(crate) use bucket::AlterBucketStatement;
-pub(crate) use config::AlterConfigStatement;
-pub(crate) use database::AlterDatabaseStatement;
-pub(crate) use event::AlterEventStatement;
-pub(crate) use field::{AlterDefault, AlterFieldStatement};
-pub(crate) use function::AlterFunctionStatement;
-pub(crate) use index::AlterIndexStatement;
-pub(crate) use module::AlterModuleStatement;
-pub(crate) use namespace::AlterNamespaceStatement;
-pub(crate) use param::AlterParamStatement;
-pub(crate) use sequence::AlterSequenceStatement;
-pub(crate) use system::AlterSystemStatement;
-pub(crate) use table::AlterTableStatement;
-pub(crate) use user::AlterUserStatement;
+pub use access::AlterAccessStatement;
+pub use analyzer::AlterAnalyzerStatement;
+pub use api::{AlterApiClause, AlterApiStatement};
+pub use bucket::AlterBucketStatement;
+pub use config::AlterConfigStatement;
+pub use database::AlterDatabaseStatement;
+pub use event::AlterEventStatement;
+pub use field::{AlterDefault, AlterFieldStatement};
+pub use function::AlterFunctionStatement;
+pub use index::AlterIndexStatement;
+pub use module::AlterModuleStatement;
+pub use namespace::AlterNamespaceStatement;
+pub use param::AlterParamStatement;
+pub use sequence::AlterSequenceStatement;
+pub use system::AlterSystemStatement;
+pub use table::AlterTableStatement;
+pub use user::AlterUserStatement;
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
 /// Helper to express a tri‑state alteration:
 /// - `None`: leave the current value unchanged
 /// - `Set(T)`: set/replace the current value to `T`
 /// - `Drop`: remove/clear the current value
-pub(crate) enum AlterKind<T> {
+pub enum AlterKind<T> {
 	#[default]
 	None,
 	Set(T),
@@ -110,7 +110,7 @@ impl<T: Revisioned + DeserializeRevisioned> DeserializeRevisioned for AlterKind<
 ///
 /// Variants map to specific resources and delegate execution to their
 /// corresponding implementations.
-pub(crate) enum AlterStatement {
+pub enum AlterStatement {
 	System(AlterSystemStatement),
 	Namespace(AlterNamespaceStatement),
 	Database(AlterDatabaseStatement),
@@ -136,7 +136,7 @@ impl AlterStatement {
 	/// All `ALTER` statements currently return `Value::None` on success and may
 	/// perform side effects such as storage compaction or metadata updates.
 	#[instrument(level = "trace", name = "AlterStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

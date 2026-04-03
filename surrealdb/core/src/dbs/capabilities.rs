@@ -214,7 +214,7 @@ impl NetTarget {
 	/// - The function uses `lookup_host` for DNS resolution, which must be awaited.
 	/// - The optional port is replaced by port 80 as a default if not provided.
 	#[cfg(not(target_family = "wasm"))]
-	pub(crate) async fn resolve(&self) -> Result<Vec<Self>, std::io::Error> {
+	pub async fn resolve(&self) -> Result<Vec<Self>, std::io::Error> {
 		match self {
 			NetTarget::Host(h, p) => {
 				let r = lookup_host((h.to_string(), p.unwrap_or(80)))
@@ -228,7 +228,7 @@ impl NetTarget {
 	}
 
 	#[cfg(target_family = "wasm")]
-	pub(crate) fn resolve(&self) -> Result<Vec<Self>, std::io::Error> {
+	pub fn resolve(&self) -> Result<Vec<Self>, std::io::Error> {
 		match self {
 			NetTarget::Host(h, p) => {
 				let r = (h.to_string(), p.unwrap_or(80))
@@ -539,7 +539,7 @@ impl<T: Target + Hash + Eq + PartialEq + Ord> From<T> for Targets<T> {
 }
 
 impl<T: Hash + Eq + PartialEq + Ord + fmt::Debug + fmt::Display> Targets<T> {
-	pub(crate) fn matches<S>(&self, elem: &S) -> bool
+	pub fn matches<S>(&self, elem: &S) -> bool
 	where
 		S: ?Sized,
 		T: Target<S>,
@@ -588,8 +588,8 @@ pub struct Capabilities {
 
 	allow_funcs: Targets<FuncTarget>,
 	deny_funcs: Targets<FuncTarget>,
-	pub(crate) allow_net: Targets<NetTarget>,
-	pub(crate) deny_net: Targets<NetTarget>,
+	pub allow_net: Targets<NetTarget>,
+	pub deny_net: Targets<NetTarget>,
 	allow_rpc: Targets<MethodTarget>,
 	deny_rpc: Targets<MethodTarget>,
 	allow_http: Targets<RouteTarget>,
@@ -852,12 +852,12 @@ impl Capabilities {
 	}
 
 	#[cfg(feature = "http")]
-	pub(crate) fn matches_any_allow_net(&self, target: &NetTarget) -> bool {
+	pub fn matches_any_allow_net(&self, target: &NetTarget) -> bool {
 		self.allow_net.matches(target)
 	}
 
 	#[cfg(feature = "http")]
-	pub(crate) fn matches_any_deny_net(&self, target: &NetTarget) -> bool {
+	pub fn matches_any_deny_net(&self, target: &NetTarget) -> bool {
 		self.deny_net.matches(target)
 	}
 

@@ -8,7 +8,7 @@ use crate::val::Value;
 
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum ModuleExecutable {
+pub enum ModuleExecutable {
 	Surrealism(SurrealismExecutable),
 	Silo(SiloExecutable),
 }
@@ -24,7 +24,7 @@ impl InfoStructure for ModuleExecutable {
 
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct SurrealismExecutable {
+pub struct SurrealismExecutable {
 	pub bucket: String,
 	pub key: String,
 }
@@ -41,7 +41,7 @@ impl InfoStructure for SurrealismExecutable {
 
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct SiloExecutable {
+pub struct SiloExecutable {
 	pub organisation: String,
 	pub package: String,
 	pub major: u32,
@@ -66,13 +66,13 @@ impl InfoStructure for SiloExecutable {
 // Therefor I found it to fit better inside catalog, and to then let expr use this enum aswell,
 // to have a single point where the storage name is generated.
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum ModuleName {
+pub enum ModuleName {
 	Module(String),
 	Silo(String, String, u32, u32, u32),
 }
 
 impl ModuleName {
-	pub(crate) fn get_storage_name(&self) -> String {
+	pub fn get_storage_name(&self) -> String {
 		match self {
 			ModuleName::Module(name) => format!("mod::{}", name),
 			ModuleName::Silo(org, pkg, major, minor, patch) => {

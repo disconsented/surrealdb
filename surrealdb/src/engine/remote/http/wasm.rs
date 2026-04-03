@@ -60,7 +60,7 @@ async fn create_client(base_url: &url::Url) -> Result<reqwest::Client> {
 	Ok(client)
 }
 
-pub(crate) async fn run_router(
+pub async fn run_router(
 	address: Endpoint,
 	conn_tx: Sender<Result<()>>,
 	route_rx: Receiver<Route>,

@@ -73,7 +73,7 @@ impl Resource {
 		}
 	}
 
-	pub(crate) fn for_sql_query(&self, variables: &mut Variables) -> Result<&'static str> {
+	pub fn for_sql_query(&self, variables: &mut Variables) -> Result<&'static str> {
 		match self {
 			Resource::Table(table) => {
 				variables.insert("_table".to_string(), Value::Table(table.clone()));
@@ -226,8 +226,8 @@ where
 /// Holds the `start` and `end` bounds of a range query
 #[derive(Debug, PartialEq, Clone)]
 pub struct KeyRange {
-	pub(crate) start: Bound<RecordIdKey>,
-	pub(crate) end: Bound<RecordIdKey>,
+	pub start: Bound<RecordIdKey>,
+	pub end: Bound<RecordIdKey>,
 }
 
 impl<T> From<(Bound<T>, Bound<T>)> for KeyRange

@@ -58,7 +58,7 @@ impl conn::Sealed for Db {
 	}
 }
 
-pub(crate) async fn run_router(
+pub async fn run_router(
 	address: Endpoint,
 	conn_tx: Sender<Result<()>>,
 	route_rx: Receiver<Route>,

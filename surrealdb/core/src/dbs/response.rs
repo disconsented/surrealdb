@@ -51,7 +51,7 @@ impl fmt::Display for QueryType {
 
 impl QueryType {
 	/// Returns the query type for the given toplevel expression.
-	pub(crate) fn for_toplevel_expr(expr: &TopLevelExpr) -> Self {
+	pub fn for_toplevel_expr(expr: &TopLevelExpr) -> Self {
 		match expr {
 			TopLevelExpr::Live(_) => QueryType::Live,
 			TopLevelExpr::Kill(_) => QueryType::Kill,

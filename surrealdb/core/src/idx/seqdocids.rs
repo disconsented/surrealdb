@@ -40,7 +40,7 @@ impl Resolved {
 /// - Supports efficient ID resolution, retrieval, and removal
 /// - Enables concurrent document indexing operations
 /// - Allocates IDs in batches for better performance
-pub(crate) struct SeqDocIds {
+pub struct SeqDocIds {
 	ikb: IndexKeyBase,
 	batch: u32,
 }

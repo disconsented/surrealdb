@@ -15,7 +15,7 @@ use crate::iam::{Action, AuthLimit, ResourceKind};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineFunctionStatement {
+pub struct DefineFunctionStatement {
 	pub kind: DefineKind,
 	pub name: Strand,
 	pub args: Vec<(String, Kind)>,
@@ -30,7 +30,7 @@ pub(crate) struct DefineFunctionStatement {
 impl DefineFunctionStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "DefineFunctionStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

@@ -4,9 +4,9 @@ pub mod auth;
 pub mod capabilities;
 
 mod config;
-pub(crate) mod endpoint;
+pub mod endpoint;
 mod export;
-pub(crate) mod query;
+pub mod query;
 mod resource;
 mod tls;
 mod websocket;
@@ -93,7 +93,7 @@ impl From<PatchOp> for Value {
 // /// [JSON Patch]: https://jsonpatch.com/
 // #[derive(Debug)]
 // #[must_use]
-// pub struct PatchOp(pub(crate) Value);
+// pub struct PatchOp(pub Value);
 
 impl PatchOp {
 	/// Adds a value to an object or inserts it into an array.
@@ -171,7 +171,7 @@ impl PatchOp {
 /// Multiple patch operations
 #[derive(Debug, Default)]
 #[must_use]
-pub struct PatchOps(pub(crate) Vec<PatchOp>);
+pub struct PatchOps(pub Vec<PatchOp>);
 
 // impl From<PatchOps> for PatchOp {
 // 	fn from(ops: PatchOps) -> Self {

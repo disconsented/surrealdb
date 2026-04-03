@@ -5,13 +5,13 @@ pub mod graphql;
 
 use api::ApiConfig;
 use defaults::DefaultConfig;
-pub(crate) use graphql::GraphQLConfig;
+pub use graphql::GraphQLConfig;
 
 use super::DefineKind;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct DefineConfigStatement {
+pub struct DefineConfigStatement {
 	pub kind: DefineKind,
 	pub inner: ConfigInner,
 }
@@ -36,7 +36,7 @@ impl From<crate::expr::statements::define::DefineConfigStatement> for DefineConf
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum ConfigInner {
+pub enum ConfigInner {
 	GraphQL(GraphQLConfig),
 	Api(ApiConfig),
 	Default(DefaultConfig),

@@ -5,7 +5,7 @@ use crate::val::{Number, TryAdd, Value};
 
 impl Value {
 	/// Synchronous method for incrementing a field in a `Value`
-	pub(crate) fn inc(&mut self, path: &[Part], val: Value) -> Result<()> {
+	pub fn inc(&mut self, path: &[Part], val: Value) -> Result<()> {
 		match self.pick(path) {
 			Value::Array(v) => match val {
 				Value::Array(x) => self.put(path, Value::from(v.concat(x))),

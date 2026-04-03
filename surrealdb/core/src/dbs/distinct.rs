@@ -11,7 +11,7 @@ use crate::kvs::Key;
 type Distinct = Trie<Key, bool>;
 
 #[derive(Default)]
-pub(crate) struct SyncDistinct {
+pub struct SyncDistinct {
 	processed: Distinct,
 }
 

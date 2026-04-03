@@ -15,13 +15,13 @@ use surrealdb_types::{SqlFormat, ToSql, fmt_non_finite_f64};
 use crate::sql;
 
 /// Implements ToSql by calling formatter on contents.
-pub(crate) struct Fmt<T, F> {
+pub struct Fmt<T, F> {
 	contents: Cell<Option<T>>,
 	formatter: F,
 }
 
 impl<T, F: Fn(T, &mut String, SqlFormat)> Fmt<T, F> {
-	pub(crate) fn new(t: T, formatter: F) -> Self {
+	pub fn new(t: T, formatter: F) -> Self {
 		Self {
 			contents: Cell::new(Some(t)),
 			formatter,
@@ -39,23 +39,23 @@ impl<T, F: Fn(T, &mut String, SqlFormat)> ToSql for Fmt<T, F> {
 
 impl<I: IntoIterator<Item = T>, T: ToSql> Fmt<I, fn(I, &mut String, SqlFormat)> {
 	/// Formats values with a comma and a space separating them.
-	pub(crate) fn comma_separated(into_iter: I) -> Self {
+	pub fn comma_separated(into_iter: I) -> Self {
 		Self::new(into_iter, fmt_comma_separated)
 	}
 
 	/// Formats values with a verbar and a space separating them.
-	pub(crate) fn verbar_separated(into_iter: I) -> Self {
+	pub fn verbar_separated(into_iter: I) -> Self {
 		Self::new(into_iter, fmt_verbar_separated)
 	}
 
 	/// Formats values with a comma and a space separating them or, if pretty
 	/// printing is in effect, a comma, a newline, and indentation.
-	pub(crate) fn pretty_comma_separated(into_iter: I) -> Self {
+	pub fn pretty_comma_separated(into_iter: I) -> Self {
 		Self::new(into_iter, fmt_pretty_comma_separated)
 	}
 
 	/// Formats values with a new line separating them.
-	pub(crate) fn one_line_separated(into_iter: I) -> Self {
+	pub fn one_line_separated(into_iter: I) -> Self {
 		Self::new(into_iter, fmt_one_line_separated)
 	}
 }

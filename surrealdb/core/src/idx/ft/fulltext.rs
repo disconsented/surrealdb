@@ -43,7 +43,7 @@ use crate::val::{RecordId, Value};
 #[revisioned(revision = 1)]
 #[derive(Debug, Default, PartialEq)]
 /// Represents a term occurrence within a document
-pub(crate) struct TermDocument {
+pub struct TermDocument {
 	/// The frequency of the term in the document
 	f: TermFrequency,
 	/// The offsets of the term occurrences in the document
@@ -54,7 +54,7 @@ impl_kv_value_revisioned!(TermDocument);
 
 impl TermDocument {
 	#[cfg(test)]
-	pub(crate) fn new(f: TermFrequency, o: Vec<Offset>) -> Self {
+	pub fn new(f: TermFrequency, o: Vec<Offset>) -> Self {
 		Self {
 			f,
 			o,
@@ -65,7 +65,7 @@ impl TermDocument {
 #[revisioned(revision = 1)]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 /// Tracks document length and count statistics for the index
-pub(crate) struct DocLengthAndCount {
+pub struct DocLengthAndCount {
 	/// The total length of all documents in the index
 	total_docs_length: i128,
 	/// The total number of documents in the index
@@ -75,7 +75,7 @@ impl_kv_value_revisioned!(DocLengthAndCount);
 
 impl DocLengthAndCount {
 	#[cfg(test)]
-	pub(crate) fn new(total_docs_length: i128, doc_count: i64) -> Self {
+	pub fn new(total_docs_length: i128, doc_count: i64) -> Self {
 		Self {
 			total_docs_length,
 			doc_count,
@@ -84,7 +84,7 @@ impl DocLengthAndCount {
 }
 
 /// Represents the terms in a search query and their associated document sets
-pub(crate) struct QueryTerms {
+pub struct QueryTerms {
 	/// The tokenized query terms
 	#[allow(dead_code)]
 	tokens: Tokens,
@@ -97,11 +97,11 @@ pub(crate) struct QueryTerms {
 }
 
 impl QueryTerms {
-	pub(crate) fn is_empty(&self) -> bool {
+	pub fn is_empty(&self) -> bool {
 		self.tokens.list().is_empty()
 	}
 
-	pub(crate) fn contains_doc(&self, doc_id: DocId) -> bool {
+	pub fn contains_doc(&self, doc_id: DocId) -> bool {
 		for d in self.docs.iter().flatten() {
 			if d.contains(doc_id) {
 				return true;
@@ -141,14 +141,14 @@ impl QueryTerms {
 }
 
 #[derive(Clone, Copy)]
-pub(crate) struct Bm25Params {
+pub struct Bm25Params {
 	pub(in crate::idx) k1: f32,
 	pub(in crate::idx) b: f32,
 }
 
 /// The main full-text index implementation that supports concurrent read and
 /// write operations
-pub(crate) struct FullTextIndex {
+pub struct FullTextIndex {
 	/// The index key base used for key generation
 	ikb: IndexKeyBase,
 	/// The analyzer used for tokenizing and processing text
@@ -227,7 +227,7 @@ impl FullTextIndex {
 	///
 	/// This method retrieves the analyzer from the database and then calls
 	/// `with_analyzer`
-	pub(crate) async fn new(
+	pub async fn new(
 		ixs: &IndexStores,
 		tx: &Transaction,
 		ikb: IndexKeyBase,
@@ -274,7 +274,7 @@ impl FullTextIndex {
 	///
 	/// This method removes the specified content for a document from the index.
 	/// It returns the document ID if the document was found and removed.
-	pub(crate) async fn remove_content(
+	pub async fn remove_content(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -331,7 +331,7 @@ impl FullTextIndex {
 	/// This method assumes that remove_content has been called previously,
 	/// as it does not remove the content (terms) but only removes the doc_id
 	/// reference.
-	pub(crate) async fn remove_doc(&self, ctx: &FrozenContext, doc_id: DocId) -> Result<()> {
+	pub async fn remove_doc(&self, ctx: &FrozenContext, doc_id: DocId) -> Result<()> {
 		self.doc_ids.remove_doc_id(&ctx.tx(), doc_id).await
 	}
 
@@ -340,7 +340,7 @@ impl FullTextIndex {
 	/// This method analyzes and indexes the specified content for a document.
 	/// It resolves the document ID, tokenizes the content, and stores term
 	/// frequencies and offsets.
-	pub(crate) async fn index_content(
+	pub async fn index_content(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -439,7 +439,7 @@ impl FullTextIndex {
 	/// Tokenizes the query string, then retrieves the document bitmaps for each
 	/// unique term. The compacted bitmap fetches are batched via `tx.getm()` to
 	/// reduce KV round trips (one batch instead of N sequential gets).
-	pub(crate) async fn extract_querying_terms(
+	pub async fn extract_querying_terms(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -678,7 +678,7 @@ impl FullTextIndex {
 	///
 	/// This method creates an iterator over the documents that match all query
 	/// terms. It returns None if any term has no matching documents.
-	pub(crate) fn new_hits_iterator(
+	pub fn new_hits_iterator(
 		&self,
 		qt: &QueryTerms,
 		bo: BooleanOperator,
@@ -758,7 +758,7 @@ impl FullTextIndex {
 		}
 	}
 
-	pub(crate) async fn get_doc_id(
+	pub async fn get_doc_id(
 		&self,
 		tx: &Transaction,
 		rid: &RecordId,
@@ -768,7 +768,7 @@ impl FullTextIndex {
 		}
 		self.doc_ids.get_doc_id(tx, &rid.key).await
 	}
-	pub(crate) async fn new_scorer(&self, ctx: &FrozenContext) -> Result<Option<Scorer>> {
+	pub async fn new_scorer(&self, ctx: &FrozenContext) -> Result<Option<Scorer>> {
 		if let Some(bm25) = &self.bm25 {
 			let dlc = self.compute_doc_length_and_count(&ctx.tx(), None).await?;
 			let sc = Scorer::new(dlc, *bm25);
@@ -977,7 +977,7 @@ impl FullTextIndex {
 	/// This method compacts both document length/count statistics and term
 	/// documents. It returns true if any compaction was performed.
 	#[cfg(test)]
-	pub(crate) async fn compaction(&self, tx: &Transaction) -> Result<bool> {
+	pub async fn compaction(&self, tx: &Transaction) -> Result<bool> {
 		let r1 = self.compact_doc_length_and_count(tx).await?;
 		let r2 = self.compact_term_docs(tx).await?;
 		Ok(r1 || r2)
@@ -988,7 +988,7 @@ impl FullTextIndex {
 	/// This method highlights the occurrences of search terms in the document
 	/// value. It uses the provided highlighting parameters to format the
 	/// highlighted text.
-	pub(crate) async fn highlight(
+	pub async fn highlight(
 		&self,
 		tx: &Transaction,
 		thg: &RecordId,
@@ -1022,7 +1022,7 @@ impl FullTextIndex {
 		tx.get(&key, None).await
 	}
 
-	pub(crate) async fn read_offsets(
+	pub async fn read_offsets(
 		&self,
 		tx: &Transaction,
 		thg: &RecordId,
@@ -1047,7 +1047,7 @@ impl FullTextIndex {
 
 /// Iterator for full-text search hits that implements the MatchesHitsIterator
 /// trait
-pub(crate) struct FullTextHitsIterator {
+pub struct FullTextHitsIterator {
 	/// The index key base used for key generation
 	ikb: IndexKeyBase,
 	/// Iterator over the document IDs in the search results
@@ -1096,7 +1096,7 @@ impl MatchesHitsIterator for FullTextHitsIterator {
 }
 
 /// Implements BM25 scoring for relevance ranking of search results
-pub(crate) struct Scorer {
+pub struct Scorer {
 	/// precomputed BM25 scoring parameters
 	k1: f64,
 	k1_plus_1: f64,
@@ -1130,7 +1130,7 @@ impl Scorer {
 	/// This method computes the sum of BM25 scores for all matching terms in
 	/// the document. The score represents the relevance of the document to the
 	/// query.
-	pub(crate) async fn score(
+	pub async fn score(
 		&self,
 		fti: &FullTextIndex,
 		tx: &Transaction,

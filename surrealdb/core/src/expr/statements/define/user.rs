@@ -20,7 +20,7 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::{self, Duration, Value};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineUserStatement {
+pub struct DefineUserStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub base: Base,
@@ -47,7 +47,7 @@ impl Default for DefineUserStatement {
 }
 
 impl DefineUserStatement {
-	pub(crate) fn new_with_password(base: Base, user: String, pass: &str, role: String) -> Self {
+	pub fn new_with_password(base: Base, user: String, pass: &str, role: String) -> Self {
 		DefineUserStatement {
 			kind: DefineKind::Default,
 			base,
@@ -63,7 +63,7 @@ impl DefineUserStatement {
 		}
 	}
 
-	pub(crate) async fn to_definition(
+	pub async fn to_definition(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -129,7 +129,7 @@ impl DefineUserStatement {
 
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "DefineUserStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

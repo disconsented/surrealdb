@@ -7,7 +7,7 @@ use crate::expr::parameterize::expr_to_optional_ident;
 use crate::expr::{Expr, Literal};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefaultConfig {
+pub struct DefaultConfig {
 	pub namespace: Expr,
 	pub database: Expr,
 }
@@ -23,7 +23,7 @@ impl Default for DefaultConfig {
 
 impl DefaultConfig {
 	#[instrument(level = "trace", name = "DefaultConfig::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

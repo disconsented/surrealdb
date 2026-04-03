@@ -26,14 +26,14 @@ use crate::types::PublicValue;
 use crate::val::{Array, Range, TableName, Value};
 
 #[derive(Clone, Copy, Eq, PartialEq, Hash, Debug, Default)]
-pub(crate) enum ExplainFormat {
+pub enum ExplainFormat {
 	#[default]
 	Text,
 	Json,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
-pub(crate) enum Expr {
+pub enum Expr {
 	Literal(Literal),
 	Param(Param),
 	Idiom(Idiom),
@@ -91,7 +91,7 @@ pub(crate) enum Expr {
 
 impl Expr {
 	/// Check if this expression does only reads.
-	pub(crate) fn read_only(&self) -> bool {
+	pub fn read_only(&self) -> bool {
 		match self {
 			Expr::Literal(_)
 			| Expr::Param(_)
@@ -269,7 +269,7 @@ impl From<surrealdb_types::Range> for Expr {
 
 impl Expr {
 	/// Checks if a expression is 'pure' i.e. does not rely on the environment.
-	pub(crate) fn is_static(&self) -> bool {
+	pub fn is_static(&self) -> bool {
 		match self {
 			Expr::Literal(literal) => literal.is_static(),
 			Expr::Constant(_) => true,
@@ -325,7 +325,7 @@ impl Expr {
 		}
 	}
 
-	pub(crate) fn to_idiom(&self) -> Idiom {
+	pub fn to_idiom(&self) -> Idiom {
 		match self {
 			Expr::Idiom(i) => i.simplify(),
 			Expr::Param(i) => Idiom::field(i.clone().into_strand()),
@@ -340,7 +340,7 @@ impl Expr {
 	}
 
 	/// Process this type returning a computed simple Value
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -725,7 +725,7 @@ impl Expr {
 		res.map_err(ControlFlow::Err)
 	}
 
-	pub(crate) fn to_raw_string(&self) -> String {
+	pub fn to_raw_string(&self) -> String {
 		match self {
 			Expr::Idiom(idiom) => idiom.to_raw_string(),
 			Expr::Table(ident) => ident.as_str().to_string(),

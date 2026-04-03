@@ -9,14 +9,14 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::{Duration, Value};
 
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) struct SleepStatement {
-	pub(crate) duration: Duration,
+pub struct SleepStatement {
+	pub duration: Duration,
 }
 
 impl SleepStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "SleepStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		ctx: &FrozenContext,
 		opt: &Options,

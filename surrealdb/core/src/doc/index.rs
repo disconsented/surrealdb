@@ -154,7 +154,7 @@ impl Document {
 	/// Eg. If the index is composed of the columns `name` and `instrument`
 	/// Given this doc: { "id": 1, "instrument": "piano", "name": "Tobie" }
 	/// It will return: ["Tobie", "piano"]
-	pub(crate) async fn build_opt_values(
+	pub async fn build_opt_values(
 		stk: &mut Stk,
 		ctx: &FrozenContext,
 		opt: &Options,

@@ -91,12 +91,12 @@ impl From<u32> for DatabaseId {
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
 pub struct DatabaseDefinition {
-	pub(crate) namespace_id: NamespaceId,
-	pub(crate) database_id: DatabaseId,
-	pub(crate) name: Strand,
-	pub(crate) comment: Option<String>,
-	pub(crate) changefeed: Option<ChangeFeed>,
-	pub(crate) strict: bool,
+	pub namespace_id: NamespaceId,
+	pub database_id: DatabaseId,
+	pub name: Strand,
+	pub comment: Option<String>,
+	pub changefeed: Option<ChangeFeed>,
+	pub strict: bool,
 }
 impl_kv_value_revisioned!(DatabaseDefinition);
 

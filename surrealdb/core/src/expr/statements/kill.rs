@@ -13,7 +13,7 @@ use crate::types::{PublicAction, PublicNotification, PublicValue};
 use crate::val::{Uuid, Value};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct KillStatement {
+pub struct KillStatement {
 	// Uuid of Live Query
 	// or Param resolving to Uuid of Live Query
 	pub id: Expr,
@@ -22,7 +22,7 @@ pub(crate) struct KillStatement {
 impl KillStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "KillStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

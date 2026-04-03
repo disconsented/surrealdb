@@ -14,14 +14,14 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::{TableName, Value};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum RebuildStatement {
+pub enum RebuildStatement {
 	Index(RebuildIndexStatement),
 }
 
 impl RebuildStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "RebuildStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		_stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -42,7 +42,7 @@ impl ToSql for RebuildStatement {
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) struct RebuildIndexStatement {
+pub struct RebuildIndexStatement {
 	pub name: Strand,
 	pub table: TableName,
 	pub if_exists: bool,
@@ -51,7 +51,7 @@ pub(crate) struct RebuildIndexStatement {
 
 impl RebuildIndexStatement {
 	/// Process this type returning a computed simple Value
-	pub(crate) async fn compute(&self, ctx: &FrozenContext, opt: &Options) -> Result<Value> {
+	pub async fn compute(&self, ctx: &FrozenContext, opt: &Options) -> Result<Value> {
 		// Allowed to run?
 		ctx.is_allowed(opt, Action::Edit, ResourceKind::Index, Base::Db)?;
 		// Get the index definition

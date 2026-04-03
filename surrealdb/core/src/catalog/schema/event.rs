@@ -14,17 +14,17 @@ use crate::val::{TableName, Value};
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
 #[non_exhaustive]
 pub struct EventDefinition {
-	pub(crate) name: Strand,
-	pub(crate) target_table: TableName,
-	pub(crate) when: Expr,
-	pub(crate) then: Vec<Expr>,
-	pub(crate) comment: Option<String>,
+	pub name: Strand,
+	pub target_table: TableName,
+	pub when: Expr,
+	pub then: Vec<Expr>,
+	pub comment: Option<String>,
 	/// The auth limit of the API.
 	#[revision(start = 2, default_fn = "default_auth_limit")]
-	pub(crate) auth_limit: AuthLimit,
+	pub auth_limit: AuthLimit,
 	/// Whether this event should be queued for async processing.
 	#[revision(start = 3, default_fn = "default_event_kind")]
-	pub(crate) kind: EventKind,
+	pub kind: EventKind,
 }
 
 #[revisioned(revision = 1)]
@@ -43,8 +43,8 @@ pub enum EventKind {
 // This was pushed in after the first beta, so we need to add auth_limit to structs in a
 // non-breaking way
 impl EventDefinition {
-	pub(crate) const DEFAULT_RETRY: u16 = 1;
-	pub(crate) const DEFAULT_MAX_DEPTH: u16 = 3;
+	pub const DEFAULT_RETRY: u16 = 1;
+	pub const DEFAULT_MAX_DEPTH: u16 = 3;
 
 	fn default_auth_limit(_revision: u16) -> Result<AuthLimit, revision::Error> {
 		Ok(AuthLimit::new_no_limit())
@@ -79,7 +79,7 @@ impl EventDefinition {
 		}
 	}
 
-	pub(crate) fn retry(&self) -> u16 {
+	pub fn retry(&self) -> u16 {
 		match self.kind {
 			EventKind::Sync => 0,
 			EventKind::Async {
@@ -89,7 +89,7 @@ impl EventDefinition {
 		}
 	}
 
-	pub(crate) fn max_depth(&self) -> u16 {
+	pub fn max_depth(&self) -> u16 {
 		match self.kind {
 			EventKind::Sync => 0,
 			EventKind::Async {

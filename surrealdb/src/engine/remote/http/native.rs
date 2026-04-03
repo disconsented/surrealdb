@@ -31,7 +31,7 @@ use crate::{Error, ExtraFeatures, Result, SessionClone, SessionId, Surreal, conn
 /// # Returns
 ///
 /// A configured `reqwest::Client` pinned to a specific server IP address.
-pub(crate) async fn create_client(
+pub async fn create_client(
 	base_url: &Url,
 	#[cfg(any(feature = "native-tls", feature = "rustls"))] tls_config: Option<&Tls>,
 ) -> Result<reqwest::Client> {
@@ -132,7 +132,7 @@ impl conn::Sealed for Client {
 	}
 }
 
-pub(crate) async fn run_router(
+pub async fn run_router(
 	client: reqwest::Client,
 	base_url: url::Url,
 	route_rx: Receiver<Route>,

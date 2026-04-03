@@ -12,10 +12,10 @@ use crate::val::Value;
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
 pub struct ModuleDefinition {
-	pub(crate) name: Option<String>,
-	pub(crate) comment: Option<String>,
-	pub(crate) permissions: Permission,
-	pub(crate) executable: ModuleExecutable,
+	pub name: Option<String>,
+	pub comment: Option<String>,
+	pub permissions: Permission,
+	pub executable: ModuleExecutable,
 }
 
 impl_kv_value_revisioned!(ModuleDefinition);
@@ -36,7 +36,7 @@ impl ModuleDefinition {
 	}
 
 	/// This function is used to get the storage name of a module.
-	pub(crate) fn get_storage_name(&self) -> anyhow::Result<String> {
+	pub fn get_storage_name(&self) -> anyhow::Result<String> {
 		if let Some(name) = &self.name {
 			Ok(format!("mod::{}", name))
 		} else if let ModuleExecutable::Silo(silo) = &self.executable {

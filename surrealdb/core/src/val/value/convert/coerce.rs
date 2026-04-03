@@ -23,7 +23,7 @@ pub(crate) enum ElementPosition {
 }
 
 #[derive(Clone, Debug)]
-pub(crate) enum CoerceError {
+pub enum CoerceError {
 	// Coercion error at the end.
 	InvalidKind {
 		from: Value,
@@ -125,7 +125,7 @@ impl<T> CoerceErrorExt for Result<T, CoerceError> {
 /// Coercion rules are more strict then casting rules.
 /// Calling this method will succeed if the value can be unified with the kind
 /// of the target
-pub(crate) trait Coerce: Sized {
+pub trait Coerce: Sized {
 	/// Returns if calling coerce on the value will succeed or not.
 	///
 	/// If `T::can_coerce(&v)` returns `false` then `T::coerce(v) should not
@@ -656,7 +656,7 @@ impl Value {
 	}
 
 	/// Try to coerce this value to the specified `Kind`
-	pub(crate) fn coerce_to_kind(self, kind: &Kind) -> Result<Value, CoerceError> {
+	pub fn coerce_to_kind(self, kind: &Kind) -> Result<Value, CoerceError> {
 		// Attempt to convert to the desired type
 		match kind {
 			Kind::Any => Ok(self),
@@ -731,7 +731,7 @@ impl Value {
 
 	/// Try to coerce this value to a Literal, returns a `Value` with the
 	/// coerced value
-	pub(crate) fn coerce_to_literal(self, literal: &KindLiteral) -> Result<Value, CoerceError> {
+	pub fn coerce_to_literal(self, literal: &KindLiteral) -> Result<Value, CoerceError> {
 		if literal.validate_value(&self) {
 			Ok(self)
 		} else {
@@ -743,7 +743,7 @@ impl Value {
 	}
 
 	/// Try to coerce this value to a Table of a certain type
-	pub(crate) fn coerce_to_table_kind(
+	pub fn coerce_to_table_kind(
 		self,
 		val: &[TableName],
 	) -> Result<crate::val::TableName, CoerceError> {
@@ -787,7 +787,7 @@ impl Value {
 	}
 
 	/// Try to coerce this value to a Record of a certain type
-	pub(crate) fn coerce_to_record_kind(self, val: &[TableName]) -> Result<RecordId, CoerceError> {
+	pub fn coerce_to_record_kind(self, val: &[TableName]) -> Result<RecordId, CoerceError> {
 		let this = match self {
 			// Records are allowed if correct type
 			Value::RecordId(v) => {
@@ -815,7 +815,7 @@ impl Value {
 	}
 
 	/// Try to coerce this value to a `Geometry` of a certain type
-	pub(crate) fn coerce_to_geometry_kind(
+	pub fn coerce_to_geometry_kind(
 		self,
 		val: &[GeometryKind],
 	) -> Result<Geometry, CoerceError> {
@@ -834,7 +834,7 @@ impl Value {
 	}
 
 	/// Try to coerce this value to an `Array` of a certain type
-	pub(crate) fn coerce_to_array_type(self, kind: &Kind) -> Result<Array, CoerceError> {
+	pub fn coerce_to_array_type(self, kind: &Kind) -> Result<Array, CoerceError> {
 		self.coerce_to::<Array>()?
 			.into_iter()
 			.enumerate()
@@ -847,7 +847,7 @@ impl Value {
 	}
 
 	/// Try to coerce this value to an `Array` of a certain type, and length
-	pub(crate) fn coerce_to_array_type_len(
+	pub fn coerce_to_array_type_len(
 		self,
 		kind: &Kind,
 		len: u64,
@@ -873,7 +873,7 @@ impl Value {
 	}
 
 	/// Try to coerce this value to a `Set` of a certain type
-	pub(crate) fn coerce_to_set_kind(self, kind: &Kind) -> Result<Set, CoerceError> {
+	pub fn coerce_to_set_kind(self, kind: &Kind) -> Result<Set, CoerceError> {
 		self.coerce_to::<Set>()?
 			.into_iter()
 			.enumerate()
@@ -886,7 +886,7 @@ impl Value {
 	}
 
 	/// Try to coerce this value to a `Set` of a certain type and length
-	pub(crate) fn coerce_to_set_kind_len(self, kind: &Kind, len: u64) -> Result<Set, CoerceError> {
+	pub fn coerce_to_set_kind_len(self, kind: &Kind, len: u64) -> Result<Set, CoerceError> {
 		let set = self
 			.coerce_to::<Set>()?
 			.into_iter()
@@ -908,7 +908,7 @@ impl Value {
 		Ok(set)
 	}
 
-	pub(crate) fn coerce_to_file_buckets(self, buckets: &[String]) -> Result<File, CoerceError> {
+	pub fn coerce_to_file_buckets(self, buckets: &[String]) -> Result<File, CoerceError> {
 		let v = self.coerce_to::<File>()?;
 
 		if v.is_bucket_type(buckets) {

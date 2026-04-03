@@ -10,20 +10,20 @@ use crate::expr::{ControlFlow, Expr, FlowResult};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct OutputStatement {
+pub struct OutputStatement {
 	pub what: Expr,
 	pub fetch: Option<Fetchs>,
 }
 
 impl OutputStatement {
 	/// Check if we require a writeable transaction
-	pub(crate) fn read_only(&self) -> bool {
+	pub fn read_only(&self) -> bool {
 		self.what.read_only()
 	}
 
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "OutputStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

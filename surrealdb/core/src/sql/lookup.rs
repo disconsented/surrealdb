@@ -10,7 +10,7 @@ use crate::val::TableName;
 /// A lookup is a unified way of looking up graph edges and record references.
 /// Since they both work very similarly, they also both support the same operations
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
-pub(crate) struct Lookup {
+pub struct Lookup {
 	pub kind: LookupKind,
 	pub expr: Option<Fields>,
 	pub only: bool,

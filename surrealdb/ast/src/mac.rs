@@ -88,7 +88,7 @@ macro_rules! ast_type {
 	};
 
 }
-pub(crate) use ast_type;
+pub use ast_type;
 
 /// Macro implementing [`crate::vis::AstVist`] for a type if the "visualize" feature is enabled.
 ///
@@ -194,7 +194,7 @@ macro_rules! impl_vis_type{
 		}
 	};
 }
-pub(crate) use impl_vis_type;
+pub use impl_vis_type;
 
 macro_rules! impl_vis_debug {
 	($t:ty) => {
@@ -216,7 +216,7 @@ macro_rules! impl_vis_debug {
 		}
 	};
 }
-pub(crate) use impl_vis_debug;
+pub use impl_vis_debug;
 
 /// Debug macro that can pretty format ast types.
 #[macro_export]

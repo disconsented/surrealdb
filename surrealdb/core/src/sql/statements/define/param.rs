@@ -7,7 +7,7 @@ use crate::sql::{Expr, Literal, Permission};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct DefineParamStatement {
+pub struct DefineParamStatement {
 	pub kind: DefineKind,
 	pub name: Strand,
 	pub value: Expr,

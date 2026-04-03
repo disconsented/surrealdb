@@ -15,7 +15,7 @@ use crate::kvs::index::retire_durable_index;
 use crate::val::TableName;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct RemoveIndexStatement {
+pub struct RemoveIndexStatement {
 	pub name: Expr,
 	pub what: Expr,
 	pub if_exists: bool,
@@ -33,7 +33,7 @@ impl Default for RemoveIndexStatement {
 
 impl RemoveIndexStatement {
 	/// Process this type returning a computed simple Value
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

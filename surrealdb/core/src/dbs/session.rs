@@ -120,22 +120,22 @@ impl Session {
 	}
 
 	/// Retrieves the selected namespace
-	pub(crate) fn ns(&self) -> Option<Arc<str>> {
+	pub fn ns(&self) -> Option<Arc<str>> {
 		self.ns.as_deref().map(Into::into)
 	}
 
 	/// Retrieves the selected database
-	pub(crate) fn db(&self) -> Option<Arc<str>> {
+	pub fn db(&self) -> Option<Arc<str>> {
 		self.db.as_deref().map(Into::into)
 	}
 
 	/// Checks if live queries are allowed
-	pub(crate) fn live(&self) -> bool {
+	pub fn live(&self) -> bool {
 		self.rt
 	}
 
 	/// Checks if the session has expired
-	pub(crate) fn expired(&self) -> bool {
+	pub fn expired(&self) -> bool {
 		match self.exp {
 			Some(exp) => Utc::now().timestamp() > exp,
 			// It is currently possible to have sessions without expiration.
@@ -143,7 +143,7 @@ impl Session {
 		}
 	}
 
-	pub(crate) fn values(&self) -> Vec<(&'static str, Value)> {
+	pub fn values(&self) -> Vec<(&'static str, Value)> {
 		use crate::sql::expression::convert_public_value_to_internal;
 
 		let access = self.ac.as_deref().map(Value::from).unwrap_or(Value::None);

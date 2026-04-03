@@ -13,7 +13,7 @@ use crate::sql::{SqlFormat, ToSql};
 
 #[derive(Clone, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
 #[repr(transparent)]
-pub struct Bytes(pub(crate) ::bytes::Bytes);
+pub struct Bytes(pub ::bytes::Bytes);
 
 impl Bytes {
 	/// Convert the bytes to a bytes::Bytes

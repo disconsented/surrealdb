@@ -5,7 +5,7 @@ pub mod error;
 pub mod export;
 #[cfg(feature = "graphql")]
 pub mod gql;
-pub(crate) mod headers;
+pub mod headers;
 pub mod health;
 pub mod import;
 mod input;
@@ -13,7 +13,7 @@ pub mod key;
 #[cfg(feature = "mcp")]
 pub mod mcp;
 pub mod ml;
-pub(crate) mod output;
+pub mod output;
 mod params;
 pub mod rpc;
 mod signals;

@@ -9,15 +9,15 @@ use crate::{Connection, OnceLockExt, Result, Surreal};
 #[derive(Debug)]
 #[must_use = "futures do nothing unless you `.await` or poll them"]
 pub struct Cancel<C: Connection> {
-	pub(crate) client: Surreal<C>,
-	pub(crate) txn: uuid::Uuid,
+	pub client: Surreal<C>,
+	pub txn: uuid::Uuid,
 }
 
 impl<C> Cancel<C>
 where
 	C: Connection,
 {
-	pub(crate) fn from_transaction(transaction: Transaction<C>) -> Self {
+	pub fn from_transaction(transaction: Transaction<C>) -> Self {
 		Self {
 			client: transaction.client,
 			txn: transaction.id,

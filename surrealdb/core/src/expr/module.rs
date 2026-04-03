@@ -22,7 +22,7 @@ use crate::surrealism::host::Host;
 use crate::val::File;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum ModuleExecutable {
+pub enum ModuleExecutable {
 	Surrealism(SurrealismExecutable),
 	Silo(SiloExecutable),
 }
@@ -50,7 +50,7 @@ impl From<ModuleExecutable> for catalog::ModuleExecutable {
 }
 
 impl ModuleExecutable {
-	pub(crate) async fn signature(
+	pub async fn signature(
 		&self,
 		ctx: &FrozenContext,
 		ns: &NamespaceId,
@@ -65,7 +65,7 @@ impl ModuleExecutable {
 		}
 	}
 
-	pub(crate) async fn run(
+	pub async fn run(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -91,14 +91,14 @@ impl ToSql for ModuleExecutable {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct Signature {
-	pub(crate) args: Vec<Kind>,
-	pub(crate) returns: Option<Kind>,
-	pub(crate) writeable: bool,
+pub struct Signature {
+	pub args: Vec<Kind>,
+	pub returns: Option<Kind>,
+	pub writeable: bool,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct SurrealismExecutable(pub File);
+pub struct SurrealismExecutable(pub File);
 
 impl From<catalog::SurrealismExecutable> for SurrealismExecutable {
 	fn from(executable: catalog::SurrealismExecutable) -> Self {
@@ -124,7 +124,7 @@ impl ToSql for SurrealismExecutable {
 
 #[cfg(feature = "surrealism")]
 impl SurrealismExecutable {
-	pub(crate) async fn signature(
+	pub async fn signature(
 		&self,
 		ctx: &FrozenContext,
 		ns: &NamespaceId,
@@ -137,7 +137,7 @@ impl SurrealismExecutable {
 		signature_from_runtime(&runtime, sub)
 	}
 
-	pub(crate) async fn run(
+	pub async fn run(
 		&self,
 		_stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -156,7 +156,7 @@ impl SurrealismExecutable {
 
 #[cfg(not(feature = "surrealism"))]
 impl SurrealismExecutable {
-	pub(crate) async fn signature(
+	pub async fn signature(
 		&self,
 		_ctx: &FrozenContext,
 		_ns: &NamespaceId,
@@ -166,7 +166,7 @@ impl SurrealismExecutable {
 		bail!("Surrealism modules are not supported in WASM environments")
 	}
 
-	pub(crate) async fn run(
+	pub async fn run(
 		&self,
 		_stk: &mut Stk,
 		_ctx: &FrozenContext,
@@ -180,7 +180,7 @@ impl SurrealismExecutable {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct SiloExecutable {
+pub struct SiloExecutable {
 	pub organisation: String,
 	pub package: String,
 	pub major: u32,
@@ -221,7 +221,7 @@ impl ToSql for SiloExecutable {
 
 #[cfg(feature = "surrealism")]
 impl SiloExecutable {
-	pub(crate) async fn signature(
+	pub async fn signature(
 		&self,
 		ctx: &FrozenContext,
 		sub: Option<&str>,
@@ -238,7 +238,7 @@ impl SiloExecutable {
 		signature_from_runtime(&runtime, sub)
 	}
 
-	pub(crate) async fn run(
+	pub async fn run(
 		&self,
 		_stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -262,7 +262,7 @@ impl SiloExecutable {
 
 #[cfg(not(feature = "surrealism"))]
 impl SiloExecutable {
-	pub(crate) async fn signature(
+	pub async fn signature(
 		&self,
 		_ctx: &FrozenContext,
 		_sub: Option<&str>,
@@ -270,7 +270,7 @@ impl SiloExecutable {
 		bail!("Surrealism functions are not supported in WASM environments")
 	}
 
-	pub(crate) async fn run(
+	pub async fn run(
 		&self,
 		_stk: &mut Stk,
 		_ctx: &FrozenContext,

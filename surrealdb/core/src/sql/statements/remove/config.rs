@@ -2,7 +2,7 @@ use surrealdb_types::{SqlFormat, ToSql};
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum RemoveConfigKind {
+pub enum RemoveConfigKind {
 	#[default]
 	GraphQL,
 	Api,
@@ -11,7 +11,7 @@ pub(crate) enum RemoveConfigKind {
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct RemoveConfigStatement {
+pub struct RemoveConfigStatement {
 	pub kind: RemoveConfigKind,
 	pub if_exists: bool,
 }

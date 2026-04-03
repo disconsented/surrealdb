@@ -17,10 +17,10 @@ use crate::err::Error;
 use crate::val::{CoerceError, Datetime, File, Number, Object, Value};
 
 #[cfg(not(target_arch = "wasm32"))]
-pub(crate) mod file;
-pub(crate) mod memory;
-pub(crate) mod path;
-pub(crate) mod prefixed;
+pub mod file;
+pub mod memory;
+pub mod path;
+pub mod prefixed;
 
 // Expose type for external composers
 pub use path::ObjectKey;
@@ -41,7 +41,7 @@ impl ObjectMeta {
 	/// Converts the metadata into a SurrealDB `Value` for query results.
 	///
 	/// The returned value is an object with `updated`, `size`, and `file` fields.
-	pub(crate) fn into_value(self, bucket: String) -> Value {
+	pub fn into_value(self, bucket: String) -> Value {
 		Value::from(map! {
 			"updated" => Value::from(Datetime(self.updated)),
 			"size" => Value::from(self.size),

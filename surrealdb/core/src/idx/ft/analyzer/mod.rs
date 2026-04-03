@@ -25,13 +25,13 @@ pub(in crate::idx) mod mapper;
 pub(in crate::idx::ft) mod tokenizer;
 
 #[derive(Clone)]
-pub(crate) struct Analyzer {
+pub struct Analyzer {
 	az: Arc<catalog::AnalyzerDefinition>,
 	filters: Arc<Option<Vec<Filter>>>,
 }
 
 impl Analyzer {
-	pub(crate) fn new(ixs: &IndexStores, az: Arc<catalog::AnalyzerDefinition>) -> Result<Self> {
+	pub fn new(ixs: &IndexStores, az: Arc<catalog::AnalyzerDefinition>) -> Result<Self> {
 		Ok(Self {
 			filters: Arc::new(Filter::try_from(ixs, &az.filters)?),
 			az,
@@ -125,7 +125,7 @@ impl Analyzer {
 	}
 
 	/// Used for exposing the analyzer as the native function `search::analyze`
-	pub(crate) async fn analyze(
+	pub async fn analyze(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

@@ -1,4 +1,5 @@
 use surrealdb_types::{SqlFormat, ToSql, write_sql};
+use std::borrow::Cow;
 
 use crate::fmt::{CoverStmts, Fmt};
 use crate::sql::order::Ordering;
@@ -6,7 +7,7 @@ use crate::sql::{
 	Cond, Explain, Expr, Fetchs, Fields, Groups, Limit, Literal, Splits, Start, With,
 };
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq, Default)]
 pub struct SelectStatement {
 	/// The foo,bar part in SELECT foo,bar FROM baz.
 	pub fields: Fields,
@@ -72,6 +73,14 @@ impl ToSql for SelectStatement {
 		if let Some(ref v) = self.explain {
 			write_sql!(f, fmt, " {v}");
 		}
+	}
+}
+
+impl<'r> From<SelectStatement> for Cow<'r, str> {
+	fn from(v: SelectStatement) -> Self {
+		let mut s = String::new();
+		v.fmt_sql(&mut s, SqlFormat::SingleLine);
+		Cow::Owned(s)
 	}
 }
 

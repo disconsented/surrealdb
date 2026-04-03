@@ -33,7 +33,7 @@ use crate::kvs::Transaction;
 use crate::val::{Array, Number, RecordId, RecordIdKey, TableName, Value};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineTableStatement {
+pub struct DefineTableStatement {
 	pub kind: DefineKind,
 	pub id: Option<u32>,
 	pub name: Expr,
@@ -69,7 +69,7 @@ impl Default for DefineTableStatement {
 
 impl DefineTableStatement {
 	#[instrument(level = "trace", name = "DefineTableStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

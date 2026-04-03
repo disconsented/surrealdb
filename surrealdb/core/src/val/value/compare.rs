@@ -4,7 +4,7 @@ use crate::expr::part::{Next, Part};
 use crate::val::Value;
 
 impl Value {
-	pub(crate) fn compare(
+	pub fn compare(
 		&self,
 		other: &Self,
 		path: &[Part],

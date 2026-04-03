@@ -30,7 +30,7 @@ use crate::val::{
 /// surrealql rules regarding number equality are not observed, 1f != 1dec.
 
 #[derive(Clone, Debug)]
-pub(crate) enum Literal {
+pub enum Literal {
 	None,
 	Null,
 	// An unbounded range, i.e. `..` without any start or end bound.
@@ -54,7 +54,7 @@ pub(crate) enum Literal {
 }
 
 impl Literal {
-	pub(crate) fn is_static(&self) -> bool {
+	pub fn is_static(&self) -> bool {
 		match self {
 			Literal::None
 			| Literal::Null
@@ -80,7 +80,7 @@ impl Literal {
 
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "Literal::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -196,7 +196,7 @@ impl ToSql for Literal {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct ObjectEntry {
+pub struct ObjectEntry {
 	pub key: Strand,
 	pub value: Expr,
 }

@@ -11,7 +11,7 @@ use crate::expr::{Expr, FlowResultExt};
 /// The api configuration as it is received from ast.
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) struct ApiConfig {
+pub struct ApiConfig {
 	pub middleware: Vec<Middleware>,
 	pub permissions: Permission,
 }
@@ -19,14 +19,14 @@ pub(crate) struct ApiConfig {
 /// The api middleware as it is received from ast.
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) struct Middleware {
+pub struct Middleware {
 	pub name: Strand,
 	pub args: Vec<Expr>,
 }
 
 impl ApiConfig {
 	#[instrument(level = "trace", name = "ApiConfig::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

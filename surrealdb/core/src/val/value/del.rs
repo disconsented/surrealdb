@@ -18,7 +18,7 @@ impl Value {
 	/// subset is removed; `Part::All` clears the entire container. Missing keys,
 	/// out-of-range indices, and paths that descend into a non-container value
 	/// are all no-ops.
-	pub(crate) async fn del(
+	pub async fn del(
 		&mut self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

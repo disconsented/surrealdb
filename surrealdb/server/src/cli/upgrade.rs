@@ -12,7 +12,7 @@ use crate::cli::version_client;
 use crate::cli::version_client::VersionClient;
 use crate::cnf::PKG_VERSION;
 
-pub(crate) const ROOT: &str = "https://download.surrealdb.com";
+pub const ROOT: &str = "https://download.surrealdb.com";
 const ALPHA: &str = "alpha";
 const BETA: &str = "beta";
 const LATEST: &str = "latest";
@@ -61,7 +61,7 @@ impl UpgradeCommandArguments {
 	}
 }
 
-pub(crate) fn parse_version(input: &str) -> Result<Version> {
+pub fn parse_version(input: &str) -> Result<Version> {
 	// Remove the `v` prefix, if supplied
 	let version = input.strip_prefix('v').unwrap_or(input);
 	// Parse the version

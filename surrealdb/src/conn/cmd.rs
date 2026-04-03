@@ -11,7 +11,7 @@ use crate::types::{Array, Notification, Object, Value, Variables};
 
 #[derive(Debug, Clone)]
 #[allow(dead_code)]
-pub(crate) enum Command {
+pub enum Command {
 	Use {
 		namespace: Option<String>,
 		database: Option<String>,

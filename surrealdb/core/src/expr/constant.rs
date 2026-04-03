@@ -34,14 +34,14 @@ pub enum Constant {
 }
 
 /// A type of constant that may be converted to a value or JSON.
-pub(crate) enum ConstantValue {
+pub enum ConstantValue {
 	Float(f64),
 	Datetime(Datetime),
 	Duration(Duration),
 }
 
 impl Constant {
-	pub(crate) fn value(&self) -> ConstantValue {
+	pub fn value(&self) -> ConstantValue {
 		use std::f64::consts as f64c;
 		match self {
 			Self::MathE => ConstantValue::Float(f64c::E),
@@ -72,7 +72,7 @@ impl Constant {
 		}
 	}
 	/// Process this type returning a computed simple Value
-	pub(crate) fn compute(&self) -> Value {
+	pub fn compute(&self) -> Value {
 		match self.value() {
 			ConstantValue::Datetime(d) => d.into(),
 			ConstantValue::Float(f) => f.into(),

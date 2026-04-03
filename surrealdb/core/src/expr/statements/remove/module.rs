@@ -12,14 +12,14 @@ use crate::iam::{Action, ResourceKind};
 use crate::surrealism::cache::SurrealismCacheLookup;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct RemoveModuleStatement {
+pub struct RemoveModuleStatement {
 	pub name: ModuleName,
 	pub if_exists: bool,
 }
 
 impl RemoveModuleStatement {
 	/// Process this type returning a computed simple Value
-	pub(crate) async fn compute(&self, ctx: &FrozenContext, opt: &Options) -> Result<Value> {
+	pub async fn compute(&self, ctx: &FrozenContext, opt: &Options) -> Result<Value> {
 		// Allowed to run?
 		ctx.is_allowed(opt, Action::Edit, ResourceKind::Module, Base::Db)?;
 		// Get the transaction

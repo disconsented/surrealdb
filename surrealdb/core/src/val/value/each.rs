@@ -9,7 +9,7 @@ impl Value {
 	/// For example `a.*.*` with the object `{ a: { b:  [1,2], c: 1} }` resolves
 	/// to a.b[0], a.b[1], a.c.
 	/// and `a.$` with object `{ a: [1,2,3] }` resolves to `a[2]`.
-	pub(crate) fn each(&self, path: &[Part]) -> Vec<Idiom> {
+	pub fn each(&self, path: &[Part]) -> Vec<Idiom> {
 		let mut accum = Vec::new();
 		let mut build = Vec::new();
 		self._each(path, &mut accum, &mut build);

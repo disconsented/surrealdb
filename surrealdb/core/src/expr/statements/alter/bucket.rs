@@ -18,7 +18,7 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct AlterBucketStatement {
+pub struct AlterBucketStatement {
 	pub name: Expr,
 	pub if_exists: bool,
 	pub backend: AlterKind<String>,
@@ -42,7 +42,7 @@ impl Default for AlterBucketStatement {
 
 impl AlterBucketStatement {
 	#[instrument(level = "trace", name = "AlterBucketStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

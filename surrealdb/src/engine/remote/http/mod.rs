@@ -88,9 +88,9 @@
 //! prefer WebSocket connections which maintain session affinity through persistent connections.
 
 #[cfg(not(target_family = "wasm"))]
-pub(crate) mod native;
+pub mod native;
 #[cfg(target_family = "wasm")]
-pub(crate) mod wasm;
+pub mod wasm;
 
 use std::marker::PhantomData;
 #[cfg(not(target_family = "wasm"))]
@@ -387,7 +387,7 @@ impl Surreal<Client> {
 	}
 }
 
-pub(crate) fn default_headers() -> HeaderMap {
+pub fn default_headers() -> HeaderMap {
 	let mut headers = HeaderMap::new();
 	headers.insert(ACCEPT, HeaderValue::from_static(surrealdb_core::api::format::FLATBUFFERS));
 	headers
@@ -577,7 +577,7 @@ async fn import(request: RequestBuilder, path: PathBuf) -> Result<()> {
 	Ok(())
 }
 
-pub(crate) async fn health(request: RequestBuilder) -> Result<()> {
+pub async fn health(request: RequestBuilder) -> Result<()> {
 	request
 		.send()
 		.await

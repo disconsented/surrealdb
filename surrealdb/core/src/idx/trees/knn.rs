@@ -462,7 +462,7 @@ pub(super) mod tests {
 	use crate::syn;
 	use crate::val::{Number, Value};
 
-	pub(crate) fn get_seed_rnd() -> SmallRng {
+	pub fn get_seed_rnd() -> SmallRng {
 		let seed: u64 = std::env::var("TEST_SEED")
 			.unwrap_or_else(|_| rand::random::<u64>().to_string())
 			.parse()

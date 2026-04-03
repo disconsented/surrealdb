@@ -8,7 +8,7 @@ use crate::val;
 #[js::class]
 pub struct File {
 	#[qjs(skip_trace)]
-	pub(crate) value: val::File,
+	pub value: val::File,
 }
 
 #[js::methods]

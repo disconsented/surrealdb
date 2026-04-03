@@ -190,7 +190,7 @@ where
 }
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Ord, PartialOrd, Hash)]
-pub(crate) enum ExtraFeatures {
+pub enum ExtraFeatures {
 	Backup,
 	LiveQueries,
 }

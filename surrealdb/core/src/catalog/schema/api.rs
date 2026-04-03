@@ -20,18 +20,18 @@ use crate::val::{Array, Object, Value};
 #[non_exhaustive]
 pub struct ApiDefinition {
 	/// The URL path of the API.
-	pub(crate) path: Path,
+	pub path: Path,
 	/// The actions of the API.
-	pub(crate) actions: Vec<ApiActionDefinition>,
+	pub actions: Vec<ApiActionDefinition>,
 	/// The fallback expression of the API.
-	pub(crate) fallback: Option<Expr>,
+	pub fallback: Option<Expr>,
 	/// The config of the API.
-	pub(crate) config: ApiConfigDefinition,
+	pub config: ApiConfigDefinition,
 	/// An optional comment for the definition.
-	pub(crate) comment: Option<String>,
+	pub comment: Option<String>,
 	/// The auth limit of the API.
 	#[revision(start = 2, default_fn = "default_auth_limit")]
-	pub(crate) auth_limit: AuthLimit,
+	pub auth_limit: AuthLimit,
 }
 
 // This was pushed in after the first beta, so we need to add auth_limit to structs in a
@@ -47,7 +47,7 @@ impl_kv_value_revisioned!(ApiDefinition);
 impl ApiDefinition {
 	/// Finds the api definition which most closely matches the segments of the
 	/// path.
-	pub(crate) fn find_definition<'a>(
+	pub fn find_definition<'a>(
 		definitions: &'a [ApiDefinition],
 		segments: &[&str],
 		method: ApiMethod,
@@ -187,9 +187,9 @@ impl InfoStructure for ApiActionDefinition {
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
 pub struct ApiConfigDefinition {
 	/// The middleware of the API.
-	pub(crate) middleware: Vec<MiddlewareDefinition>,
+	pub middleware: Vec<MiddlewareDefinition>,
 	/// The permissions of the API.
-	pub(crate) permissions: Permission,
+	pub permissions: Permission,
 }
 
 impl ApiConfigDefinition {
@@ -248,7 +248,7 @@ impl ToSql for ApiConfigDefinition {
 /// API Middleware definition.
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) struct MiddlewareDefinition {
+pub struct MiddlewareDefinition {
 	/// The name of function to invoke.
 	pub name: Strand,
 	/// The arguments to pass to the function.

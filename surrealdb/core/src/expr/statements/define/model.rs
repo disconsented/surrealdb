@@ -15,7 +15,7 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineModelStatement {
+pub struct DefineModelStatement {
 	pub kind: DefineKind,
 	pub hash: Strand,
 	pub name: Strand,
@@ -27,7 +27,7 @@ pub(crate) struct DefineModelStatement {
 impl DefineModelStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "DefineModelStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

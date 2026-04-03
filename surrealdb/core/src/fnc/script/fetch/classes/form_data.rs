@@ -47,7 +47,7 @@ impl<'js> FormDataValue<'js> {
 #[derive(Clone, Trace, JsLifetime)]
 pub struct FormData<'js> {
 	#[qjs(skip_trace)]
-	pub(crate) values: HashMap<StdString, Vec<FormDataValue<'js>>>,
+	pub values: HashMap<StdString, Vec<FormDataValue<'js>>>,
 }
 
 #[js::methods]

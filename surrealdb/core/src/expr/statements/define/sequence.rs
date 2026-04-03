@@ -16,7 +16,7 @@ use crate::key::sequence::Prefix;
 use crate::val::Duration;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineSequenceStatement {
+pub struct DefineSequenceStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub batch: Expr,
@@ -38,7 +38,7 @@ impl Default for DefineSequenceStatement {
 
 impl DefineSequenceStatement {
 	#[instrument(level = "trace", name = "DefineSequenceStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

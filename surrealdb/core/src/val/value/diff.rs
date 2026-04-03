@@ -2,7 +2,7 @@ use crate::expr::operation::Operation;
 use crate::val::{Strand, Value};
 
 impl Value {
-	pub(crate) fn diff(&self, val: &Value) -> Vec<Operation> {
+	pub fn diff(&self, val: &Value) -> Vec<Operation> {
 		let mut res = Vec::new();
 		let mut path = Vec::new();
 

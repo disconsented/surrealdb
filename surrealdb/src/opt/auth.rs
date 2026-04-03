@@ -256,7 +256,7 @@ impl SurrealValue for Token {
 /// encryption mechanisms.
 #[derive(Debug, Clone, Serialize, Deserialize, SurrealValue)]
 #[surreal(crate = "crate::types")]
-pub struct AccessToken(pub(crate) SecureToken);
+pub struct AccessToken(pub SecureToken);
 
 impl AccessToken {
 	/// Returns the underlying token string.
@@ -312,7 +312,7 @@ impl AccessToken {
 /// ```
 #[derive(Debug, Serialize, Deserialize, SurrealValue)]
 #[surreal(crate = "crate::types")]
-pub struct RefreshToken(pub(crate) SecureToken);
+pub struct RefreshToken(pub SecureToken);
 
 impl RefreshToken {
 	/// Returns the underlying token string.
@@ -339,11 +339,11 @@ impl RefreshToken {
 /// - Requires explicit method calls to access the underlying string
 /// - Provides a clear API for secure token handling
 ///
-/// The struct is marked as `pub(crate)` to keep it internal to the crate
+/// The struct is marked as `pub` to keep it internal to the crate
 /// while still allowing access from other modules within the same crate.
 #[derive(Clone, Serialize, Deserialize, SurrealValue)]
 #[surreal(crate = "crate::types")]
-pub(crate) struct SecureToken(pub(crate) String);
+pub struct SecureToken(pub String);
 
 impl fmt::Debug for SecureToken {
 	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

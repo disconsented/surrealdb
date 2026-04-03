@@ -60,7 +60,7 @@ pub(super) type KnnBruteForceExpressions = HashMap<Arc<Expr>, KnnBruteForceExpre
 pub(super) type KnnExpressions = HashSet<Arc<Expr>>;
 
 #[derive(Clone)]
-pub(crate) struct QueryExecutor(Arc<InnerQueryExecutor>);
+pub struct QueryExecutor(Arc<InnerQueryExecutor>);
 
 /// Concrete index handle stored per IndexReference.
 /// This maps an abstract IndexReference to the actual index implementation
@@ -356,7 +356,7 @@ impl InnerQueryExecutor {
 }
 
 impl QueryExecutor {
-	pub(crate) async fn knn(
+	pub async fn knn(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -396,16 +396,16 @@ impl QueryExecutor {
 		result
 	}
 
-	pub(crate) fn is_table(&self, tb: &TableName) -> bool {
+	pub fn is_table(&self, tb: &TableName) -> bool {
 		self.0.table.eq(tb)
 	}
 
-	pub(crate) fn has_bruteforce_knn(&self) -> bool {
+	pub fn has_bruteforce_knn(&self) -> bool {
 		self.0.knn_bruteforce_len != 0
 	}
 
 	/// Returns `true` if the expression is matching the current iterator.
-	pub(crate) fn is_iterator_expression(&self, ir: IteratorRef, exp: &Expr) -> bool {
+	pub fn is_iterator_expression(&self, ir: IteratorRef, exp: &Expr) -> bool {
 		match self.0.it_entries.get(ir) {
 			Some(IteratorEntry::Single(Some(e), ..)) => exp.eq(e.as_ref()),
 			Some(IteratorEntry::Range(es, ..)) => es.contains(exp),
@@ -413,7 +413,7 @@ impl QueryExecutor {
 		}
 	}
 
-	pub(crate) fn explain(&self, ir: IteratorRef) -> Value {
+	pub fn explain(&self, ir: IteratorRef) -> Value {
 		match self.0.it_entries.get(ir) {
 			Some(ie) => ie.explain(),
 			None => Value::None,
@@ -429,7 +429,7 @@ impl QueryExecutor {
 		}
 	}
 
-	pub(crate) async fn new_iterator(
+	pub async fn new_iterator(
 		&self,
 		ns: NamespaceId,
 		db: DatabaseId,
@@ -766,7 +766,7 @@ impl QueryExecutor {
 	}
 
 	#[expect(clippy::too_many_arguments)]
-	pub(crate) async fn matches(
+	pub async fn matches(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -854,7 +854,7 @@ impl QueryExecutor {
 		}
 	}
 
-	pub(crate) async fn highlight(
+	pub async fn highlight(
 		&self,
 		ctx: &FrozenContext,
 		thg: &RecordId,
@@ -872,7 +872,7 @@ impl QueryExecutor {
 		Ok(Value::None)
 	}
 
-	pub(crate) async fn offsets(
+	pub async fn offsets(
 		&self,
 		ctx: &FrozenContext,
 		thg: &RecordId,
@@ -893,7 +893,7 @@ impl QueryExecutor {
 		Ok(Value::None)
 	}
 
-	pub(crate) async fn score(
+	pub async fn score(
 		&self,
 		ctx: &FrozenContext,
 		match_ref: &Value,

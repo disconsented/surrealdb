@@ -11,13 +11,13 @@ use crate::doc::CursorDoc;
 use crate::val::RecordIdKeyRange;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct RecordIdKeyRangeLit {
-	pub(crate) start: Bound<RecordIdKeyLit>,
-	pub(crate) end: Bound<RecordIdKeyLit>,
+pub struct RecordIdKeyRangeLit {
+	pub start: Bound<RecordIdKeyLit>,
+	pub end: Bound<RecordIdKeyLit>,
 }
 
 impl RecordIdKeyRangeLit {
-	pub(crate) fn is_static(&self) -> bool {
+	pub fn is_static(&self) -> bool {
 		let res = match &self.start {
 			Bound::Included(x) => x.is_static(),
 			Bound::Excluded(x) => x.is_static(),
@@ -36,7 +36,7 @@ impl RecordIdKeyRangeLit {
 	}
 
 	/// Process the values in the bounds for this IdRange
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

@@ -78,7 +78,7 @@ use crate::err::Error;
 /// - Variable length encoding (3+ bytes typical: 1 sign + 2 scale + packed digits)
 /// - Handles full D128 range including extreme values
 /// - Uses packed digit encoding for efficient storage (2 digits per byte)
-pub(crate) struct DecimalLexEncoder;
+pub struct DecimalLexEncoder;
 
 impl DecimalLexEncoder {
 	/// We use a 16-bit biased "scale" (not the raw exponent).
@@ -102,7 +102,7 @@ impl DecimalLexEncoder {
 	/// The encoding preserves sort order: if `a < b` then `encode(a) <
 	/// encode(b)`. This is essential for database indexing where byte-level
 	/// comparison must match numeric comparison.
-	pub(crate) fn encode(dec: D128) -> Vec<u8> {
+	pub fn encode(dec: D128) -> Vec<u8> {
 		if dec.is_nan() {
 			return vec![Self::NAN_MARKER, 0x00];
 		}
@@ -179,7 +179,7 @@ impl DecimalLexEncoder {
 	/// This reverses the encoding process, reconstructing the original D128
 	/// from its byte representation while handling all the encoding
 	/// transformations.
-	pub(crate) fn decode(bytes: &[u8]) -> Result<D128> {
+	pub fn decode(bytes: &[u8]) -> Result<D128> {
 		// Handle empty buffer
 		if bytes.is_empty() {
 			return Err(Error::Serialization("Cannot decode from empty buffer".to_string()).into());
@@ -372,7 +372,7 @@ impl DecimalLexEncoder {
 	///
 	/// This conversion extracts the mantissa, scale, and sign from the Decimal
 	/// and reconstructs them as a D128 value.
-	pub(crate) fn to_d128(dec: Decimal) -> D128 {
+	pub fn to_d128(dec: Decimal) -> D128 {
 		let scale = dec.scale();
 		let mantissa = dec.mantissa(); // i128
 		let sign = if mantissa < 0 {
@@ -395,7 +395,7 @@ impl DecimalLexEncoder {
 	///
 	/// This conversion uses string representation as an intermediate format
 	/// to ensure precision is maintained during the conversion.
-	pub(crate) fn to_decimal(d128: D128) -> Result<Decimal> {
+	pub fn to_decimal(d128: D128) -> Result<Decimal> {
 		Ok(Decimal::from_str_radix(&d128.to_string(), 10)?)
 	}
 }

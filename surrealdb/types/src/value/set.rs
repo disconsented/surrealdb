@@ -14,7 +14,7 @@ use crate::sql::{SqlFormat, ToSql};
 #[derive(Clone, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(transparent)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct Set(pub(crate) BTreeSet<Value>);
+pub struct Set(pub BTreeSet<Value>);
 
 impl Set {
 	/// Create a new empty set

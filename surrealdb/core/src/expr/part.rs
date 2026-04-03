@@ -18,7 +18,7 @@ use crate::fmt::EscapeKwFreeIdent;
 use crate::val::{Array, RecordId};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum Part {
+pub enum Part {
 	All,
 	Flatten,
 	Last,
@@ -43,7 +43,7 @@ impl Part {
 		Part::Value(Expr::Literal(Literal::Integer(idx)))
 	}
 
-	pub(crate) fn is_index(&self) -> bool {
+	pub fn is_index(&self) -> bool {
 		matches!(self, Part::Value(Expr::Literal(Literal::Integer(_))) | Part::First | Part::Last)
 	}
 
@@ -55,7 +55,7 @@ impl Part {
 	///
 	/// Already marked as deprecated for the full release to remind that this
 	/// behavior should be fixed.
-	pub(crate) fn as_old_index(&self) -> Option<usize> {
+	pub fn as_old_index(&self) -> Option<usize> {
 		match self {
 			Part::Value(Expr::Literal(l)) => match l {
 				crate::expr::Literal::Integer(i) => Some(*i as usize),
@@ -68,7 +68,7 @@ impl Part {
 	}
 
 	/// Check if we require a writeable transaction
-	pub(crate) fn read_only(&self) -> bool {
+	pub fn read_only(&self) -> bool {
 		match self {
 			Part::Start(v) => v.read_only(),
 			Part::Where(v) => v.read_only(),
@@ -78,7 +78,7 @@ impl Part {
 		}
 	}
 	/// Returns a yield if an alias is specified
-	pub(crate) fn alias(&self) -> Option<&Idiom> {
+	pub fn alias(&self) -> Option<&Idiom> {
 		match self {
 			Part::Lookup(v) => v.alias.as_ref(),
 			_ => None,
@@ -131,7 +131,7 @@ impl Part {
 		}
 	}
 
-	pub(crate) fn to_raw_string(&self) -> String {
+	pub fn to_raw_string(&self) -> String {
 		match self {
 			Part::Start(v) => v.to_raw_string(),
 			Part::Field(v) => {
@@ -416,7 +416,7 @@ impl<'a> NextMethod<'a> for &'a Idiom {
 // ------------------------------
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum DestructurePart {
+pub enum DestructurePart {
 	All(Strand),
 	Field(Strand),
 	Aliased(Strand, Idiom),
@@ -424,7 +424,7 @@ pub(crate) enum DestructurePart {
 }
 
 impl DestructurePart {
-	pub(crate) fn field(&self) -> &str {
+	pub fn field(&self) -> &str {
 		match self {
 			DestructurePart::All(v) => v.as_str(),
 			DestructurePart::Field(v) => v.as_str(),
@@ -433,7 +433,7 @@ impl DestructurePart {
 		}
 	}
 
-	pub(crate) fn path(&self) -> Vec<Part> {
+	pub fn path(&self) -> Vec<Part> {
 		match self {
 			DestructurePart::All(v) => vec![Part::Field(v.clone()), Part::All],
 			DestructurePart::Field(v) => vec![Part::Field(v.clone())],
@@ -444,7 +444,7 @@ impl DestructurePart {
 		}
 	}
 
-	pub(crate) fn idiom(&self) -> Idiom {
+	pub fn idiom(&self) -> Idiom {
 		Idiom(self.path())
 	}
 }
@@ -474,7 +474,7 @@ impl ToSql for Recurse {
 // ------------------------------
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum RecurseInstruction {
+pub enum RecurseInstruction {
 	Path {
 		// Do we include the starting point in the paths?
 		inclusive: bool,
@@ -569,7 +569,7 @@ async fn walk_paths(
 }
 
 impl RecurseInstruction {
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

@@ -16,7 +16,7 @@ use crate::types::{PublicAction, PublicNotification, PublicValue};
 use crate::val::TableName;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct RemoveTableStatement {
+pub struct RemoveTableStatement {
 	pub name: Expr,
 	pub if_exists: bool,
 	pub expunge: bool,
@@ -34,7 +34,7 @@ impl Default for RemoveTableStatement {
 
 impl RemoveTableStatement {
 	/// Process this type returning a computed simple Value
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

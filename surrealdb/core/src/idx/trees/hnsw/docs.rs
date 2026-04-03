@@ -33,7 +33,7 @@ pub(in crate::idx) struct HnswDocs {
 /// Persisted state for document ID allocation.
 #[revisioned(revision = 1)]
 #[derive(Default, Clone, Serialize, Deserialize)]
-pub(crate) struct HnswDocsState {
+pub struct HnswDocsState {
 	/// Pool of recycled doc IDs available for reuse.
 	available: RoaringTreemap,
 	/// The next doc ID to allocate when the pool is empty.
@@ -453,7 +453,7 @@ impl KVValue for HnswDocsState {
 /// Contains the mapping between an element ID and the document IDs that share the same vector.
 #[revisioned(revision = 1)]
 #[derive(Serialize, Deserialize)]
-pub(crate) struct ElementDocs {
+pub struct ElementDocs {
 	e_id: ElementId,
 	docs: Ids64,
 }
@@ -469,7 +469,7 @@ impl ElementDocs {
 
 /// Contains a list of vectors and their associated document IDs that share the same hash.
 #[revisioned(revision = 1)]
-pub(crate) struct ElementHashedDocs {
+pub struct ElementHashedDocs {
 	vectors: Vec<(SerializedVector, ElementDocs)>,
 }
 

@@ -95,16 +95,12 @@ async fn api() {
 		.await
 		.unwrap();
 	let _: QueryResponse = DB
-		.query(
-			"
-			BEGIN;
-			CREATE account:one SET balance = 135605.16;
-			CREATE account:two SET balance = 91031.31;
-			UPDATE account:one SET balance += 300.00;
-			UPDATE account:two SET balance -= 300.00;
-			COMMIT;
-		",
-		)
+		.query("BEGIN")
+		.query("CREATE account:one SET balance = 135605.16")
+		.query("CREATE account:two SET balance = 91031.31")
+		.query("UPDATE account:one SET balance += 300.00")
+		.query("UPDATE account:two SET balance -= 300.00")
+		.query("COMMIT")
 		.await
 		.unwrap();
 

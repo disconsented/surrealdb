@@ -9,7 +9,7 @@ use crate::expr::{Expr, Kind, Param};
 use crate::val::{Closure, Value};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct ClosureExpr {
+pub struct ClosureExpr {
 	pub args: Vec<(Param, Kind)>,
 	pub returns: Option<Kind>,
 	pub body: Expr,
@@ -28,7 +28,7 @@ impl Ord for ClosureExpr {
 
 impl ClosureExpr {
 	#[instrument(level = "trace", name = "ClosureExpr::compute", skip_all)]
-	pub(crate) async fn compute(&self, ctx: &FrozenContext) -> Result<Value> {
+	pub async fn compute(&self, ctx: &FrozenContext) -> Result<Value> {
 		let captures = ParameterCapturePass::capture(ctx, &self.body);
 
 		Ok(Value::Closure(Box::new(Closure::Expr {

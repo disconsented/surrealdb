@@ -1685,7 +1685,7 @@ impl Executor {
 	}
 
 	#[instrument(level = "debug", name = "executor", target = "surrealdb::core::dbs", skip_all)]
-	pub(crate) async fn execute_plan(
+	pub async fn execute_plan(
 		kvs: &Datastore,
 		ctx: FrozenContext,
 		opt: Options,
@@ -1697,7 +1697,7 @@ impl Executor {
 
 	/// Execute a logical plan with an existing transaction
 	#[instrument(level = "debug", name = "executor", target = "surrealdb::core::dbs", skip_all)]
-	pub(crate) async fn execute_plan_with_transaction(
+	pub async fn execute_plan_with_transaction(
 		kvs: &Datastore,
 		ctx: FrozenContext,
 		opt: Options,
@@ -1780,7 +1780,7 @@ impl Executor {
 	}
 
 	#[instrument(level = "debug", name = "executor", target = "surrealdb::core::dbs", skip_all)]
-	pub(crate) async fn execute_stream<S>(
+	pub async fn execute_stream<S>(
 		kvs: &Datastore,
 		ctx: FrozenContext,
 		opt: Options,
@@ -1822,7 +1822,7 @@ impl Executor {
 			surrealdb.statement_type = tracing::field::Empty,
 		),
 	)]
-	pub(crate) async fn execute_expr_stream<S>(
+	pub async fn execute_expr_stream<S>(
 		kvs: &Datastore,
 		ctx: FrozenContext,
 		opt: Options,

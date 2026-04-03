@@ -13,7 +13,7 @@ pub struct DatabaseConnectionArguments {
 	#[arg(short = 'e', long = "endpoint")]
 	#[arg(default_value = "http://localhost:8000")]
 	#[arg(value_parser = super::validator::endpoint_valid)]
-	pub(crate) endpoint: String,
+	pub endpoint: String,
 }
 
 #[derive(Args, Debug)]

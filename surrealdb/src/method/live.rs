@@ -169,7 +169,7 @@ where
 	})
 }
 
-pub(crate) async fn register(
+pub async fn register(
 	router: &Router,
 	id: Uuid,
 	session_id: Uuid,
@@ -231,16 +231,16 @@ where
 #[derive(Debug)]
 #[must_use = "streams do nothing unless you poll them"]
 pub struct Stream<R> {
-	pub(crate) client: Surreal<Any>,
+	pub client: Surreal<Any>,
 	// We no longer need the lifetime and the type parameter
 	// Leaving them in for backwards compatibility
-	pub(crate) id: Uuid,
-	pub(crate) rx: Option<Pin<Box<Receiver<Result<CoreNotification>>>>>,
-	pub(crate) response_type: PhantomData<R>,
+	pub id: Uuid,
+	pub rx: Option<Pin<Box<Receiver<Result<CoreNotification>>>>>,
+	pub response_type: PhantomData<R>,
 }
 
 impl<R> Stream<R> {
-	pub(crate) fn new(
+	pub fn new(
 		client: Surreal<Any>,
 		id: Uuid,
 		rx: Option<Receiver<Result<CoreNotification>>>,
@@ -337,7 +337,7 @@ where
 	poll_next_and_convert! {}
 }
 
-pub(crate) fn kill<Client>(client: &Surreal<Client>, uuid: Uuid)
+pub fn kill<Client>(client: &Surreal<Client>, uuid: Uuid)
 where
 	Client: Connection,
 {

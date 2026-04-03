@@ -11,7 +11,7 @@ use crate::val::IndexFormat;
 #[storekey(format = "()")]
 #[storekey(format = "IndexFormat")]
 #[repr(transparent)]
-pub struct Bytes(pub(crate) ::bytes::Bytes);
+pub struct Bytes(pub ::bytes::Bytes);
 
 impl Bytes {
 	pub fn into_inner(self) -> bytes::Bytes {

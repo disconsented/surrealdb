@@ -14,4 +14,4 @@
 pub mod parse;
 mod test;
 pub use parse::{Config, Parse, ParseSync, Parser};
-pub(crate) mod peekable;
+pub mod peekable;

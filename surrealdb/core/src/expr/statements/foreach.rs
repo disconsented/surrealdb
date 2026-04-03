@@ -9,7 +9,7 @@ use crate::expr::{Block, ControlFlow, Expr, FlowResult, Param, Value};
 use crate::val::range::IntegerRangeIter;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct ForeachStatement {
+pub struct ForeachStatement {
 	pub param: Param,
 	pub range: Expr,
 	pub block: Block,
@@ -33,12 +33,12 @@ impl Iterator for ForeachIter {
 
 impl ForeachStatement {
 	/// Check if we require a writeable transaction
-	pub(crate) fn read_only(&self) -> bool {
+	pub fn read_only(&self) -> bool {
 		self.range.read_only() && self.block.read_only()
 	}
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "ForeachStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

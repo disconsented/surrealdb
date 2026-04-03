@@ -15,7 +15,7 @@ use crate::idx::planner::{QueryPlanner, RecordStrategy, StatementContext};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DeleteStatement {
+pub struct DeleteStatement {
 	pub only: bool,
 	pub what: Vec<Expr>,
 	pub with: Option<With>,
@@ -42,7 +42,7 @@ impl Default for DeleteStatement {
 impl DeleteStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "DeleteStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

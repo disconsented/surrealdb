@@ -18,7 +18,7 @@ use crate::val::Value as SqlValue;
 ///
 /// These mirror the JSON scalar types and are used throughout the resolver and
 /// type-conversion code to avoid repetitive pattern matching.
-pub(crate) trait GqlValueUtils {
+pub trait GqlValueUtils {
 	/// Extract the value as an `i64`, if it is a `Number` with an integer representation.
 	fn as_i64(&self) -> Option<i64>;
 	/// Extract the value as a `String`, if it is a `String` variant.
@@ -70,7 +70,7 @@ impl GqlValueUtils for GqlValue {
 /// first response, and converts the public result value back to an internal
 /// [`Value`](SqlValue).  Most resolvers call higher-level wrappers (e.g.
 /// `execute_select` in the tables module) that build a `SelectStatement` first.
-pub(crate) async fn execute_plan(
+pub async fn execute_plan(
 	ds: &Datastore,
 	sess: &Session,
 	plan: LogicalPlan,

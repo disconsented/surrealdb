@@ -14,7 +14,7 @@ use crate::fnc;
 use crate::iam::{Action, AuthLimit};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum Function {
+pub enum Function {
 	Normal(String),
 	Custom(String),
 	Script(Script),
@@ -32,7 +32,7 @@ pub(crate) enum Function {
 
 impl Function {
 	/// Convert function call to a field name
-	pub(crate) fn to_idiom(&self) -> Idiom {
+	pub fn to_idiom(&self) -> Idiom {
 		match self {
 			// Safety: "function" does not contain null bytes"
 			Self::Script(_) => Idiom::field("function".to_owned()),
@@ -74,7 +74,7 @@ impl Function {
 	}
 
 	#[instrument(level = "trace", name = "Function::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -221,7 +221,7 @@ impl Function {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct FunctionCall {
+pub struct FunctionCall {
 	pub receiver: Function,
 	pub arguments: Vec<Expr>,
 }
@@ -243,7 +243,7 @@ impl ToSql for FunctionCall {
 impl FunctionCall {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "FunctionCall::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

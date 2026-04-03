@@ -4,7 +4,7 @@ use crate::types::PublicDuration;
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, PartialOrd, Hash)]
 pub struct SleepStatement {
-	pub(crate) duration: PublicDuration,
+	pub duration: PublicDuration,
 }
 
 impl ToSql for SleepStatement {

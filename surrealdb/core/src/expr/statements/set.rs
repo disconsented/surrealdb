@@ -10,7 +10,7 @@ use crate::err::Error;
 use crate::expr::{ControlFlow, Expr, FlowResult, Kind, Value};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct SetStatement {
+pub struct SetStatement {
 	pub name: Strand,
 	pub what: Expr,
 	pub kind: Option<Kind>,
@@ -18,12 +18,12 @@ pub(crate) struct SetStatement {
 
 impl SetStatement {
 	/// Check if we require a writeable transaction
-	pub(crate) fn read_only(&self) -> bool {
+	pub fn read_only(&self) -> bool {
 		self.what.read_only()
 	}
 
 	/// returns if the set is setting a protected param.
-	pub(crate) fn is_protected_set(&self) -> bool {
+	pub fn is_protected_set(&self) -> bool {
 		PROTECTED_PARAM_NAMES.contains(&self.name.as_str())
 	}
 
@@ -33,7 +33,7 @@ impl SetStatement {
 	/// Will keep the ctx Some unless an error happens in which case the calling
 	/// function should return the error.
 	#[instrument(level = "trace", name = "SetStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &mut Option<FrozenContext>,

@@ -1,11 +1,12 @@
 use surrealdb_types::{SqlFormat, ToSql, write_sql};
+use std::borrow::Cow;
 
 use crate::fmt::CoverStmts;
 use crate::sql::{Data, Expr, Literal, Output, RecordIdKeyLit, RecordIdLit};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct RelateStatement {
+pub struct RelateStatement {
 	pub only: bool,
 	/// The expression through which we create a relation
 	pub through: Expr,
@@ -97,6 +98,14 @@ impl ToSql for RelateStatement {
 		if !matches!(self.timeout, Expr::Literal(Literal::None)) {
 			write_sql!(f, fmt, " TIMEOUT {}", CoverStmts(&self.timeout));
 		}
+	}
+}
+
+impl<'r> From<RelateStatement> for Cow<'r, str> {
+	fn from(v: RelateStatement) -> Self {
+		let mut s = String::new();
+		v.fmt_sql(&mut s, SqlFormat::SingleLine);
+		Cow::Owned(s)
 	}
 }
 

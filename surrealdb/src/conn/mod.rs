@@ -9,39 +9,39 @@ use crate::opt::Endpoint;
 use crate::types::{SurrealValue, Value};
 use crate::{Error, ExtraFeatures, Result, Surreal};
 
-pub(crate) mod cmd;
-pub(crate) use cmd::Command;
+pub mod cmd;
+pub use cmd::Command;
 
 use super::opt::Config;
 
 #[derive(Debug)]
 #[allow(dead_code, reason = "Used by the embedded and remote connections.")]
 pub struct RequestData {
-	pub(crate) command: Command,
-	pub(crate) session_id: Uuid,
+	pub command: Command,
+	pub session_id: Uuid,
 }
 
 #[derive(Debug)]
 #[allow(dead_code, reason = "Used by the embedded and remote connections.")]
-pub(crate) struct Route {
+pub struct Route {
 	#[allow(dead_code, reason = "Used in http and local non-wasm with ml features.")]
-	pub(crate) request: RequestData,
+	pub request: RequestData,
 	#[allow(dead_code, reason = "Used in http and local non-wasm with ml features.")]
-	pub(crate) response: Sender<std::result::Result<Vec<QueryResult>, surrealdb_types::Error>>,
+	pub response: Sender<std::result::Result<Vec<QueryResult>, surrealdb_types::Error>>,
 }
 
 /// Message router
 #[derive(Debug, Clone)]
 pub struct Router {
-	pub(crate) sender: Sender<Route>,
+	pub sender: Sender<Route>,
 	#[allow(dead_code)]
-	pub(crate) config: Config,
-	pub(crate) features: HashSet<ExtraFeatures>,
+	pub config: Config,
+	pub features: HashSet<ExtraFeatures>,
 }
 
 impl Router {
 	#[allow(clippy::type_complexity)]
-	pub(crate) fn send_command(
+	pub fn send_command(
 		&self,
 		session_id: Uuid,
 		command: Command,
@@ -69,7 +69,7 @@ impl Router {
 	}
 
 	/// Receive responses for all methods except `query`
-	pub(crate) fn recv_value(
+	pub fn recv_value(
 		&self,
 		receiver: Receiver<std::result::Result<Vec<QueryResult>, surrealdb_types::Error>>,
 	) -> BoxFuture<'_, std::result::Result<Value, Error>> {
@@ -96,7 +96,7 @@ impl Router {
 	}
 
 	/// Receive the response of the `query` method
-	pub(crate) fn recv_results(
+	pub fn recv_results(
 		&self,
 		receiver: Receiver<std::result::Result<Vec<QueryResult>, surrealdb_types::Error>>,
 	) -> BoxFuture<'_, Result<Vec<QueryResult>>> {
@@ -111,7 +111,7 @@ impl Router {
 	}
 
 	/// Execute all methods except `query`
-	pub(crate) fn execute<R>(&self, session_id: Uuid, command: Command) -> BoxFuture<'_, Result<R>>
+	pub fn execute<R>(&self, session_id: Uuid, command: Command) -> BoxFuture<'_, Result<R>>
 	where
 		R: SurrealValue,
 	{
@@ -136,7 +136,7 @@ impl Router {
 	}
 
 	/// Execute methods that return an optional single response
-	pub(crate) fn execute_opt<R>(
+	pub fn execute_opt<R>(
 		&self,
 		session_id: Uuid,
 		command: Command,
@@ -183,7 +183,7 @@ impl Router {
 	}
 
 	/// Execute methods that return multiple responses
-	pub(crate) fn execute_vec<R>(
+	pub fn execute_vec<R>(
 		&self,
 		session_id: Uuid,
 		command: Command,
@@ -217,7 +217,7 @@ impl Router {
 	}
 
 	/// Execute methods that return nothing
-	pub(crate) fn execute_unit(
+	pub fn execute_unit(
 		&self,
 		session_id: Uuid,
 		command: Command,
@@ -235,7 +235,7 @@ impl Router {
 	}
 
 	/// Execute methods that return a raw value
-	pub(crate) fn execute_value(
+	pub fn execute_value(
 		&self,
 		session_id: Uuid,
 		command: Command,
@@ -247,7 +247,7 @@ impl Router {
 	}
 
 	/// Execute the `query` method
-	pub(crate) fn execute_query(
+	pub fn execute_query(
 		&self,
 		session_id: Uuid,
 		command: Command,
@@ -260,11 +260,11 @@ impl Router {
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct MlExportConfig {
+pub struct MlExportConfig {
 	#[allow(dead_code, reason = "Used in http and local non-wasm with ml features.")]
-	pub(crate) name: String,
+	pub name: String,
 	#[allow(dead_code, reason = "Used in http and local non-wasm with ml features.")]
-	pub(crate) version: String,
+	pub version: String,
 }
 
 /// Connection trait implemented by supported protocols

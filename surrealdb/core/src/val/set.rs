@@ -19,7 +19,7 @@ use crate::val::{IndexFormat, Value};
 #[derive(Clone, Debug, Default, Eq, Ord, PartialEq, PartialOrd, Hash, Encode, BorrowDecode)]
 #[storekey(format = "()")]
 #[storekey(format = "IndexFormat")]
-pub(crate) struct Set(#[revision(indexed_set)] pub(crate) VecSet<Value>);
+pub struct Set(#[revision(indexed_set)] pub VecSet<Value>);
 
 impl Set {
 	/// Create a new empty set

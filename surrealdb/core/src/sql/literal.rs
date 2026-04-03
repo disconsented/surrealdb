@@ -437,7 +437,7 @@ fn collect_array<R, F: Fn(&Expr) -> Option<R>>(expr: &Expr, f: F) -> Option<Vec<
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct ObjectEntry {
+pub struct ObjectEntry {
 	pub key: Strand,
 	pub value: Expr,
 }

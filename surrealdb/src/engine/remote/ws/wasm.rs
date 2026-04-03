@@ -155,7 +155,7 @@ async fn router_reconnect(state: &RouterState, endpoint: &Endpoint) {
 	}
 }
 
-pub(crate) async fn run_router(
+pub async fn run_router(
 	endpoint: Endpoint,
 	conn_tx: Sender<Result<()>>,
 	route_rx: Receiver<Route>,

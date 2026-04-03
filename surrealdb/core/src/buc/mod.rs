@@ -15,7 +15,7 @@ use std::sync::Arc;
 
 mod controller;
 use anyhow::{Result, bail};
-pub(crate) use controller::BucketController;
+pub use controller::BucketController;
 pub use controller::BucketOperation;
 
 use crate::buc::store::ObjectStore;

@@ -20,7 +20,7 @@ use crate::sys::INFORMATION;
 use crate::val::{Datetime, Object, TableName, Value};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum InfoStatement {
+pub enum InfoStatement {
 	/// Root information
 	Root(bool, Option<Expr>),
 	/// Namespace information
@@ -38,7 +38,7 @@ pub(crate) enum InfoStatement {
 impl InfoStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "InfoStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -434,7 +434,7 @@ impl InfoStatement {
 		}
 	}
 }
-pub(crate) trait InfoStructure {
+pub trait InfoStructure {
 	fn structure(self) -> Value;
 }
 
@@ -545,7 +545,7 @@ async fn get_module_exports(
 
 /// Process module definitions into structured Values, enriching each with
 /// export signatures from the cached surrealism runtime when available.
-pub(crate) async fn process_modules(
+pub async fn process_modules(
 	ctx: &FrozenContext,
 	ns: crate::catalog::NamespaceId,
 	db: crate::catalog::DatabaseId,

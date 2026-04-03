@@ -7,7 +7,7 @@ use path_clean::PathClean;
 use crate::err::Error;
 
 /// Checks if the requested file path is within any of the allowed directories.
-pub(crate) fn check_is_path_allowed(path: &Path, allowed_paths: &[PathBuf]) -> Result<PathBuf> {
+pub fn check_is_path_allowed(path: &Path, allowed_paths: &[PathBuf]) -> Result<PathBuf> {
 	// Convert the requested path to its canonical form.
 	let canonical_path = fs::canonicalize(path)?;
 
@@ -50,7 +50,7 @@ pub(crate) fn check_is_path_allowed(path: &Path, allowed_paths: &[PathBuf]) -> R
 	}
 }
 
-pub(crate) fn extract_allowed_paths(
+pub fn extract_allowed_paths(
 	input: &str,
 	canonicalize: bool,
 	subject: &str,

@@ -9,7 +9,7 @@ use crate::sql::expression::convert_public_value_to_internal;
 use crate::types::{PublicBytes, PublicValue};
 use crate::val::{Object, Value};
 
-pub(crate) fn uri_is_valid(uri: &str) -> bool {
+pub fn uri_is_valid(uri: &str) -> bool {
 	reqwest::Url::parse(uri).is_ok()
 }
 

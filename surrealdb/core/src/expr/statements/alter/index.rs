@@ -28,7 +28,7 @@ use crate::val::TableName;
 ///
 /// This allows administrators to verify query performance before permanently removing an index.
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct AlterIndexStatement {
+pub struct AlterIndexStatement {
 	pub name: Expr,
 	pub table: Expr,
 	pub if_exists: bool,
@@ -51,7 +51,7 @@ impl Default for AlterIndexStatement {
 
 impl AlterIndexStatement {
 	#[instrument(level = "trace", name = "AlterIndexStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

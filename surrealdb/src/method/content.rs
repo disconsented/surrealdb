@@ -26,7 +26,7 @@ impl<'r, C, R> Content<'r, C, R>
 where
 	C: Connection,
 {
-	pub(crate) fn from_closure<F>(client: Cow<'r, Surreal<C>>, txn: Option<Uuid>, f: F) -> Self
+	pub fn from_closure<F>(client: Cow<'r, Surreal<C>>, txn: Option<Uuid>, f: F) -> Self
 	where
 		F: FnOnce() -> Result<Command>,
 	{

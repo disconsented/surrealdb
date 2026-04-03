@@ -15,7 +15,7 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineNamespaceStatement {
+pub struct DefineNamespaceStatement {
 	pub kind: DefineKind,
 	pub id: Option<u32>,
 	pub name: Expr,
@@ -36,7 +36,7 @@ impl Default for DefineNamespaceStatement {
 impl DefineNamespaceStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "DefineNamespaceStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

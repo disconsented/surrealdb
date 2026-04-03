@@ -466,7 +466,7 @@ impl IndexOption {
 		value.clone()
 	}
 
-	pub(crate) fn explain(&self) -> Value {
+	pub fn explain(&self) -> Value {
 		let mut e = HashMap::new();
 		e.insert("index", Value::from(self.index_reference().name.clone()));
 		match self.op() {

@@ -4,7 +4,7 @@ use crate::idx::ft::Position;
 
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, PartialEq)]
-pub(crate) struct Offset {
+pub struct Offset {
 	pub(super) index: u32,
 	// Start position of the original term
 	pub(super) start: Position,
@@ -15,7 +15,7 @@ pub(crate) struct Offset {
 }
 
 impl Offset {
-	pub(crate) fn new(index: u32, start: Position, gen_start: Position, end: Position) -> Self {
+	pub fn new(index: u32, start: Position, gen_start: Position, end: Position) -> Self {
 		Self {
 			index,
 			start,

@@ -13,7 +13,7 @@ use crate::{SurrealValue, Value};
 
 #[derive(Clone, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct Object(pub(crate) BTreeMap<String, Value>);
+pub struct Object(pub BTreeMap<String, Value>);
 
 impl Object {
 	/// Create a new empty object

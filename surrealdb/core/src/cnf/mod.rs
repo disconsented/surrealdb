@@ -1,4 +1,4 @@
-pub(crate) mod dynamic;
+pub mod dynamic;
 
 use std::collections::HashMap;
 use std::path::PathBuf;

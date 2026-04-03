@@ -1,8 +1,8 @@
-pub(crate) mod count_exists_rewriter;
-pub(crate) mod executor;
-pub(crate) mod iterators;
+pub mod count_exists_rewriter;
+pub mod executor;
+pub mod iterators;
 pub(in crate::idx) mod knn;
-pub(crate) mod plan;
+pub mod plan;
 pub(in crate::idx) mod rewriter;
 pub(in crate::idx) mod tree;
 
@@ -30,20 +30,20 @@ use crate::val::TableName;
 /// The goal of this structure is to cache parameters so they can be easily
 /// passed from one function to the other, so we don't pass too many arguments.
 /// It also caches evaluated fields (like is_keys_only)
-pub(crate) struct StatementContext<'a> {
-	pub(crate) ctx: &'a FrozenContext,
-	pub(crate) opt: &'a Options,
-	pub(crate) stm: &'a Statement<'a>,
-	pub(crate) fields: Option<&'a Fields>,
-	pub(crate) with: Option<&'a With>,
-	pub(crate) order: Option<&'a Ordering>,
-	pub(crate) cond: Option<&'a Cond>,
-	pub(crate) group: Option<&'a Groups>,
+pub struct StatementContext<'a> {
+	pub ctx: &'a FrozenContext,
+	pub opt: &'a Options,
+	pub stm: &'a Statement<'a>,
+	pub fields: Option<&'a Fields>,
+	pub with: Option<&'a With>,
+	pub order: Option<&'a Ordering>,
+	pub cond: Option<&'a Cond>,
+	pub group: Option<&'a Groups>,
 	is_perm: bool,
 }
 
 #[derive(Clone, Copy, Debug)]
-pub(crate) enum RecordStrategy {
+pub enum RecordStrategy {
 	Count,
 	KeysOnly,
 	KeysAndValues,
@@ -65,14 +65,14 @@ impl Display for ScanDirection {
 }
 
 #[derive(Clone, Copy, Debug)]
-pub(crate) enum GrantedPermission {
+pub enum GrantedPermission {
 	None,
 	Full,
 	Specific,
 }
 
 impl<'a> StatementContext<'a> {
-	pub(crate) fn new(
+	pub fn new(
 		ctx: &'a FrozenContext,
 		opt: &'a Options,
 		stm: &'a Statement<'a>,
@@ -102,7 +102,7 @@ impl<'a> StatementContext<'a> {
 	/// - `None` — the statement is denied on this table; iterator preparation in
 	///   [`crate::dbs::iterator`] short-circuits on this result and skips ingesting any iterable
 	///   for the table.
-	pub(crate) async fn check_table_permission(&self, tb: &TableName) -> Result<GrantedPermission> {
+	pub async fn check_table_permission(&self, tb: &TableName) -> Result<GrantedPermission> {
 		if !self.is_perm {
 			return Ok(GrantedPermission::Full);
 		}
@@ -135,7 +135,7 @@ impl<'a> StatementContext<'a> {
 	///   when table permissions are Specific).
 	/// - Count: when we only need COUNT(*) and GROUP ALL.
 	/// - KeysOnly: when none of the above apply, allowing index-only iteration.
-	pub(crate) fn check_record_strategy(
+	pub fn check_record_strategy(
 		&self,
 		all_expressions_with_index: bool,
 		granted_permission: GrantedPermission,
@@ -214,7 +214,7 @@ impl<'a> StatementContext<'a> {
 	///
 	/// We reverse the direction when the first ORDER BY is `id DESC`.
 	/// Otherwise, we default to forward scan direction.
-	pub(crate) fn check_scan_direction(&self) -> ScanDirection {
+	pub fn check_scan_direction(&self) -> ScanDirection {
 		if let Some(Ordering::Order(o)) = self.order
 			&& let Some(o) = o.first()
 			&& !o.direction
@@ -226,7 +226,7 @@ impl<'a> StatementContext<'a> {
 	}
 }
 
-pub(crate) struct QueryPlanner {
+pub struct QueryPlanner {
 	/// There is one executor per table
 	executors: HashMap<TableName, QueryExecutor>,
 	requires_distinct: bool,
@@ -239,7 +239,7 @@ pub(crate) struct QueryPlanner {
 }
 
 impl QueryPlanner {
-	pub(crate) fn new() -> Self {
+	pub fn new() -> Self {
 		Self {
 			executors: HashMap::default(),
 			requires_distinct: false,
@@ -254,7 +254,7 @@ impl QueryPlanner {
 
 	/// Check the table permissions and cache the result.
 	/// Keep track of any specific permission.
-	pub(crate) async fn check_table_permission(
+	pub async fn check_table_permission(
 		&mut self,
 		ctx: &StatementContext<'_>,
 		tb: &TableName,
@@ -273,7 +273,7 @@ impl QueryPlanner {
 		Ok(GrantedPermission::Full)
 	}
 
-	pub(crate) async fn add_iterables(
+	pub async fn add_iterables(
 		&mut self,
 		stk: &mut Stk,
 		stm_ctx: &StatementContext<'_>,
@@ -374,31 +374,31 @@ impl QueryPlanner {
 			it.ingest(Iterable::Index(doc_ctx, tb, irf, rs));
 		}
 	}
-	pub(crate) fn has_executors(&self) -> bool {
+	pub fn has_executors(&self) -> bool {
 		!self.executors.is_empty()
 	}
 
-	pub(crate) fn get_query_executor(&self, tb: &TableName) -> Option<&QueryExecutor> {
+	pub fn get_query_executor(&self, tb: &TableName) -> Option<&QueryExecutor> {
 		self.executors.get(tb)
 	}
 
-	pub(crate) fn requires_distinct(&self) -> bool {
+	pub fn requires_distinct(&self) -> bool {
 		self.requires_distinct
 	}
 
-	pub(crate) fn fallbacks(&self) -> &Vec<String> {
+	pub fn fallbacks(&self) -> &Vec<String> {
 		&self.fallbacks
 	}
 
-	pub(crate) fn is_order(&self, irf: IteratorRef) -> bool {
+	pub fn is_order(&self, irf: IteratorRef) -> bool {
 		self.ordering_indexes.contains(&irf)
 	}
 
-	pub(crate) fn is_any_specific_permission(&self) -> bool {
+	pub fn is_any_specific_permission(&self) -> bool {
 		self.any_specific_permission
 	}
 
-	pub(crate) async fn next_iteration_stage(&self) -> Option<IterationStage> {
+	pub async fn next_iteration_stage(&self) -> Option<IterationStage> {
 		let pos = self.iteration_index.fetch_add(1, atomic::Ordering::Relaxed);
 		match self.iteration_workflow.get(pos as usize) {
 			Some(IterationStage::BuildKnn) => {
@@ -418,7 +418,7 @@ impl QueryPlanner {
 }
 
 #[derive(Clone)]
-pub(crate) enum IterationStage {
+pub enum IterationStage {
 	Iterate(Option<KnnBruteForceResults>),
 	CollectKnn,
 	BuildKnn,

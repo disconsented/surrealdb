@@ -20,24 +20,24 @@ use crate::key::index::iu::IndexCountKey;
 use crate::kvs::{COUNT_BATCH_SIZE, KVKey, Key, Transaction, Val};
 use crate::val::{Array, RecordId, TableName, Value};
 
-pub(crate) type IteratorRef = usize;
+pub type IteratorRef = usize;
 
 #[derive(Debug)]
-pub(crate) struct IteratorRecord {
+pub struct IteratorRecord {
 	irf: IteratorRef,
 	doc_id: Option<DocId>,
 	dist: Option<f64>,
 }
 
 impl IteratorRecord {
-	pub(crate) fn irf(&self) -> IteratorRef {
+	pub fn irf(&self) -> IteratorRef {
 		self.irf
 	}
-	pub(crate) fn doc_id(&self) -> Option<DocId> {
+	pub fn doc_id(&self) -> Option<DocId> {
 		self.doc_id
 	}
 
-	pub(crate) fn dist(&self) -> Option<f64> {
+	pub fn dist(&self) -> Option<f64> {
 		self.dist
 	}
 }
@@ -53,7 +53,7 @@ impl From<IteratorRef> for IteratorRecord {
 
 /// Abstraction over batch containers used by iterators (Vec or VecDeque),
 /// allowing the same code to accumulate records regardless of concrete type.
-pub(crate) trait IteratorBatch {
+pub trait IteratorBatch {
 	fn empty() -> Self;
 	fn with_capacity(capacity: usize) -> Self;
 	fn from_one(record: IndexItemRecord) -> Self;
@@ -116,7 +116,7 @@ impl IteratorBatch for VecDeque<IndexItemRecord> {
 /// Each variant encapsulates a concrete scan strategy (equality, range, union,
 /// join, text search, KNN, etc). Iteration is performed in batches to cap
 /// per-IO work and allow cooperative cancellation via Context.
-pub(crate) enum RecordIterator {
+pub enum RecordIterator {
 	IndexEqual(IndexEqualThingIterator),
 	IndexRange(IndexRangeThingIterator),
 	IndexRangeReverse(IndexRangeReverseThingIterator),
@@ -138,7 +138,7 @@ impl RecordIterator {
 	/// - `size` is a soft upper bound on how many items to fetch. Concrete iterators may return
 	///   fewer items (e.g., due to range boundaries) or, in rare edge-cases, one extra to honor
 	///   inclusivity semantics when scanning in reverse.
-	pub(crate) async fn next_batch<B: IteratorBatch>(
+	pub async fn next_batch<B: IteratorBatch>(
 		&mut self,
 		ctx: &FrozenContext,
 		txn: &Transaction,
@@ -167,7 +167,7 @@ impl RecordIterator {
 	///
 	/// Used for SELECT ... COUNT and for explain paths where only cardinality
 	/// is required.
-	pub(crate) async fn next_count(
+	pub async fn next_count(
 		&mut self,
 		ctx: &FrozenContext,
 		txn: &Transaction,
@@ -193,7 +193,7 @@ impl RecordIterator {
 
 /// Iterator output record. Either a key-only result (for index-only scans)
 /// or a key+value pair when values are fetched by the current RecordStrategy.
-pub(crate) enum IndexItemRecord {
+pub enum IndexItemRecord {
 	/// We just collected the key
 	Key(Arc<RecordId>, IteratorRecord),
 	/// We have collected the key and the value
@@ -220,7 +220,7 @@ impl IndexItemRecord {
 		}
 	}
 
-	pub(crate) fn consume(self) -> (Arc<RecordId>, Option<Arc<Record>>, IteratorRecord) {
+	pub fn consume(self) -> (Arc<RecordId>, Option<Arc<Record>>, IteratorRecord) {
 		match self {
 			Self::Key(t, ir) => (t, None, ir),
 			Self::KeyValue(t, v, ir) => (t, Some(v), ir),
@@ -228,7 +228,7 @@ impl IndexItemRecord {
 	}
 }
 
-pub(crate) struct IndexEqualThingIterator {
+pub struct IndexEqualThingIterator {
 	irf: IteratorRef,
 	beg: Vec<u8>,
 	end: Vec<u8>,
@@ -425,7 +425,7 @@ impl ReverseRangeScan {
 	}
 }
 
-pub(crate) struct IndexRangeThingIterator {
+pub struct IndexRangeThingIterator {
 	irf: IteratorRef,
 	r: RangeScan,
 }
@@ -733,7 +733,7 @@ impl IndexRangeThingIterator {
 	}
 }
 
-pub(crate) struct IndexRangeReverseThingIterator {
+pub struct IndexRangeReverseThingIterator {
 	irf: IteratorRef,
 	r: ReverseRangeScan,
 }
@@ -869,7 +869,7 @@ impl IndexRangeReverseThingIterator {
 	}
 }
 
-pub(crate) struct IndexUnionThingIterator {
+pub struct IndexUnionThingIterator {
 	irf: IteratorRef,
 	values: VecDeque<(Vec<u8>, Vec<u8>)>,
 	current: Option<(Vec<u8>, Vec<u8>)>,
@@ -1074,7 +1074,7 @@ impl JoinThingIterator {
 	}
 }
 
-pub(crate) struct IndexJoinThingIterator(IteratorRef, JoinThingIterator);
+pub struct IndexJoinThingIterator(IteratorRef, JoinThingIterator);
 
 impl IndexJoinThingIterator {
 	pub(super) fn new(
@@ -1120,7 +1120,7 @@ impl IndexJoinThingIterator {
 ///
 /// NONE/NULL tuples are stored with non-unique key format (record-ID
 /// suffix), so they require a prefix range scan instead of a point-get.
-pub(crate) struct UniqueEqualThingIterator {
+pub struct UniqueEqualThingIterator {
 	irf: IteratorRef,
 	inner: UniqueEqualThingInner,
 }
@@ -1232,7 +1232,7 @@ impl UniqueEqualThingIterator {
 	}
 }
 
-pub(crate) struct UniqueRangeThingIterator {
+pub struct UniqueRangeThingIterator {
 	irf: IteratorRef,
 	r: RangeScan,
 	done: bool,
@@ -1409,7 +1409,7 @@ impl UniqueRangeThingIterator {
 	}
 }
 
-pub(crate) struct UniqueRangeReverseThingIterator {
+pub struct UniqueRangeReverseThingIterator {
 	irf: IteratorRef,
 	r: ReverseRangeScan,
 	done: bool,
@@ -1532,7 +1532,7 @@ impl UniqueRangeReverseThingIterator {
 	}
 }
 
-pub(crate) struct UniqueUnionThingIterator {
+pub struct UniqueUnionThingIterator {
 	irf: IteratorRef,
 	entries: VecDeque<UniqueUnionEntry>,
 }
@@ -1665,7 +1665,7 @@ impl UniqueUnionThingIterator {
 	}
 }
 
-pub(crate) struct UniqueJoinThingIterator(IteratorRef, JoinThingIterator);
+pub struct UniqueJoinThingIterator(IteratorRef, JoinThingIterator);
 
 impl UniqueJoinThingIterator {
 	pub(super) fn new(
@@ -1707,12 +1707,12 @@ impl UniqueJoinThingIterator {
 	}
 }
 
-pub(crate) trait MatchesHitsIterator {
+pub trait MatchesHitsIterator {
 	fn len(&self) -> usize;
 	async fn next(&mut self, tx: &Transaction) -> Result<Option<(RecordId, DocId)>>;
 }
 
-pub(crate) struct MatchesThingIterator<T>
+pub struct MatchesThingIterator<T>
 where
 	T: MatchesHitsIterator,
 {
@@ -1797,9 +1797,9 @@ where
 /// For earch KNN result we have the RecordID, the distance (f64), and an optional record.
 /// Optimisation: The optional record is present if a filter has checked if the record is truthy has
 /// been used
-pub(crate) type KnnIteratorResult = (Arc<RecordId>, f64, Option<Arc<Record>>);
+pub type KnnIteratorResult = (Arc<RecordId>, f64, Option<Arc<Record>>);
 
-pub(crate) struct KnnIterator {
+pub struct KnnIterator {
 	irf: IteratorRef,
 	res: VecDeque<KnnIteratorResult>,
 }
@@ -1851,7 +1851,7 @@ impl KnnIterator {
 	}
 }
 
-pub(crate) struct IndexCountThingIterator(Option<Range<Key>>);
+pub struct IndexCountThingIterator(Option<Range<Key>>);
 
 /// Snapshot gathered by the read phase of count-index compaction.
 ///

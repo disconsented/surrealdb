@@ -8,7 +8,7 @@ use crate::err::Error;
 use crate::expr::{ControlFlow, Expr, FlowResult, Value};
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) struct IfelseStatement {
+pub struct IfelseStatement {
 	/// The first if condition followed by a body, followed by any number of
 	/// else if's
 	pub exprs: Vec<(Expr, Expr)>,
@@ -18,14 +18,14 @@ pub(crate) struct IfelseStatement {
 
 impl IfelseStatement {
 	/// Check if we require a writeable transaction
-	pub(crate) fn read_only(&self) -> bool {
+	pub fn read_only(&self) -> bool {
 		self.exprs.iter().all(|x| x.0.read_only() && x.1.read_only())
 			&& self.close.as_ref().map(|x| x.read_only()).unwrap_or(true)
 	}
 
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "IfelseStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

@@ -18,7 +18,7 @@ use crate::iam::{Action, AuthLimit, ResourceKind};
 use crate::val::{TableName, Value};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct AlterEventStatement {
+pub struct AlterEventStatement {
 	pub name: Expr,
 	pub what: Expr,
 	pub if_exists: bool,
@@ -44,7 +44,7 @@ impl Default for AlterEventStatement {
 
 impl AlterEventStatement {
 	#[instrument(level = "trace", name = "AlterEventStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

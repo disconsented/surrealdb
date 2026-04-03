@@ -15,7 +15,7 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::TableName;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct RemoveEventStatement {
+pub struct RemoveEventStatement {
 	pub name: Expr,
 	pub table_name: Expr,
 	pub if_exists: bool,
@@ -33,7 +33,7 @@ impl Default for RemoveEventStatement {
 
 impl RemoveEventStatement {
 	/// Process this type returning a computed simple Value
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

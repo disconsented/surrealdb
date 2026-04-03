@@ -7,7 +7,7 @@ use crate::val::Uuid as SqlUuid;
 #[js::class]
 pub struct Uuid {
 	#[qjs(skip_trace)]
-	pub(crate) value: Option<SqlUuid>,
+	pub value: Option<SqlUuid>,
 }
 
 #[js::methods]

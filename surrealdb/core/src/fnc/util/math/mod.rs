@@ -17,7 +17,7 @@ pub mod top;
 pub mod trimean;
 pub mod vector;
 
-pub(crate) trait ToFloat {
+pub trait ToFloat {
 	fn to_float(&self) -> f64;
 }
 
@@ -69,7 +69,7 @@ impl ToFloat for u8 {
 	}
 }
 
-pub(crate) fn mean(array: &[Number]) -> Result<Number> {
+pub fn mean(array: &[Number]) -> Result<Number> {
 	if array.is_empty() {
 		return Ok(f64::NAN.into());
 	}
@@ -85,7 +85,7 @@ pub(crate) fn mean(array: &[Number]) -> Result<Number> {
 	}
 }
 
-pub(crate) fn variance(array: &[Number]) -> Result<Number> {
+pub fn variance(array: &[Number]) -> Result<Number> {
 	match array.len() {
 		0 => return Ok(f64::NAN.into()),
 		1 => return Ok(0.0.into()),
@@ -104,7 +104,7 @@ pub(crate) fn variance(array: &[Number]) -> Result<Number> {
 	}
 }
 
-pub(crate) fn deviation(array: &[Number]) -> Result<Number> {
+pub fn deviation(array: &[Number]) -> Result<Number> {
 	match variance(array)? {
 		Number::Int(_) => unreachable!(),
 		Number::Float(x) => Ok(Number::from(x.sqrt())),

@@ -84,7 +84,7 @@ impl GraphQLService {
 	}
 
 	/// Return a clone of the underlying schema cache (cheap -- backed by `Arc`).
-	pub(crate) fn cache(&self) -> GraphQLSchemaCache {
+	pub fn cache(&self) -> GraphQLSchemaCache {
 		self.cache.clone()
 	}
 }

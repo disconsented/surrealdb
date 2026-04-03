@@ -9,7 +9,7 @@ use crate::val::{Number, TrySub, Value};
 
 impl Value {
 	/// Asynchronous method for decrementing a field in a `Value`
-	pub(crate) async fn decrement(
+	pub async fn decrement(
 		&mut self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

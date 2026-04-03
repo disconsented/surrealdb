@@ -17,7 +17,7 @@ use crate::expr::{Base, Expr, FlowResultExt, Idiom, Literal, Value};
 use crate::iam::{Action, ResourceKind};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineAnalyzerStatement {
+pub struct DefineAnalyzerStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub function: Option<Strand>,
@@ -40,7 +40,7 @@ impl Default for DefineAnalyzerStatement {
 }
 
 impl DefineAnalyzerStatement {
-	pub(crate) async fn to_definition(
+	pub async fn to_definition(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -78,7 +78,7 @@ impl DefineAnalyzerStatement {
 	}
 
 	#[instrument(level = "trace", name = "DefineAnalyzerStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

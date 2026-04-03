@@ -4,7 +4,7 @@ use crate::sql::{BinaryOperator, Expr, Literal};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct Block(pub(crate) Vec<Expr>);
+pub struct Block(pub Vec<Expr>);
 
 impl From<Block> for crate::expr::Block {
 	fn from(v: Block) -> Self {

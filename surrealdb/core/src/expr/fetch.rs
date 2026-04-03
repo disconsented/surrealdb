@@ -28,22 +28,22 @@ use crate::val::Value;
 /// clobbered by `a`.
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct Fetchs(Vec<Fetch>);
+pub struct Fetchs(Vec<Fetch>);
 
 impl Fetchs {
-	pub(crate) fn new(fetches: Vec<Fetch>) -> Self {
+	pub fn new(fetches: Vec<Fetch>) -> Self {
 		Self(fetches)
 	}
 
-	pub(crate) fn len(&self) -> usize {
+	pub fn len(&self) -> usize {
 		self.0.len()
 	}
 
-	pub(crate) fn iter(&self) -> impl Iterator<Item = &Fetch> {
+	pub fn iter(&self) -> impl Iterator<Item = &Fetch> {
 		self.0.iter()
 	}
 
-	pub(crate) fn iter_mut(&mut self) -> impl Iterator<Item = &mut Fetch> {
+	pub fn iter_mut(&mut self) -> impl Iterator<Item = &mut Fetch> {
 		self.0.iter_mut()
 	}
 }
@@ -71,11 +71,11 @@ impl InfoStructure for Fetchs {
 
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct Fetch(pub(crate) Expr);
+pub struct Fetch(pub Expr);
 
 impl Fetch {
 	#[instrument(level = "trace", name = "Fetch::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

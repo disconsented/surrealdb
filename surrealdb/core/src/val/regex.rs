@@ -15,7 +15,7 @@ use surrealdb_types::{SqlFormat, ToSql, write_sql};
 
 use crate::cnf::{REGEX_CACHE_SIZE, REGEX_SIZE_LIMIT};
 
-pub(crate) const REGEX_TOKEN: &str = "$surrealdb::private::Regex";
+pub const REGEX_TOKEN: &str = "$surrealdb::private::Regex";
 
 #[revisioned(revision = 1)]
 #[derive(Clone)]
@@ -29,7 +29,7 @@ impl Regex {
 	}
 }
 
-pub(crate) fn regex_new(str: &str) -> Result<regex::Regex, regex::Error> {
+pub fn regex_new(str: &str) -> Result<regex::Regex, regex::Error> {
 	static REGEX_CACHE: LazyLock<Cache<String, regex::Regex>> =
 		LazyLock::new(|| Cache::new(REGEX_CACHE_SIZE.max(10)));
 	match REGEX_CACHE.get_value_or_guard(str, None) {

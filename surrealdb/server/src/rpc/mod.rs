@@ -58,7 +58,7 @@ pub struct RpcState {
 	/// entirely inert for unconfigured deployments.
 	pub metrics_observer: Option<Arc<crate::observe::metrics::MetricsObserver>>,
 	#[cfg(feature = "graphql")]
-	pub(crate) notification_router: Arc<NotificationRouter>,
+	pub notification_router: Arc<NotificationRouter>,
 }
 
 impl RpcState {

@@ -17,7 +17,7 @@ use crate::expr::{ClosureExpr, Expr, FlowResultExt, Kind, Param};
 use crate::fnc::args::Any;
 use crate::val::Value;
 
-pub(crate) type BuiltinClosure = Arc<
+pub type BuiltinClosure = Arc<
 	dyn for<'a> Fn(
 			&'a mut Stk,
 			&'a FrozenContext,
@@ -30,7 +30,7 @@ pub(crate) type BuiltinClosure = Arc<
 >;
 
 #[derive(Clone)]
-pub(crate) enum Closure {
+pub enum Closure {
 	Expr {
 		args: Vec<(Param, Kind)>,
 		returns: Option<Kind>,
@@ -136,7 +136,7 @@ impl Ord for Closure {
 }
 
 impl Closure {
-	pub(crate) async fn invoke(
+	pub async fn invoke(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -205,7 +205,7 @@ impl Closure {
 		}
 	}
 
-	pub(crate) fn into_expr(self) -> Expr {
+	pub fn into_expr(self) -> Expr {
 		match self {
 			Closure::Expr {
 				args,

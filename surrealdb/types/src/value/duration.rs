@@ -7,13 +7,13 @@ use serde::{Deserialize, Serialize};
 
 use crate::sql::{SqlFormat, ToSql};
 
-pub(crate) static SECONDS_PER_YEAR: u64 = 365 * SECONDS_PER_DAY;
-pub(crate) static SECONDS_PER_WEEK: u64 = 7 * SECONDS_PER_DAY;
-pub(crate) static SECONDS_PER_DAY: u64 = 24 * SECONDS_PER_HOUR;
-pub(crate) static SECONDS_PER_HOUR: u64 = 60 * SECONDS_PER_MINUTE;
-pub(crate) static SECONDS_PER_MINUTE: u64 = 60;
-pub(crate) static NANOSECONDS_PER_MILLISECOND: u32 = 1000000;
-pub(crate) static NANOSECONDS_PER_MICROSECOND: u32 = 1000;
+pub static SECONDS_PER_YEAR: u64 = 365 * SECONDS_PER_DAY;
+pub static SECONDS_PER_WEEK: u64 = 7 * SECONDS_PER_DAY;
+pub static SECONDS_PER_DAY: u64 = 24 * SECONDS_PER_HOUR;
+pub static SECONDS_PER_HOUR: u64 = 60 * SECONDS_PER_MINUTE;
+pub static SECONDS_PER_MINUTE: u64 = 60;
+pub static NANOSECONDS_PER_MILLISECOND: u32 = 1000000;
+pub static NANOSECONDS_PER_MICROSECOND: u32 = 1000;
 
 /// Represents a duration value in SurrealDB
 ///
@@ -24,7 +24,7 @@ pub(crate) static NANOSECONDS_PER_MICROSECOND: u32 = 1000;
 	Clone, Copy, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd, Serialize, Deserialize,
 )]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct Duration(pub(crate) std::time::Duration);
+pub struct Duration(pub std::time::Duration);
 
 impl Duration {
 	/// The maximum duration
@@ -116,7 +116,7 @@ impl Duration {
 		weeks.checked_mul(SECONDS_PER_WEEK).map(std::time::Duration::from_secs).map(|x| x.into())
 	}
 
-	pub(crate) fn fmt_sql_internal(&self, f: &mut String) {
+	pub fn fmt_sql_internal(&self, f: &mut String) {
 		// Split up the duration
 		let secs = self.0.as_secs();
 		let nano = self.0.subsec_nanos();

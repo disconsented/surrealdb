@@ -12,7 +12,7 @@ use crate::expr::{Base, Expr, Literal, Value};
 use crate::iam::{Action, ResourceKind};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct RemoveNamespaceStatement {
+pub struct RemoveNamespaceStatement {
 	pub name: Expr,
 	pub if_exists: bool,
 	pub expunge: bool,
@@ -30,7 +30,7 @@ impl Default for RemoveNamespaceStatement {
 
 impl RemoveNamespaceStatement {
 	/// Process this type returning a computed simple Value
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

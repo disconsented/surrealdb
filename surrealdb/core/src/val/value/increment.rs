@@ -9,7 +9,7 @@ use crate::val::{Number, TryAdd, Value};
 
 impl Value {
 	/// Asynchronous method for incrementing a field in a `Value`
-	pub(crate) async fn increment(
+	pub async fn increment(
 		&mut self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

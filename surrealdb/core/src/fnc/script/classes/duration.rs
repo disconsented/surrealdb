@@ -7,7 +7,7 @@ use crate::val;
 #[js::class]
 pub struct Duration {
 	#[qjs(skip_trace)]
-	pub(crate) value: Option<val::Duration>,
+	pub value: Option<val::Duration>,
 }
 
 #[js::methods]

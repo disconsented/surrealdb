@@ -80,13 +80,13 @@ fn extract_trace_context(
 
 pub struct Websocket {
 	/// The unique id of this WebSocket connection
-	pub(crate) id: Uuid,
+	pub id: Uuid,
 	/// The request and response format for messages
-	pub(crate) format: Format,
+	pub format: Format,
 	/// The system state for all RPC WebSocket connections
-	pub(crate) state: Arc<RpcState>,
+	pub state: Arc<RpcState>,
 	/// The datastore accessible to all RPC WebSocket connections
-	pub(crate) datastore: Arc<Datastore>,
+	pub datastore: Arc<Datastore>,
 	/// The active sessions for this WebSocket connection.
 	///
 	/// This map is **per-connection**: it is created fresh for every
@@ -96,20 +96,20 @@ pub struct Websocket {
 	/// id enumeration is not possible on the WebSocket transport by construction.
 	/// The attach count is additionally capped by [`WEBSOCKET_MAX_ATTACHED_SESSIONS`]
 	/// as defence-in-depth against a single misbehaving client.
-	pub(crate) sessions: HashMap<Uuid, Arc<RwLock<Session>>>,
+	pub sessions: HashMap<Uuid, Arc<RwLock<Session>>>,
 	/// The active transactions for this WebSocket connection
-	pub(crate) transactions: DashMap<Uuid, Arc<Transaction>>,
+	pub transactions: DashMap<Uuid, Arc<Transaction>>,
 	/// A cancellation token called when shutting down the server
-	pub(crate) shutdown: CancellationToken,
+	pub shutdown: CancellationToken,
 	/// Connection-level cancellation handle. Bundles a hot-path
 	/// `AtomicBool` (consumed by the executor's `Context::done` walks) and
 	/// an awaitable `CancellationToken` (consumed by `tokio::select!`
 	/// sites such as the read/ping/write loops and `SLEEP`). Tripped in
 	/// lockstep by [`Self::cancel_all`]; there is no way to fire one view
 	/// without the other.
-	pub(crate) cancel: surrealdb_core::ctx::CancelHandle,
+	pub cancel: surrealdb_core::ctx::CancelHandle,
 	/// The channels used to send and receive WebSocket messages
-	pub(crate) channel: Sender<Message>,
+	pub channel: Sender<Message>,
 }
 
 impl Websocket {

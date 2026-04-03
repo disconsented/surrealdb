@@ -30,7 +30,7 @@ use super::client_ip::ExtractClientIP;
 ///   .layer(trace);
 /// ```
 #[derive(Default, Clone)]
-pub(crate) struct HttpTraceLayerHooks;
+pub struct HttpTraceLayerHooks;
 
 impl<B> MakeSpan<B> for HttpTraceLayerHooks {
 	fn make_span(&mut self, req: &Request<B>) -> Span {

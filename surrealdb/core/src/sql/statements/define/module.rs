@@ -6,7 +6,7 @@ use crate::sql::{Expr, Literal, ModuleExecutable, Permission};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct DefineModuleStatement {
+pub struct DefineModuleStatement {
 	pub kind: DefineKind,
 	pub name: Option<String>,
 	pub executable: ModuleExecutable,

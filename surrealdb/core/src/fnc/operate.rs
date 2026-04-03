@@ -167,7 +167,7 @@ fn get_executor_option<'a>(
 	ExecutorOption::None
 }
 
-pub(crate) async fn matches(
+pub async fn matches(
 	stk: &mut Stk,
 	ctx: &FrozenContext,
 	opt: &Options,
@@ -184,7 +184,7 @@ pub(crate) async fn matches(
 	Ok(res.into())
 }
 
-pub(crate) async fn knn(
+pub async fn knn(
 	stk: &mut Stk,
 	ctx: &FrozenContext,
 	opt: &Options,

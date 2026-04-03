@@ -31,7 +31,7 @@ use crate::opt::{Endpoint, WaitFor};
 use crate::types::HashMap;
 use crate::{Error, ExtraFeatures, SessionClone, SessionId, Surreal};
 
-pub(crate) const NAGLE_ALG: bool = false;
+pub const NAGLE_ALG: bool = false;
 
 type MessageSink = SplitSink<WebSocketStream<MaybeTlsStream<TcpStream>>, Message>;
 type MessageStream = SplitStream<WebSocketStream<MaybeTlsStream<TcpStream>>>;
@@ -81,7 +81,7 @@ impl From<Tls> for Connector {
 	}
 }
 
-pub(crate) async fn connect(
+pub async fn connect(
 	endpoint: &Endpoint,
 	config: Option<WebSocketConfig>,
 	#[cfg_attr(not(any(feature = "native-tls", feature = "rustls")), expect(unused_variables))]
@@ -234,7 +234,7 @@ async fn router_reconnect(
 	}
 }
 
-pub(crate) async fn run_router(
+pub async fn run_router(
 	endpoint: Endpoint,
 	maybe_connector: Option<Connector>,
 	config: WebSocketConfig,

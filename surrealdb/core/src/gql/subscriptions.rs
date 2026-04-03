@@ -85,7 +85,7 @@ impl NotificationRouter {
 	}
 }
 
-pub(crate) fn process_subscriptions(
+pub fn process_subscriptions(
 	tbs: &[TableDefinition],
 	table_fields: &HashMap<TableName, Arc<[FieldDefinition]>>,
 ) -> Option<Subscription> {

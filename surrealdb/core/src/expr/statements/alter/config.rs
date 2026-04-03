@@ -13,7 +13,7 @@ use crate::iam::{Action, ConfigKind, ResourceKind};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct AlterConfigStatement {
+pub struct AlterConfigStatement {
 	pub if_exists: bool,
 	pub inner: ConfigInner,
 	pub comment: AlterKind<String>,
@@ -31,7 +31,7 @@ impl Default for AlterConfigStatement {
 
 impl AlterConfigStatement {
 	#[instrument(level = "trace", name = "AlterConfigStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

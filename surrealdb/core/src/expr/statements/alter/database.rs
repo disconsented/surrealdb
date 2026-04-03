@@ -11,7 +11,7 @@ use crate::val::Value;
 ///
 /// Supported options:
 /// - `compact`: triggers a compaction of the current database keyspace.
-pub(crate) struct AlterDatabaseStatement {
+pub struct AlterDatabaseStatement {
 	pub compact: bool,
 }
 
@@ -22,7 +22,7 @@ impl AlterDatabaseStatement {
 	///
 	/// Side effects:
 	/// - If `compact` is true, compacts the underlying storage for the current namespace+database.
-	pub(crate) async fn compute(&self, ctx: &Context, opt: &Options) -> anyhow::Result<Value> {
+	pub async fn compute(&self, ctx: &Context, opt: &Options) -> anyhow::Result<Value> {
 		// Allowed to run?
 		ctx.is_allowed(opt, Action::Edit, ResourceKind::Database, Base::Ns)?;
 		// Extract ids

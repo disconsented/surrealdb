@@ -10,14 +10,14 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 use crate::sql::{SqlFormat, ToSql};
 
-pub(crate) const REGEX_TOKEN: &str = "$surrealdb::public::Regex";
+pub const REGEX_TOKEN: &str = "$surrealdb::public::Regex";
 
 /// Represents a regular expression in SurrealDB
 ///
 /// A regular expression is a pattern used for matching strings.
 /// This type wraps the `regex::Regex` type and provides custom serialization/deserialization.
 #[derive(Clone)]
-pub struct Regex(pub(crate) ::regex::Regex);
+pub struct Regex(pub ::regex::Regex);
 
 impl Regex {
 	/// Returns a reference to the underlying regex

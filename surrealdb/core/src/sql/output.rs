@@ -6,7 +6,7 @@ use crate::sql::field::{Fields, Selector};
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum Output {
+pub enum Output {
 	#[default]
 	None,
 	Null,

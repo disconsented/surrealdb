@@ -832,7 +832,7 @@ pub(super) struct IndexesMap {
 }
 
 impl IndexesMap {
-	pub(crate) fn check_compound(&mut self, ixr: &IndexReference, col: usize, iop: &IndexOperator) {
+	pub fn check_compound(&mut self, ixr: &IndexReference, col: usize, iop: &IndexOperator) {
 		let cols = ixr.cols.len();
 		let values = self.compound_indexes.entry(ixr.clone()).or_insert(vec![vec![]; cols]);
 		if let Some(a) = values.get_mut(col) {
@@ -840,7 +840,7 @@ impl IndexesMap {
 		}
 	}
 
-	pub(crate) fn check_compound_array(&mut self, ixr: &IndexReference, col: usize, a: &Array) {
+	pub fn check_compound_array(&mut self, ixr: &IndexReference, col: usize, a: &Array) {
 		for v in a.iter() {
 			let iop = IndexOperator::Equality(Arc::new(v.clone()));
 			self.check_compound(ixr, col, &iop)

@@ -30,7 +30,7 @@ impl Level {
 	/// For example Level::Namespace is a sublevel of Level::Root, and
 	/// Level::Database("foo", "bar") is a sublevel of Level::Namespace("foo").
 	/// Every level is also a sublevel of itself.
-	pub(crate) fn sublevel_of(&self, other: &Self) -> bool {
+	pub fn sublevel_of(&self, other: &Self) -> bool {
 		match self {
 			Level::No => true,
 			Level::Root => matches!(other, Level::Root),
@@ -55,7 +55,7 @@ impl Level {
 		}
 	}
 
-	pub(crate) fn ns(&self) -> Option<&str> {
+	pub fn ns(&self) -> Option<&str> {
 		match self {
 			Level::Namespace(ns) => Some(ns),
 			Level::Database(ns, _) => Some(ns),
@@ -64,7 +64,7 @@ impl Level {
 		}
 	}
 
-	pub(crate) fn db(&self) -> Option<&str> {
+	pub fn db(&self) -> Option<&str> {
 		match self {
 			Level::Database(_, db) => Some(db),
 			Level::Record(_, db, _) => Some(db),
@@ -72,16 +72,16 @@ impl Level {
 		}
 	}
 
-	pub(crate) fn is_record(&self) -> bool {
+	pub fn is_record(&self) -> bool {
 		matches!(self, Level::Record(_, _, _))
 	}
 
-	pub(crate) fn is_anonymous(&self) -> bool {
+	pub fn is_anonymous(&self) -> bool {
 		matches!(self, Level::No)
 	}
 
 	#[cfg(test)]
-	pub(crate) fn id(&self) -> Option<&str> {
+	pub fn id(&self) -> Option<&str> {
 		match self {
 			Level::Record(_, _, id) => Some(id),
 			_ => None,

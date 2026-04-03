@@ -15,15 +15,15 @@ use crate::idx::planner::{QueryPlanner, RecordStrategy, StatementContext};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct CreateStatement {
+pub struct CreateStatement {
 	// A keyword modifier indicating if we are expecting a single result or several
 	pub only: bool,
 	// Where we are creating (i.e. table, or record ID)
-	pub(crate) what: Vec<Expr>,
+	pub what: Vec<Expr>,
 	// The data associated with the record being created
-	pub(crate) data: Option<Data>,
+	pub data: Option<Data>,
 	//  What the result of the statement should resemble (i.e. Diff or no result etc).
-	pub(crate) output: Option<Output>,
+	pub output: Option<Output>,
 	// The timeout for the statement
 	pub timeout: Expr,
 }
@@ -43,7 +43,7 @@ impl Default for CreateStatement {
 impl CreateStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "CreateStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

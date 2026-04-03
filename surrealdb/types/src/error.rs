@@ -606,7 +606,7 @@ impl ErrorDetails {
 
 	/// Create an `ErrorDetails` from a kind string, with no inner details.
 	/// Unknown kind strings fall back to `Internal` (forward compatibility).
-	pub(crate) fn from_kind_str(kind: &str) -> Self {
+	pub fn from_kind_str(kind: &str) -> Self {
 		match kind {
 			"Validation" => Self::Validation(None),
 			"Configuration" => Self::Configuration(None),
@@ -625,7 +625,7 @@ impl ErrorDetails {
 
 	/// Deserialize details using the kind string to select the right variant.
 	/// O(1) dispatch -- no trial-and-error parsing.
-	pub(crate) fn from_value_with_kind_str(kind: &str, value: Value) -> Result<Self, Error> {
+	pub fn from_value_with_kind_str(kind: &str, value: Value) -> Result<Self, Error> {
 		match kind {
 			"Validation" => {
 				ValidationError::from_value(value).map(|v| ErrorDetails::Validation(Some(v)))

@@ -6,7 +6,7 @@ use crate::err::Error;
 use crate::fnc::util::math::ToFloat;
 use crate::val::Number;
 
-pub(crate) fn deviation<T>(v: &[T], mean: f64, sample: bool) -> f64
+pub fn deviation<T>(v: &[T], mean: f64, sample: bool) -> f64
 where
 	T: ToFloat,
 {
@@ -20,7 +20,7 @@ where
 	}
 }
 
-pub(crate) fn check_same_dimension<T>(fnc: &str, a: &[T], b: &[T]) -> Result<()> {
+pub fn check_same_dimension<T>(fnc: &str, a: &[T], b: &[T]) -> Result<()> {
 	ensure!(
 		a.len() == b.len(),
 		Error::InvalidFunctionArguments {

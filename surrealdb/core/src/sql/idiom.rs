@@ -5,11 +5,11 @@ use crate::fmt::EscapeIdent;
 use crate::sql::{Expr, Literal, Part};
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
-pub(crate) struct Idiom(pub(crate) Vec<Part>);
+pub struct Idiom(pub Vec<Part>);
 
 impl Idiom {
 	/// Simplifies this Idiom for use in object keys
-	pub(crate) fn simplify(&self) -> Idiom {
+	pub fn simplify(&self) -> Idiom {
 		Idiom(
 			self.0
 				.iter()

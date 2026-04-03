@@ -11,7 +11,7 @@ use crate::val::Value;
 ///
 /// Supported options:
 /// - `compact`: triggers a compaction of the current namespace keyspace.
-pub(crate) struct AlterNamespaceStatement {
+pub struct AlterNamespaceStatement {
 	/// When true, compacts the underlying storage for the namespace.
 	pub compact: bool,
 }
@@ -23,7 +23,7 @@ impl AlterNamespaceStatement {
 	///
 	/// Side effects:
 	/// - If `compact` is true, compacts the underlying storage for the current namespace.
-	pub(crate) async fn compute(&self, ctx: &Context, opt: &Options) -> anyhow::Result<Value> {
+	pub async fn compute(&self, ctx: &Context, opt: &Options) -> anyhow::Result<Value> {
 		// Allowed to run?
 		ctx.is_allowed(opt, Action::Edit, ResourceKind::Namespace, Base::Root)?;
 		// Extract ids

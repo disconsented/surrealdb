@@ -17,7 +17,7 @@ use crate::idx::planner::{QueryPlanner, RecordStrategy, StatementContext};
 use crate::val::{Datetime, Value};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct SelectStatement {
+pub struct SelectStatement {
 	/// The fields to extract from the records.
 	///
 	/// The foo,bar part in `SELECT foo,bar FROM baz`.
@@ -55,7 +55,7 @@ pub(crate) struct SelectStatement {
 
 impl SelectStatement {
 	/// Check if computing this type can be done on a read only transaction.
-	pub(crate) fn read_only(&self) -> bool {
+	pub fn read_only(&self) -> bool {
 		self.fields.read_only()
 			&& self.what.iter().all(|v| v.read_only())
 			&& self.cond.as_ref().map(|x| x.0.read_only()).unwrap_or(true)
@@ -63,7 +63,7 @@ impl SelectStatement {
 
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "SelectStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

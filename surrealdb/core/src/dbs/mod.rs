@@ -23,23 +23,23 @@ mod variables;
 pub mod capabilities;
 pub mod node;
 
-pub(crate) use variables::{ParameterCapturePass, Variables};
+pub use variables::{ParameterCapturePass, Variables};
 
 pub use self::broker::{
 	BrokerRoutingContext, LocalMessageBroker, MessageBroker, NodeEndpointResolver,
 	RoutedNotification,
 };
 pub use self::capabilities::Capabilities;
-pub(crate) use self::executor::Executor;
-pub(crate) use self::iterator::{Iterable, Iterator, Operable, Processable};
-pub(crate) use self::options::{Force, Options};
+pub use self::executor::Executor;
+pub use self::iterator::{Iterable, Iterator, Operable, Processable};
+pub use self::options::{Force, Options};
 pub use self::response::{QueryResult, QueryResultBuilder, QueryType, Status};
 pub use self::session::{NewPlannerStrategy, Session};
-pub(crate) use self::statement::Statement;
+pub use self::statement::Statement;
 pub(crate) use self::statement_counters::StatementCounters;
 
 #[cfg(storage)]
 mod file;
 
 #[cfg(test)]
-pub(crate) mod test;
+pub mod test;

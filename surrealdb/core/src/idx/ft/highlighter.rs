@@ -11,15 +11,15 @@ use crate::idx::ft::Position;
 use crate::idx::ft::offset::Offset;
 use crate::val::{Array, Object, Value};
 
-pub(crate) struct HighlightParams {
-	pub(crate) prefix: Value,
-	pub(crate) suffix: Value,
-	pub(crate) match_ref: Value,
-	pub(crate) partial: bool,
+pub struct HighlightParams {
+	pub prefix: Value,
+	pub suffix: Value,
+	pub match_ref: Value,
+	pub partial: bool,
 }
 
 impl HighlightParams {
-	pub(crate) fn match_ref(&self) -> &Value {
+	pub fn match_ref(&self) -> &Value {
 		&self.match_ref
 	}
 }

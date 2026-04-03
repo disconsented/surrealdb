@@ -24,7 +24,7 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::{self, Duration, Value};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineAccessStatement {
+pub struct DefineAccessStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub base: Base,
@@ -52,7 +52,7 @@ impl DefineAccessStatement {
 	/// Generate a random key to be used to sign session tokens
 	/// This key will be used to sign tokens issued with this access method
 	/// This value is used by default in every access method other than JWT
-	pub(crate) fn random_key() -> String {
+	pub fn random_key() -> String {
 		Alphanumeric.sample_string(&mut rand::rng(), 128)
 	}
 
@@ -342,7 +342,7 @@ impl DefineAccessStatement {
 
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "DefineAccessStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

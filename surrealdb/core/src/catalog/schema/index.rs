@@ -75,22 +75,22 @@ impl From<u32> for IndexId {
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
 #[non_exhaustive]
 pub struct IndexDefinition {
-	pub(crate) index_id: IndexId,
-	pub(crate) name: Strand,
-	pub(crate) table_name: TableName,
-	pub(crate) cols: Vec<Idiom>,
-	pub(crate) index: Index,
-	pub(crate) comment: Option<String>,
+	pub index_id: IndexId,
+	pub name: Strand,
+	pub table_name: TableName,
+	pub cols: Vec<Idiom>,
+	pub index: Index,
+	pub comment: Option<String>,
 	/// Whether this index has been marked for removal via `REMOVE INDEX`.
 	/// Indexes marked for removal are excluded from query planning and document
 	/// indexing, and any in-progress index builds are cancelled.
-	pub(crate) prepare_remove: bool,
+	pub prepare_remove: bool,
 }
 
 impl_kv_value_revisioned!(IndexDefinition);
 
 impl IndexDefinition {
-	pub(crate) fn to_sql_definition(&self) -> sql::DefineIndexStatement {
+	pub fn to_sql_definition(&self) -> sql::DefineIndexStatement {
 		sql::DefineIndexStatement {
 			kind: DefineKind::Default,
 			name: sql::Expr::Idiom(sql::Idiom::field(self.name.clone())),
@@ -115,7 +115,7 @@ impl IndexDefinition {
 	/// # Errors
 	///
 	/// Returns `Error::IndexingBuildingCancelled` if `prepare_remove` is `true`.
-	pub(crate) fn expect_not_prepare_remove(&self) -> Result<()> {
+	pub fn expect_not_prepare_remove(&self) -> Result<()> {
 		if self.prepare_remove {
 			Err(anyhow::Error::new(Error::IndexingBuildingCancelled {
 				reason: "Prepare remove.".to_string(),
@@ -147,7 +147,7 @@ impl ToSql for IndexDefinition {
 
 #[revisioned(revision = 2)]
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) enum Index {
+pub enum Index {
 	/// (Basic) non unique
 	#[default]
 	Idx,
@@ -272,7 +272,7 @@ impl Default for Scoring {
 /// Distance metric for calculating distances between vectors.
 #[revisioned(revision = 2)]
 #[derive(Clone, Default, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum Distance {
+pub enum Distance {
 	/// Chebyshev distance.
 	///
 	/// <https://en.wikipedia.org/wiki/Chebyshev_distance>
@@ -315,7 +315,7 @@ pub(crate) enum Distance {
 }
 
 impl Distance {
-	pub(crate) fn compute(&self, v1: &Vec<Number>, v2: &Vec<Number>) -> Result<Number> {
+	pub fn compute(&self, v1: &Vec<Number>, v2: &Vec<Number>) -> Result<Number> {
 		use crate::fnc::util::math::ToFloat;
 		use crate::fnc::util::math::vector::{
 			ChebyshevDistance, CosineDistance, EuclideanDistance, HammingDistance,
@@ -414,7 +414,7 @@ impl Display for VectorType {
 /// HNSW index parameters.
 #[revisioned(revision = 2)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct HnswParams {
+pub struct HnswParams {
 	/// The dimension of the index.
 	pub dimension: u16,
 	/// The distance metric to use.
@@ -441,7 +441,7 @@ pub(crate) struct HnswParams {
 /// DiskANN index parameters.
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DiskAnnParams {
+pub struct DiskAnnParams {
 	/// The dimension of the index.
 	pub dimension: u16,
 	/// The distance metric to use.

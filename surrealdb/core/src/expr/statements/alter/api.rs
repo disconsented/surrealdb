@@ -20,7 +20,7 @@ use crate::val::Value;
 
 /// A single `FOR` clause within an `ALTER API` statement.
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum AlterApiClause {
+pub enum AlterApiClause {
 	/// `FOR any [config] [THEN expr | DROP THEN]`
 	ForAny {
 		config: Option<ApiConfig>,
@@ -35,7 +35,7 @@ pub(crate) enum AlterApiClause {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct AlterApiStatement {
+pub struct AlterApiStatement {
 	pub path: Expr,
 	pub if_exists: bool,
 	pub clauses: Vec<AlterApiClause>,
@@ -69,7 +69,7 @@ fn remove_methods_from_actions(actions: &mut Vec<ApiActionDefinition>, drop_meth
 
 impl AlterApiStatement {
 	#[instrument(level = "trace", name = "AlterApiStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

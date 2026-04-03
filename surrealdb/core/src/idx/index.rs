@@ -41,7 +41,7 @@ use crate::key::index::iu::IndexCountKey;
 use crate::kvs::Transaction;
 use crate::val::{Array, RecordId, Value};
 
-pub(crate) struct IndexOperation<'a> {
+pub struct IndexOperation<'a> {
 	ctx: &'a FrozenContext,
 	opt: &'a Options,
 	ns: NamespaceId,
@@ -62,7 +62,7 @@ pub(crate) struct IndexOperation<'a> {
 
 impl<'a> IndexOperation<'a> {
 	#[expect(clippy::too_many_arguments)]
-	pub(crate) fn new(
+	pub fn new(
 		ctx: &'a FrozenContext,
 		opt: &'a Options,
 		ns: NamespaceId,
@@ -88,12 +88,12 @@ impl<'a> IndexOperation<'a> {
 		}
 	}
 
-	pub(crate) fn with_count_cond_match(mut self, old_matches: bool, new_matches: bool) -> Self {
+	pub fn with_count_cond_match(mut self, old_matches: bool, new_matches: bool) -> Self {
 		self.count_cond_match = Some((old_matches, new_matches));
 		self
 	}
 
-	pub(crate) async fn create_fulltext_index(
+	pub async fn create_fulltext_index(
 		ctx: &FrozenContext,
 		ns: NamespaceId,
 		db: DatabaseId,
@@ -115,7 +115,7 @@ impl<'a> IndexOperation<'a> {
 		))
 	}
 
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&mut self,
 		stk: &mut Stk,
 		require_compaction: &mut bool,
@@ -288,7 +288,7 @@ impl<'a> IndexOperation<'a> {
 	///
 	/// The caller owns the transaction split so this can run in a read-only
 	/// transaction and be applied later with a short write transaction.
-	pub(crate) async fn prepare_fulltext_compaction(
+	pub async fn prepare_fulltext_compaction(
 		ixs: &IndexStores,
 		ikb: &IndexKeyBase,
 		tx: &Transaction,
@@ -327,7 +327,7 @@ impl<'a> IndexOperation<'a> {
 	///
 	/// Returns `false` when there is no work, another compactor advanced the
 	/// generation first, or a captured pending key changed before the write.
-	pub(crate) async fn apply_hnsw_compaction(
+	pub async fn apply_hnsw_compaction(
 		ctx: &FrozenContext,
 		ixs: &IndexStores,
 		ikb: &IndexKeyBase,
@@ -371,7 +371,7 @@ impl<'a> IndexOperation<'a> {
 	}
 
 	/// Creates the read-phase plan for count-index compaction.
-	pub(crate) async fn prepare_count_compaction(
+	pub async fn prepare_count_compaction(
 		ikb: &IndexKeyBase,
 		tx: &Transaction,
 	) -> Result<IndexCountCompactionPlan> {
@@ -424,7 +424,7 @@ impl<'a> IndexOperation<'a> {
 		self.compute_fulltext_with_index(stk, &fti, require_compaction).await
 	}
 
-	pub(crate) async fn compute_fulltext_with_index(
+	pub async fn compute_fulltext_with_index(
 		&mut self,
 		stk: &mut Stk,
 		fti: &FullTextIndex,
@@ -453,7 +453,7 @@ impl<'a> IndexOperation<'a> {
 		Ok(())
 	}
 
-	pub(crate) async fn trigger_compaction(&self) -> Result<()> {
+	pub async fn trigger_compaction(&self) -> Result<()> {
 		IndexOperation::compaction_trigger(&self.ikb, &self.ctx.tx(), self.ctx.node_id()).await
 	}
 
@@ -468,7 +468,7 @@ impl<'a> IndexOperation<'a> {
 	/// For full-text indexes it consolidates term frequency and document
 	/// length data; for HNSW indexes it processes pending vector operations;
 	/// for count indexes it reconciles count tracking entries.
-	pub(crate) async fn compaction_trigger(
+	pub async fn compaction_trigger(
 		ikb: &IndexKeyBase,
 		tx: &Transaction,
 		nid: Uuid,

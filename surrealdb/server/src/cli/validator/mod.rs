@@ -9,9 +9,9 @@ use surrealdb_core::dbs::capabilities::{
 use surrealdb_core::kvs::export::{ExcludedTables, TableConfig};
 use surrealdb_types::Duration;
 
-pub(crate) mod parser;
+pub mod parser;
 
-pub(crate) fn path_exists(path: &str) -> Result<PathBuf, String> {
+pub fn path_exists(path: &str) -> Result<PathBuf, String> {
 	let path = Path::new(path);
 	if !*path.try_exists().as_ref().map_err(ToString::to_string)? {
 		return Err(String::from("Ensure the path exists"));
@@ -19,7 +19,7 @@ pub(crate) fn path_exists(path: &str) -> Result<PathBuf, String> {
 	Ok(path.to_owned())
 }
 
-pub(crate) fn file_exists(path: &str) -> Result<PathBuf, String> {
+pub fn file_exists(path: &str) -> Result<PathBuf, String> {
 	let path = path_exists(path)?;
 	if !path.is_file() {
 		return Err(String::from("Ensure the path is a file"));
@@ -27,7 +27,7 @@ pub(crate) fn file_exists(path: &str) -> Result<PathBuf, String> {
 	Ok(path)
 }
 
-pub(crate) fn dir_exists(path: &str) -> Result<PathBuf, String> {
+pub fn dir_exists(path: &str) -> Result<PathBuf, String> {
 	let path = path_exists(path)?;
 	if !path.is_dir() {
 		return Err(String::from("Ensure the path is a directory"));
@@ -35,7 +35,7 @@ pub(crate) fn dir_exists(path: &str) -> Result<PathBuf, String> {
 	Ok(path)
 }
 
-pub(crate) fn endpoint_valid(v: &str) -> Result<String, String> {
+pub fn endpoint_valid(v: &str) -> Result<String, String> {
 	// Split the endpoint into scheme and path
 	fn split_endpoint(v: &str) -> (&str, &str) {
 		// Strip query parameters before extracting the scheme
@@ -58,7 +58,7 @@ pub(crate) fn endpoint_valid(v: &str) -> Result<String, String> {
 	}
 }
 
-pub(crate) fn key_valid(v: &str) -> Result<String, String> {
+pub fn key_valid(v: &str) -> Result<String, String> {
 	match v.len() {
 		16 => Ok(v.to_string()),
 		24 => Ok(v.to_string()),
@@ -67,11 +67,11 @@ pub(crate) fn key_valid(v: &str) -> Result<String, String> {
 	}
 }
 
-pub(crate) fn duration(v: &str) -> Result<std::time::Duration, String> {
+pub fn duration(v: &str) -> Result<std::time::Duration, String> {
 	Duration::from_str(v).map(|d| d.into_inner()).map_err(|_| String::from("invalid duration"))
 }
 
-pub(crate) fn net_targets(value: &str) -> Result<Targets<NetTarget>, String> {
+pub fn net_targets(value: &str) -> Result<Targets<NetTarget>, String> {
 	if ["*", ""].contains(&value) {
 		return Ok(Targets::All);
 	}
@@ -85,7 +85,7 @@ pub(crate) fn net_targets(value: &str) -> Result<Targets<NetTarget>, String> {
 	Ok(Targets::Some(result))
 }
 
-pub(crate) fn func_targets(value: &str) -> Result<Targets<FuncTarget>, String> {
+pub fn func_targets(value: &str) -> Result<Targets<FuncTarget>, String> {
 	if ["*", ""].contains(&value) {
 		return Ok(Targets::All);
 	}
@@ -99,7 +99,7 @@ pub(crate) fn func_targets(value: &str) -> Result<Targets<FuncTarget>, String> {
 	Ok(Targets::Some(result))
 }
 
-pub(crate) fn experimental_targets(value: &str) -> Result<Targets<ExperimentalTarget>, String> {
+pub fn experimental_targets(value: &str) -> Result<Targets<ExperimentalTarget>, String> {
 	if ["*", ""].contains(&value) {
 		return Ok(Targets::All);
 	}
@@ -113,7 +113,7 @@ pub(crate) fn experimental_targets(value: &str) -> Result<Targets<ExperimentalTa
 	Ok(Targets::Some(result))
 }
 
-pub(crate) fn query_arbitrary_targets(
+pub fn query_arbitrary_targets(
 	value: &str,
 ) -> Result<Targets<ArbitraryQueryTarget>, String> {
 	if ["*", ""].contains(&value) {
@@ -129,7 +129,7 @@ pub(crate) fn query_arbitrary_targets(
 	Ok(Targets::Some(result))
 }
 
-pub(crate) fn method_targets(value: &str) -> Result<Targets<MethodTarget>, String> {
+pub fn method_targets(value: &str) -> Result<Targets<MethodTarget>, String> {
 	if ["*", ""].contains(&value) {
 		return Ok(Targets::All);
 	}
@@ -143,7 +143,7 @@ pub(crate) fn method_targets(value: &str) -> Result<Targets<MethodTarget>, Strin
 	Ok(Targets::Some(result))
 }
 
-pub(crate) fn route_targets(value: &str) -> Result<Targets<RouteTarget>, String> {
+pub fn route_targets(value: &str) -> Result<Targets<RouteTarget>, String> {
 	if ["*", ""].contains(&value) {
 		return Ok(Targets::All);
 	}
@@ -157,14 +157,14 @@ pub(crate) fn route_targets(value: &str) -> Result<Targets<RouteTarget>, String>
 	Ok(Targets::Some(result))
 }
 
-pub(crate) fn cors_origin(value: &str) -> Result<String, String> {
+pub fn cors_origin(value: &str) -> Result<String, String> {
 	value
 		.parse::<http::HeaderValue>()
 		.map(|_| value.to_string())
 		.map_err(|_| format!("Invalid CORS origin '{value}': must be a valid HTTP header value"))
 }
 
-pub(crate) fn export_tables(value: &str) -> Result<TableConfig, String> {
+pub fn export_tables(value: &str) -> Result<TableConfig, String> {
 	if ["*", "", "true"].contains(&value) {
 		return Ok(TableConfig::All);
 	}
@@ -176,7 +176,7 @@ pub(crate) fn export_tables(value: &str) -> Result<TableConfig, String> {
 	Ok(TableConfig::Some(value.split(",").filter(|s| !s.is_empty()).map(str::to_string).collect()))
 }
 
-pub(crate) fn export_tables_exclude(value: &str) -> Result<TableConfig, String> {
+pub fn export_tables_exclude(value: &str) -> Result<TableConfig, String> {
 	if value.is_empty() {
 		return Err(String::from("Provide at least one table name to exclude"));
 	}

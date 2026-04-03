@@ -1,11 +1,12 @@
 use surrealdb_types::{SqlFormat, ToSql, write_sql};
+use std::borrow::Cow;
 
 use crate::fmt::{CoverStmts, Fmt};
 use crate::sql::{Cond, Data, Explain, Expr, Literal, Output, With};
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct UpsertStatement {
+pub struct UpsertStatement {
 	pub only: bool,
 	#[cfg_attr(feature = "arbitrary", arbitrary(with = crate::sql::arbitrary::atleast_one))]
 	pub what: Vec<Expr>,
@@ -57,6 +58,14 @@ impl ToSql for UpsertStatement {
 		if let Some(ref v) = self.explain {
 			write_sql!(f, fmt, " {v}");
 		}
+	}
+}
+
+impl<'r> From<UpsertStatement> for Cow<'r, str> {
+	fn from(v: UpsertStatement) -> Self {
+		let mut s = String::new();
+		v.fmt_sql(&mut s, SqlFormat::SingleLine);
+		Cow::Owned(s)
 	}
 }
 

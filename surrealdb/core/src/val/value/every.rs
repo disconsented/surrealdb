@@ -10,7 +10,7 @@ impl Value {
 	/// and steps. Steps enables intermediate idioms instead of only the leaf
 	/// values. For the changes in behavior with ArrayBehaviour see the docs
 	/// for that enum.
-	pub(crate) fn every(
+	pub fn every(
 		&self,
 		path: Option<&[Part]>,
 		steps: bool,

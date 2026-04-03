@@ -105,7 +105,7 @@ impl Inner {
 	}
 }
 
-pub(crate) struct KnnBruteForceResult {
+pub struct KnnBruteForceResult {
 	exp: HashMap<Arc<Expr>, usize>,
 	res: Vec<HashMap<Arc<RecordId>, Number>>,
 }
@@ -125,7 +125,7 @@ impl KnnBruteForceResult {
 }
 
 #[derive(Clone)]
-pub(crate) struct KnnBruteForceResults(
+pub struct KnnBruteForceResults(
 	Arc<std::collections::HashMap<TableName, KnnBruteForceResult>>,
 );
 
@@ -145,7 +145,7 @@ impl KnnBruteForceResults {
 		false
 	}
 
-	pub(crate) fn get_dist(&self, pos: usize, record: &RecordId) -> Option<Number> {
+	pub fn get_dist(&self, pos: usize, record: &RecordId) -> Option<Number> {
 		if let Some(result) = self.0.get(record.table.as_str())
 			&& let Some(records) = result.res.get(pos)
 		{

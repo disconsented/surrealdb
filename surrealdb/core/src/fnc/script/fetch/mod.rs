@@ -97,7 +97,7 @@ mod test {
 			}
 		};
 	}
-	pub(crate) use create_test_context;
+	pub use create_test_context;
 
 	#[tokio::test]
 	async fn exists() {

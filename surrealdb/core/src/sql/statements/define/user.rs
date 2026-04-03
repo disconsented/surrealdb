@@ -19,7 +19,7 @@ pub enum PassType {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) struct DefineUserStatement {
+pub struct DefineUserStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub base: Base,

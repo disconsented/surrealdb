@@ -20,7 +20,7 @@ use crate::iam::{Action, AuthLimit, ResourceKind};
 use crate::val::{TableName, Value};
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) enum AlterDefault {
+pub enum AlterDefault {
 	#[default]
 	None,
 	Drop,
@@ -29,7 +29,7 @@ pub(crate) enum AlterDefault {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct AlterFieldStatement {
+pub struct AlterFieldStatement {
 	pub name: Expr,
 	pub what: Expr,
 	pub if_exists: bool,
@@ -65,7 +65,7 @@ impl Default for AlterFieldStatement {
 
 impl AlterFieldStatement {
 	#[instrument(level = "trace", name = "AlterFieldStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

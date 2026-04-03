@@ -7,7 +7,7 @@ use crate::sql::{Expr, Literal, Permissions, TableType, View};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct DefineTableStatement {
+pub struct DefineTableStatement {
 	pub kind: DefineKind,
 	pub id: Option<u32>,
 	pub name: Expr,

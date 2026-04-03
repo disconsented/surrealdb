@@ -22,7 +22,7 @@ pub struct ApiResponse {
 
 impl ApiResponse {
 	/// Builds an API response from an error, exposing status and message for known API errors.
-	pub(crate) fn from_error(e: impl Into<anyhow::Error>, request_id: String) -> Self {
+	pub fn from_error(e: impl Into<anyhow::Error>, request_id: String) -> Self {
 		let e = e.into();
 		let (status, body) = if let Some(api_error) = e.downcast_ref::<ApiError>() {
 			(api_error.status_code(), api_error.to_string())
@@ -42,7 +42,7 @@ impl ApiResponse {
 	/// middleware). Known API errors (validation, not found, etc.) are converted with correct
 	/// status and message. Internal/unknown errors are masked as 500 with no body to avoid leaking
 	/// implementation details.
-	pub(crate) fn from_error_secure(e: impl Into<anyhow::Error>, request_id: String) -> Self {
+	pub fn from_error_secure(e: impl Into<anyhow::Error>, request_id: String) -> Self {
 		let e = e.into();
 		if let Some(api_error) = e.downcast_ref::<ApiError>() {
 			Self {
@@ -63,7 +63,7 @@ impl ApiResponse {
 
 	/// Ensures the X-Surreal-Request-ID header is present in the response headers.
 	/// Uses the request_id field from the struct.
-	pub(crate) fn ensure_request_id_header(&mut self) {
+	pub fn ensure_request_id_header(&mut self) {
 		if !self.headers.contains_key(X_SURREAL_REQUEST_ID)
 			&& !self.request_id.is_empty()
 			&& let Ok(header_value) = HeaderValue::from_str(&self.request_id)

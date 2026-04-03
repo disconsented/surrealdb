@@ -46,7 +46,7 @@ impl std::fmt::Display for Actor {
 }
 
 impl Actor {
-	pub(crate) fn new(id: String, roles: Vec<Role>, level: Level) -> Self {
+	pub fn new(id: String, roles: Vec<Role>, level: Level) -> Self {
 		Self {
 			res: Resource::new(id, super::ResourceKind::Actor, level),
 			roles,
@@ -59,26 +59,26 @@ impl Actor {
 	}
 
 	/// Checks if the actor has the given role.
-	pub(crate) fn has_role(&self, role: Role) -> bool {
+	pub fn has_role(&self, role: Role) -> bool {
 		self.roles.contains(&role)
 	}
 
 	/// Checks if the actor has the Owner role.
-	pub(crate) fn has_owner_role(&self) -> bool {
+	pub fn has_owner_role(&self) -> bool {
 		self.roles.iter().any(|r| r.eq(&Role::Owner))
 	}
 
 	/// Checks if the actor has the Editor role.
-	pub(crate) fn has_editor_role(&self) -> bool {
+	pub fn has_editor_role(&self) -> bool {
 		self.roles.iter().any(|r| r.eq(&Role::Owner) || r.eq(&Role::Editor))
 	}
 
 	/// Checks if the actor has the Viewer role.
-	pub(crate) fn has_viewer_role(&self) -> bool {
+	pub fn has_viewer_role(&self) -> bool {
 		self.roles.iter().any(|r| r.eq(&Role::Owner) || r.eq(&Role::Editor) || r.eq(&Role::Viewer))
 	}
 
-	pub(crate) fn new_limited(&self, limit: &AuthLimit) -> Self {
+	pub fn new_limited(&self, limit: &AuthLimit) -> Self {
 		if self.res.level().is_record() || self.res.level().is_anonymous() {
 			return self.clone();
 		}
@@ -104,7 +104,7 @@ impl Actor {
 		Self::new(self.res.id().to_string(), roles, level)
 	}
 
-	pub(crate) fn max_role(&self) -> Option<Role> {
+	pub fn max_role(&self) -> Option<Role> {
 		if self.roles.is_empty() {
 			return None;
 		}

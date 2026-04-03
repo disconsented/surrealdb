@@ -23,7 +23,7 @@ pub enum Function {
 impl Function {
 	// we explicitely dont want a display implementation but do need to print a function to a string
 	#[allow(clippy::inherent_to_string)]
-	pub(crate) fn to_string(&self) -> String {
+	pub fn to_string(&self) -> String {
 		match self {
 			// Safety: "function" does not contain null bytes"
 			Self::Script(_) => "function".to_owned(),
@@ -50,7 +50,7 @@ impl Function {
 		}
 	}
 
-	pub(crate) fn to_idiom(&self) -> Idiom {
+	pub fn to_idiom(&self) -> Idiom {
 		Idiom::field(self.to_string())
 	}
 }

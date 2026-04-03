@@ -19,7 +19,7 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct AlterUserStatement {
+pub struct AlterUserStatement {
 	pub name: Expr,
 	pub base: Base,
 	pub if_exists: bool,
@@ -47,7 +47,7 @@ impl Default for AlterUserStatement {
 
 impl AlterUserStatement {
 	#[instrument(level = "trace", name = "AlterUserStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

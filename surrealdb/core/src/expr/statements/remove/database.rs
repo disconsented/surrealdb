@@ -12,7 +12,7 @@ use crate::expr::{Base, Expr, Literal, Value};
 use crate::iam::{Action, ResourceKind};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct RemoveDatabaseStatement {
+pub struct RemoveDatabaseStatement {
 	pub name: Expr,
 	pub if_exists: bool,
 	pub expunge: bool,
@@ -31,7 +31,7 @@ impl Default for RemoveDatabaseStatement {
 impl RemoveDatabaseStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "RemoveDatabaseStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

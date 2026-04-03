@@ -11,7 +11,7 @@ use crate::expr::{Expr, Literal};
 use crate::val::Duration;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct Timeout(pub(crate) Expr);
+pub struct Timeout(pub Expr);
 
 impl Default for Timeout {
 	fn default() -> Self {
@@ -20,7 +20,7 @@ impl Default for Timeout {
 }
 
 impl Timeout {
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &Context,

@@ -288,4 +288,4 @@ macro_rules! library {
 		}
 	};
 }
-pub(crate) use library;
+pub use library;

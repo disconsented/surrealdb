@@ -5,7 +5,7 @@ use crate::fmt::{CoverStmts, EscapeKwFreeIdent, Fmt};
 use crate::sql::{Expr, Idiom, Lookup};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) enum Part {
+pub enum Part {
 	All,
 	Flatten,
 	Last,

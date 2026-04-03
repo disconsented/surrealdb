@@ -18,12 +18,12 @@ pub struct BucketId(pub u32);
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
 pub struct BucketDefinition {
-	pub(crate) id: Option<BucketId>,
-	pub(crate) name: Strand,
-	pub(crate) backend: Option<Strand>,
-	pub(crate) permissions: Permission,
-	pub(crate) readonly: bool,
-	pub(crate) comment: Option<String>,
+	pub id: Option<BucketId>,
+	pub name: Strand,
+	pub backend: Option<Strand>,
+	pub permissions: Permission,
+	pub readonly: bool,
+	pub comment: Option<String>,
 }
 impl_kv_value_revisioned!(BucketDefinition);
 

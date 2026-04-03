@@ -16,7 +16,7 @@ use crate::utils::escape::QuoteStr;
 /// This type wraps the `chrono::DateTime<Utc>` type.
 
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
-pub struct Datetime(pub(crate) DateTime<Utc>);
+pub struct Datetime(pub DateTime<Utc>);
 
 impl Default for Datetime {
 	fn default() -> Self {

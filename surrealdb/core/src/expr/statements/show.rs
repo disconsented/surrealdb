@@ -16,7 +16,7 @@ pub enum ShowSince {
 /// A SHOW CHANGES statement for displaying changes made to a table or database.
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct ShowStatement {
+pub struct ShowStatement {
 	pub table: Option<TableName>,
 	pub since: ShowSince,
 	pub limit: Option<u32>,
@@ -25,7 +25,7 @@ pub(crate) struct ShowStatement {
 impl ShowStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "ShowStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		ctx: &FrozenContext,
 		opt: &Options,

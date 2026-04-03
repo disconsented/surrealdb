@@ -171,7 +171,7 @@ impl Lifecycle<HnswCacheKey, HnswCacheValue> for HnswCacheLifecycle {
 /// Shared across all HNSW indexes via `Arc`. Tracks cached entries per index for efficient bulk
 /// eviction when an index is dropped.
 #[derive(Clone)]
-pub(crate) struct VectorCache(Arc<Inner>);
+pub struct VectorCache(Arc<Inner>);
 
 struct Inner {
 	/// Shared weighted budget for all HNSW ANN cache families.
@@ -348,7 +348,7 @@ impl VectorCache {
 	}
 
 	/// Removes all cached entries for a given index, yielding periodically during bulk removal.
-	pub(crate) async fn remove_index(
+	pub async fn remove_index(
 		&self,
 		namespace_id: NamespaceId,
 		database_id: DatabaseId,

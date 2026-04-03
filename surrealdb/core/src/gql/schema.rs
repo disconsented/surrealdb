@@ -61,7 +61,7 @@ use crate::val::{
 ///
 /// Groups the transaction, namespace/database identifiers, and datastore
 /// reference that are threaded through `process_tbs` and `process_mutations`.
-pub(crate) struct SchemaContext<'a> {
+pub struct SchemaContext<'a> {
 	pub tx: &'a Transaction,
 	pub ns: NamespaceId,
 	pub db: DatabaseId,
@@ -337,7 +337,7 @@ pub async fn generate_schema(
 /// strings, datetimes, durations, UUIDs, arrays, objects, geometry, bytes
 /// (base64-encoded), and record IDs.  Unrecognised variants fall back to
 /// their string representation.
-pub(crate) fn sql_value_to_gql_value(v: SurValue) -> Result<GqlValue, GqlError> {
+pub fn sql_value_to_gql_value(v: SurValue) -> Result<GqlValue, GqlError> {
 	let out = match v {
 		SurValue::None => GqlValue::Null,
 		SurValue::Null => GqlValue::Null,
@@ -383,7 +383,7 @@ pub(crate) fn sql_value_to_gql_value(v: SurValue) -> Result<GqlValue, GqlError> 
 ///
 /// For string-literal `Either` kinds, this emits a GraphQL enum token instead
 /// of a raw string so enum fields resolve correctly.
-pub(crate) fn sql_value_to_gql_value_with_kind(
+pub fn sql_value_to_gql_value_with_kind(
 	v: SurValue,
 	kind: Option<&Kind>,
 	enum_scope: Option<&str>,
@@ -937,13 +937,13 @@ fn convert_static_literal(lit: Literal) -> Result<SurValue, GqlError> {
 /// For `Kind::Any`, the function uses heuristics: strings are tried as datetime,
 /// duration, uuid, then parsed as SurrealQL expressions.  For `Kind::Either`,
 /// each constituent kind is tried in turn until one succeeds.
-pub(crate) fn gql_to_sql_kind(val: &GqlValue, kind: Kind) -> Result<SurValue, GqlError> {
+pub fn gql_to_sql_kind(val: &GqlValue, kind: Kind) -> Result<SurValue, GqlError> {
 	gql_to_sql_kind_with_scope(val, kind, None)
 }
 
 /// Like [`gql_to_sql_kind`], but with an optional `enum_scope` for precise
 /// reverse-mapping of scoped enum tokens back to their original string literals.
-pub(crate) fn gql_to_sql_kind_with_scope(
+pub fn gql_to_sql_kind_with_scope(
 	val: &GqlValue,
 	kind: Kind,
 	enum_scope: Option<&str>,
@@ -1283,7 +1283,7 @@ pub(crate) fn gql_to_sql_kind_with_scope(
 // ---------------------------------------------------------------------------
 
 /// Map a `GeometryKind` to the corresponding GraphQL output Object type name.
-pub(crate) fn geometry_kind_to_gql_type_name(kind: &GeometryKind) -> &'static str {
+pub fn geometry_kind_to_gql_type_name(kind: &GeometryKind) -> &'static str {
 	match kind {
 		GeometryKind::Point => "GeometryPoint",
 		GeometryKind::Line => "GeometryLineString",
@@ -1309,7 +1309,7 @@ fn geometry_kind_to_gql_input_type_name(kind: &GeometryKind) -> &'static str {
 }
 
 /// Map a `Geometry` value to the GraphQL Object type name for that variant.
-pub(crate) fn geometry_gql_type_name(g: &SurGeometry) -> &'static str {
+pub fn geometry_gql_type_name(g: &SurGeometry) -> &'static str {
 	match g {
 		SurGeometry::Point(_) => "GeometryPoint",
 		SurGeometry::Line(_) => "GeometryLineString",
@@ -1391,7 +1391,7 @@ fn make_geometry_collection_type() -> Object {
 /// - Enum: `GeometryType`
 /// - Union: `Geometry`
 /// - InputObject types for each variant + unified `GeometryInput`
-pub(crate) fn register_geometry_types(types: &mut Vec<Type>) {
+pub fn register_geometry_types(types: &mut Vec<Type>) {
 	// GeometryType enum
 	types.push(Type::Enum(
 		Enum::new("GeometryType")
@@ -1657,7 +1657,7 @@ fn gql_geometry_from_object(
 ///
 /// Used by `sql_value_to_gql_value` for geometry values in arrays / nested objects
 /// where we cannot use `FieldValue::owned_any`.
-pub(crate) fn geometry_to_gql_object(g: &SurGeometry) -> Result<GqlValue, GqlError> {
+pub fn geometry_to_gql_object(g: &SurGeometry) -> Result<GqlValue, GqlError> {
 	let mut map = IndexMap::new();
 	map.insert(Name::new("type"), GqlValue::Enum(Name::new(g.as_type())));
 

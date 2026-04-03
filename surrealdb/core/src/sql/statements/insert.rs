@@ -1,9 +1,10 @@
 use surrealdb_types::{SqlFormat, ToSql, write_sql};
+use std::borrow::Cow;
 
 use crate::fmt::CoverStmts;
 use crate::sql::{Data, Expr, Literal, Output};
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Default)]
 pub struct InsertStatement {
 	pub into: Option<Expr>,
 	pub data: Data,
@@ -40,6 +41,14 @@ impl ToSql for InsertStatement {
 	}
 }
 
+impl<'r> From<InsertStatement> for Cow<'r, str> {
+	fn from(v: InsertStatement) -> Self {
+		let mut s = String::new();
+		v.fmt_sql(&mut s, SqlFormat::SingleLine);
+		Cow::Owned(s)
+	}
+}
+
 impl From<InsertStatement> for crate::expr::statements::InsertStatement {
 	fn from(v: InsertStatement) -> Self {
 		crate::expr::statements::InsertStatement {
@@ -65,5 +74,24 @@ impl From<crate::expr::statements::InsertStatement> for InsertStatement {
 			timeout: v.timeout.into(),
 			relation: v.relation,
 		}
+	}
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	#[test]
+	fn test_insert_into_cow() {
+		let insert = InsertStatement::default();
+		let cow: Cow<'_, str> = insert.into();
+		assert_eq!(cow, "INSERT {}");
+	}
+
+	#[test]
+	fn test_insert_ref_into_cow() {
+		let insert = InsertStatement::default();
+		let cow: Cow<'_, str> = (&insert).into();
+		assert_eq!(cow, "INSERT {}");
 	}
 }

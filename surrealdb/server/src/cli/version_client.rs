@@ -8,15 +8,15 @@ use reqwest::Client;
 
 use crate::cli::upgrade::ROOT;
 
-pub(crate) trait VersionClient {
+pub trait VersionClient {
 	async fn fetch(&self, version: &str) -> Result<Cow<'static, str>>;
 }
 
-pub(crate) struct ReqwestVersionClient {
+pub struct ReqwestVersionClient {
 	client: Client,
 }
 
-pub(crate) fn new(timeout: Option<Duration>) -> Result<ReqwestVersionClient> {
+pub fn new(timeout: Option<Duration>) -> Result<ReqwestVersionClient> {
 	let mut client = Client::builder();
 	if let Some(timeout) = timeout {
 		client = client.timeout(timeout);
@@ -39,8 +39,8 @@ impl VersionClient for ReqwestVersionClient {
 }
 
 #[cfg(test)]
-pub(crate) struct MapVersionClient {
-	pub(crate) fetch_mock: BTreeMap<String, fn() -> Result<String>>,
+pub struct MapVersionClient {
+	pub fetch_mock: BTreeMap<String, fn() -> Result<String>>,
 }
 
 #[cfg(test)]

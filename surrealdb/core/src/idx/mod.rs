@@ -1,5 +1,5 @@
-pub(crate) mod ft;
-pub(crate) mod index;
+pub mod ft;
+pub mod index;
 pub mod planner;
 pub(super) mod seqdocids;
 pub mod trees;
@@ -294,7 +294,7 @@ impl IndexKeyBase {
 		IdKey::new(self.0.ns, self.0.db, &self.0.tb, self.0.ix, id)
 	}
 
-	pub(crate) fn new_ig_key(
+	pub fn new_ig_key(
 		&self,
 		appending_id: AppendingId,
 		batch_id: BatchId,
@@ -302,11 +302,11 @@ impl IndexKeyBase {
 		IndexAppending::new(self.0.ns, self.0.db, &self.0.tb, self.0.ix, appending_id, batch_id)
 	}
 
-	pub(crate) fn new_ig_range(&self) -> Result<Range<Key>> {
+	pub fn new_ig_range(&self) -> Result<Range<Key>> {
 		IndexAppending::new_range(self.0.ns, self.0.db, &self.0.tb, self.0.ix)
 	}
 
-	pub(crate) fn new_ip_key(&self, id: RecordIdKey) -> Ip<'_> {
+	pub fn new_ip_key(&self, id: RecordIdKey) -> Ip<'_> {
 		Ip::new(self.0.ns, self.0.db, &self.0.tb, self.0.ix, id)
 	}
 
@@ -387,11 +387,11 @@ impl IndexKeyBase {
 		Bp::all_generations_range(self.0.ns, self.0.db, &self.0.tb, self.0.ix)
 	}
 
-	pub(crate) fn new_ib_key(&self, start: i64) -> Ib<'_> {
+	pub fn new_ib_key(&self, start: i64) -> Ib<'_> {
 		Ib::new(self.0.ns, self.0.db, &self.0.tb, self.0.ix, start)
 	}
 
-	pub(crate) fn new_ic_key(&self, nid: Uuid) -> IndexCompactionKey<'_> {
+	pub fn new_ic_key(&self, nid: Uuid) -> IndexCompactionKey<'_> {
 		IndexCompactionKey::new(
 			self.0.ns,
 			self.0.db,
@@ -402,11 +402,11 @@ impl IndexKeyBase {
 		)
 	}
 
-	pub(crate) fn new_ib_range(&self) -> Result<Range<Key>> {
+	pub fn new_ib_range(&self) -> Result<Range<Key>> {
 		Ib::new_range(self.0.ns, self.0.db, &self.0.tb, self.0.ix)
 	}
 
-	pub(crate) fn new_is_key(&self, nid: Uuid) -> Is<'_> {
+	pub fn new_is_key(&self, nid: Uuid) -> Is<'_> {
 		Is::new(self.0.ns, self.0.db, &self.0.tb, self.0.ix, nid)
 	}
 
@@ -468,19 +468,19 @@ impl IndexKeyBase {
 		Iv::new(self.0.ns, self.0.db, &self.0.tb, self.0.ix)
 	}
 
-	pub(crate) fn ns(&self) -> NamespaceId {
+	pub fn ns(&self) -> NamespaceId {
 		self.0.ns
 	}
 
-	pub(crate) fn db(&self) -> DatabaseId {
+	pub fn db(&self) -> DatabaseId {
 		self.0.db
 	}
 
-	pub(crate) fn table(&self) -> &TableName {
+	pub fn table(&self) -> &TableName {
 		&self.0.tb
 	}
 
-	pub(crate) fn index(&self) -> IndexId {
+	pub fn index(&self) -> IndexId {
 		self.0.ix
 	}
 }

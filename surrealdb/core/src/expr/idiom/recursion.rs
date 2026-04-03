@@ -10,7 +10,7 @@ use crate::expr::{FlowResultExt as _, Part};
 use crate::val::{Array, Value};
 
 #[derive(Clone, Copy, Debug)]
-pub(crate) struct Recursion<'a> {
+pub struct Recursion<'a> {
 	pub min: u32,
 	pub max: Option<u32>,
 	pub iterated: u32,
@@ -38,7 +38,7 @@ impl<'a> Recursion<'a> {
 
 // Method used to check if the value
 // inside a recursed idiom path is final
-pub(crate) fn is_final(v: &Value) -> bool {
+pub fn is_final(v: &Value) -> bool {
 	match v {
 		Value::None => true,
 		Value::Null => true,
@@ -47,7 +47,7 @@ pub(crate) fn is_final(v: &Value) -> bool {
 	}
 }
 
-pub(crate) fn get_final(v: &Value) -> Value {
+pub fn get_final(v: &Value) -> Value {
 	match v {
 		Value::Array(_) => Value::Array(Array(vec![])),
 		Value::Null => Value::Null,
@@ -55,7 +55,7 @@ pub(crate) fn get_final(v: &Value) -> Value {
 	}
 }
 
-pub(crate) fn clean_iteration(v: Value) -> Value {
+pub fn clean_iteration(v: Value) -> Value {
 	if let Value::Array(v) = v {
 		Value::from(v.0.into_iter().filter(|v| !is_final(v)).collect::<Vec<Value>>()).flatten()
 	} else {
@@ -63,7 +63,7 @@ pub(crate) fn clean_iteration(v: Value) -> Value {
 	}
 }
 
-pub(crate) async fn compute_idiom_recursion(
+pub async fn compute_idiom_recursion(
 	stk: &mut Stk,
 	ctx: &FrozenContext,
 	opt: &Options,

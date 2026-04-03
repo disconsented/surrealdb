@@ -6,7 +6,7 @@ use crate::{catalog, expr};
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum ModuleName {
+pub enum ModuleName {
 	Module(String),
 	Silo(String, String, u32, u32, u32),
 }
@@ -52,7 +52,7 @@ impl From<crate::catalog::ModuleName> for ModuleName {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum ModuleExecutable {
+pub enum ModuleExecutable {
 	Surrealism(SurrealismExecutable),
 	Silo(SiloExecutable),
 }
@@ -101,7 +101,7 @@ impl ToSql for ModuleExecutable {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct SurrealismExecutable(pub File);
+pub struct SurrealismExecutable(pub File);
 
 impl From<expr::SurrealismExecutable> for SurrealismExecutable {
 	fn from(executable: expr::SurrealismExecutable) -> Self {
@@ -129,7 +129,7 @@ impl ToSql for SurrealismExecutable {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct SiloExecutable {
+pub struct SiloExecutable {
 	pub organisation: String,
 	pub package: String,
 	pub major: u32,

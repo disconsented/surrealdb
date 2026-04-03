@@ -25,7 +25,7 @@ use crate::kvs::Transaction;
 use crate::val::{TableName, Value};
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) enum DefineDefault {
+pub enum DefineDefault {
 	#[default]
 	None,
 	Always(Expr),
@@ -33,7 +33,7 @@ pub(crate) enum DefineDefault {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineFieldStatement {
+pub struct DefineFieldStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub what: Expr,
@@ -74,7 +74,7 @@ impl Default for DefineFieldStatement {
 }
 
 impl DefineFieldStatement {
-	pub(crate) async fn to_definition(
+	pub async fn to_definition(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -149,7 +149,7 @@ impl DefineFieldStatement {
 
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "DefineFieldStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -288,7 +288,7 @@ impl DefineFieldStatement {
 		Ok(Value::None)
 	}
 
-	pub(crate) async fn process_recursive_definitions(
+	pub async fn process_recursive_definitions(
 		&self,
 		ns: NamespaceId,
 		db: DatabaseId,
@@ -350,7 +350,7 @@ impl DefineFieldStatement {
 		Ok(())
 	}
 
-	pub(crate) async fn validate_computed_options(
+	pub async fn validate_computed_options(
 		&self,
 		ns: NamespaceId,
 		db: DatabaseId,
@@ -411,7 +411,7 @@ impl DefineFieldStatement {
 	/// Builds a dependency graph from all existing computed fields on the table plus
 	/// the field being defined, then runs iterative DFS to detect cycles.
 	/// Only checks same-table dependencies (cross-table cycles are future work).
-	pub(crate) async fn validate_computed_cycles(
+	pub async fn validate_computed_cycles(
 		&self,
 		ns: NamespaceId,
 		db: DatabaseId,
@@ -519,7 +519,7 @@ impl DefineFieldStatement {
 		Ok(())
 	}
 
-	pub(crate) fn validate_reference_options(
+	pub fn validate_reference_options(
 		&self,
 		definition: &catalog::FieldDefinition,
 	) -> Result<()> {
@@ -566,7 +566,7 @@ impl DefineFieldStatement {
 		Ok(())
 	}
 
-	pub(crate) async fn disallow_mismatched_types(
+	pub async fn disallow_mismatched_types(
 		&self,
 		ctx: &FrozenContext,
 		ns: NamespaceId,
@@ -597,7 +597,7 @@ impl DefineFieldStatement {
 		Ok(())
 	}
 
-	pub(crate) fn validate_id_restrictions(
+	pub fn validate_id_restrictions(
 		&self,
 		definition: &catalog::FieldDefinition,
 	) -> Result<()> {
@@ -629,7 +629,7 @@ impl DefineFieldStatement {
 		Ok(())
 	}
 
-	pub(crate) async fn validate_flexible_restrictions(
+	pub async fn validate_flexible_restrictions(
 		&self,
 		ctx: &FrozenContext,
 		ns: NamespaceId,

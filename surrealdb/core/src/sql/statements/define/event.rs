@@ -7,7 +7,7 @@ use crate::sql::{Expr, Literal};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct DefineEventStatement {
+pub struct DefineEventStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub target_table: Expr,

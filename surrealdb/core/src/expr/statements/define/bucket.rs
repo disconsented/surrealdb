@@ -13,7 +13,7 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineBucketStatement {
+pub struct DefineBucketStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub backend: Option<Expr>,
@@ -37,7 +37,7 @@ impl Default for DefineBucketStatement {
 
 impl DefineBucketStatement {
 	#[instrument(level = "trace", name = "DefineBucketStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

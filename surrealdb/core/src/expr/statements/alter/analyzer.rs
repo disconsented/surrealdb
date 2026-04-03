@@ -16,7 +16,7 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct AlterAnalyzerStatement {
+pub struct AlterAnalyzerStatement {
 	pub name: Expr,
 	pub if_exists: bool,
 	pub function: AlterKind<String>,
@@ -40,7 +40,7 @@ impl Default for AlterAnalyzerStatement {
 
 impl AlterAnalyzerStatement {
 	#[instrument(level = "trace", name = "AlterAnalyzerStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

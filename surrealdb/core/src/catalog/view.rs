@@ -36,7 +36,7 @@ pub(crate) enum ViewDefinition {
 }
 
 impl ViewDefinition {
-	pub(crate) fn to_sql_definition(&self) -> View {
+	pub fn to_sql_definition(&self) -> View {
 		match self {
 			ViewDefinition::Materialized {
 				fields,

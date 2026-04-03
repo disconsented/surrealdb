@@ -1192,7 +1192,7 @@ impl Document {
 
 	/// Run triggers which are defined on the view, like events and second order views.
 	#[allow(clippy::too_many_arguments)]
-	pub(crate) async fn run_triggers(
+	pub async fn run_triggers(
 		stk: &mut Stk,
 		ctx: &FrozenContext,
 		opt: &Options,

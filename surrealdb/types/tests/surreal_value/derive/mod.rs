@@ -353,7 +353,7 @@ fn test_unit_struct_with_value() {
 
 #[derive(Clone, Debug, SurrealValue)]
 #[surreal(crate = "surrealdb_types")]
-pub(crate) struct RouterRequest {
+pub struct RouterRequest {
 	id: Option<i64>,
 	method: String,
 	params: Option<Value>,

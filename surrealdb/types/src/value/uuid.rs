@@ -15,7 +15,7 @@ use crate::sql::{SqlFormat, ToSql};
 	Clone, Copy, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd, Serialize, Deserialize,
 )]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct Uuid(pub(crate) ::uuid::Uuid);
+pub struct Uuid(pub ::uuid::Uuid);
 
 impl ToSql for Uuid {
 	fn fmt_sql(&self, f: &mut String, _fmt: SqlFormat) {

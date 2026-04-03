@@ -13,7 +13,7 @@ use crate::val::{Object, Strand, Value};
 
 impl Value {
 	/// Asynchronous method for setting a field on a `Value`
-	pub(crate) async fn set(
+	pub async fn set(
 		&mut self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

@@ -188,7 +188,7 @@ impl ParserSettings {
 
 bitflags! {
 	#[derive(Clone,Copy)]
-	pub(crate) struct ParserState: u8 {
+	pub struct ParserState: u8 {
 		/// Is the parser in a cancelable transaction.
 		const TRANSACTION = 1 << 0;
 		/// Is the parser in a control flow loop.
@@ -483,7 +483,7 @@ impl<'source, 'ast> Parser<'source, 'ast> {
 
 	/// Modifies the parser state within the given closure, reseting the parser state to the old
 	/// result after the closure returns.
-	pub(crate) async fn with_state<F1, F2, R>(&mut self, state_cb: F1, cb: F2) -> ParseResult<R>
+	pub async fn with_state<F1, F2, R>(&mut self, state_cb: F1, cb: F2) -> ParseResult<R>
 	where
 		F1: FnOnce(ParserState) -> ParserState,
 		F2: AsyncFnOnce(&mut Parser) -> ParseResult<R>,

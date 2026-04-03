@@ -27,16 +27,17 @@ pub struct Changefeed {
 	buffer: Mutex<HashMap<ChangeKey, TableMutations>>,
 }
 
+
 impl Changefeed {
 	/// Create a new changefeed buffer
-	pub(crate) fn new() -> Self {
+	pub fn new() -> Self {
 		Self {
 			buffer: Mutex::new(HashMap::new()),
 		}
 	}
 
 	/// Record a table definition modification
-	pub(crate) fn buffer_table_change(
+	pub fn buffer_table_change(
 		&self,
 		ns: NamespaceId,
 		db: DatabaseId,
@@ -58,7 +59,7 @@ impl Changefeed {
 
 	/// Record a record modification or deletion
 	#[expect(clippy::too_many_arguments)]
-	pub(crate) fn buffer_record_change(
+	pub fn buffer_record_change(
 		&self,
 		ns: NamespaceId,
 		db: DatabaseId,
@@ -83,7 +84,7 @@ impl Changefeed {
 
 	// get returns all the mutations buffered for this transaction.
 	// The timestamp will be provided at commit time.
-	pub(crate) fn changes(&self) -> Result<Vec<PreparedWrite>> {
+	pub fn changes(&self) -> Result<Vec<PreparedWrite>> {
 		// Acquire the buffer lock
 		let buffer = self.buffer.lock();
 		// For zero-length changes, return early
@@ -105,7 +106,7 @@ impl Changefeed {
 
 	// get returns all the mutations buffered for this transaction.
 	// The timestamp will be provided at commit time.
-	pub(crate) fn clear(&self) {
+	pub fn clear(&self) {
 		// Clear the internal buffer
 		self.buffer.lock().clear();
 	}

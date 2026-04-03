@@ -63,26 +63,26 @@ impl revision::WalkRevisioned for TableId {
 #[revisioned(revision = 2)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
 pub struct TableDefinition {
-	pub(crate) namespace_id: NamespaceId,
-	pub(crate) database_id: DatabaseId,
-	pub(crate) table_id: TableId,
-	pub(crate) name: TableName,
-	pub(crate) drop: bool,
-	pub(crate) schemafull: bool,
-	pub(crate) view: Option<ViewDefinition>,
-	pub(crate) permissions: Permissions,
-	pub(crate) changefeed: Option<ChangeFeed>,
-	pub(crate) comment: Option<String>,
-	pub(crate) table_type: TableType,
+	pub namespace_id: NamespaceId,
+	pub database_id: DatabaseId,
+	pub table_id: TableId,
+	pub name: TableName,
+	pub drop: bool,
+	pub schemafull: bool,
+	pub view: Option<ViewDefinition>,
+	pub permissions: Permissions,
+	pub changefeed: Option<ChangeFeed>,
+	pub comment: Option<String>,
+	pub table_type: TableType,
 
 	/// The last time that a DEFINE FIELD was added to this table
-	pub(crate) cache_fields_ts: Uuid,
+	pub cache_fields_ts: Uuid,
 	/// The last time that a DEFINE EVENT was added to this table
-	pub(crate) cache_events_ts: Uuid,
+	pub cache_events_ts: Uuid,
 	/// The last time that a DEFINE TABLE was added to this table
-	pub(crate) cache_tables_ts: Uuid,
+	pub cache_tables_ts: Uuid,
 	/// The last time that a DEFINE INDEX was added to this table
-	pub(crate) cache_indexes_ts: Uuid,
+	pub cache_indexes_ts: Uuid,
 
 	/// Optional alias used as the GraphQL type / query / mutation prefix for
 	/// this table. See GitHub issue #4537. `Option<String>::default()` is

@@ -18,7 +18,7 @@ use crate::val::{Array, IndexFormat, Number, Value};
 #[derive(Debug, Eq, PartialEq, Clone, Hash, Encode, BorrowDecode)]
 #[storekey(format = "()")]
 #[storekey(format = "IndexFormat")]
-pub(crate) struct Range {
+pub struct Range {
 	pub start: Bound<Value>,
 	pub end: Bound<Value>,
 }
@@ -123,7 +123,7 @@ impl Range {
 		})
 	}
 
-	pub(crate) fn into_literal(self) -> expr::Expr {
+	pub fn into_literal(self) -> expr::Expr {
 		match (self.start, self.end) {
 			(Bound::Unbounded, Bound::Unbounded) => {
 				expr::Expr::Literal(expr::Literal::UnboundedRange)
@@ -309,7 +309,7 @@ impl TypedRange<i64> {
 		usize::try_from(start.abs_diff(end)).ok()
 	}
 
-	pub(crate) fn cast_to_array(self) -> Array {
+	pub fn cast_to_array(self) -> Array {
 		let iter = self.iter();
 		Array(iter.map(|i| Value::Number(Number::Int(i))).collect())
 	}

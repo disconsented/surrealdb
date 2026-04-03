@@ -16,7 +16,7 @@ pub struct IfelseStatement {
 
 impl IfelseStatement {
 	/// Check if the statement is bracketed
-	pub(crate) fn bracketed(&self) -> bool {
+	pub fn bracketed(&self) -> bool {
 		self.exprs.iter().all(|(_, v)| matches!(v, Expr::Block(_)))
 			&& self.close.as_ref().map(|v| matches!(v, Expr::Block(_))).unwrap_or(true)
 	}

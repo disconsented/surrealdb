@@ -15,7 +15,7 @@ use crate::iam::{Action, AuthLimit, ResourceKind};
 use crate::val::{TableName, Value};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineEventStatement {
+pub struct DefineEventStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub target_table: Expr,
@@ -28,7 +28,7 @@ pub(crate) struct DefineEventStatement {
 impl DefineEventStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "DefineEventStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

@@ -12,24 +12,24 @@ use crate::opt::websocket::WebsocketConfig;
 /// query_timeout, transaction_timeout
 #[derive(Debug, Clone, Default)]
 pub struct Config {
-	pub(crate) ast_payload: bool,
-	pub(crate) query_timeout: Option<Duration>,
-	pub(crate) transaction_timeout: Option<Duration>,
+	pub ast_payload: bool,
+	pub query_timeout: Option<Duration>,
+	pub transaction_timeout: Option<Duration>,
 	#[cfg(any(feature = "native-tls", feature = "rustls"))]
-	pub(crate) tls_config: Option<super::Tls>,
+	pub tls_config: Option<super::Tls>,
 	// Only used by the local engines
 	// `Level::No` in this context means no authentication information was configured
-	pub(crate) auth: Level,
-	pub(crate) username: String,
-	pub(crate) password: String,
-	pub(crate) capabilities: CoreCapabilities,
-	pub(crate) websocket: WebsocketConfig,
+	pub auth: Level,
+	pub username: String,
+	pub password: String,
+	pub capabilities: CoreCapabilities,
+	pub websocket: WebsocketConfig,
 	#[cfg(storage)]
-	pub(crate) temporary_directory: Option<PathBuf>,
-	pub(crate) node_membership_refresh_interval: Option<Duration>,
-	pub(crate) node_membership_check_interval: Option<Duration>,
-	pub(crate) node_membership_cleanup_interval: Option<Duration>,
-	pub(crate) changefeed_gc_interval: Option<Duration>,
+	pub temporary_directory: Option<PathBuf>,
+	pub node_membership_refresh_interval: Option<Duration>,
+	pub node_membership_check_interval: Option<Duration>,
+	pub node_membership_cleanup_interval: Option<Duration>,
+	pub changefeed_gc_interval: Option<Duration>,
 }
 
 impl Config {

@@ -568,13 +568,13 @@ impl Document {
 }
 
 #[derive(Clone, Debug)]
-pub(crate) struct DefaultBroker {
+pub struct DefaultBroker {
 	sender: Sender<RoutedNotification>,
 	delivery: Arc<dyn MessageBroker>,
 }
 
 impl DefaultBroker {
-	pub(crate) fn new(
+	pub fn new(
 		sender: Sender<RoutedNotification>,
 		delivery: Arc<dyn MessageBroker>,
 	) -> Arc<Self> {

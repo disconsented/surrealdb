@@ -11,16 +11,16 @@ use crate::expr::{Cond, Fields, Groups, Value};
 use crate::val::TableName;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct View {
-	pub(crate) materialize: bool,
-	pub(crate) expr: Fields,
-	pub(crate) what: Vec<TableName>,
-	pub(crate) cond: Option<Cond>,
-	pub(crate) group: Option<Groups>,
+pub struct View {
+	pub materialize: bool,
+	pub expr: Fields,
+	pub what: Vec<TableName>,
+	pub cond: Option<Cond>,
+	pub group: Option<Groups>,
 }
 
 impl View {
-	pub(crate) fn to_definition(&self) -> Result<ViewDefinition> {
+	pub fn to_definition(&self) -> Result<ViewDefinition> {
 		if !self.materialize {
 			return Ok(ViewDefinition::Select {
 				fields: self.expr.clone(),

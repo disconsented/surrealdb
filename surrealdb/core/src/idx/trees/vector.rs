@@ -327,7 +327,7 @@ impl SerializedVector {
 	/// This is used for deduplicating vectors in the HNSW index when `HASHED_VECTOR` is enabled.
 	/// The hash is calculated by iterating over the vector elements and updating the hasher
 	/// with their little-endian byte representation.
-	pub(crate) fn compute_hash(&self) -> [u8; 32] {
+	pub fn compute_hash(&self) -> [u8; 32] {
 		let mut hasher = Blake3Hasher::new();
 		match self {
 			Self::F64(v) => {
@@ -813,7 +813,7 @@ impl Hash for Vector {
 
 #[cfg(test)]
 impl SharedVector {
-	pub(crate) fn clone_vector(&self) -> Vector {
+	pub fn clone_vector(&self) -> Vector {
 		self.0.as_ref().clone()
 	}
 }

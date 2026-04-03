@@ -16,7 +16,7 @@ pub struct MlModelDefinition {
 	pub name: Strand,
 	pub version: Strand,
 	pub comment: Option<String>,
-	pub(crate) permissions: Permission,
+	pub permissions: Permission,
 }
 
 impl_kv_value_revisioned!(MlModelDefinition);

@@ -35,7 +35,7 @@ use crate::idx::planner::QueryPlanner;
 use crate::val::Duration;
 
 #[derive(Clone, Debug)]
-pub(crate) enum Statement<'a> {
+pub enum Statement<'a> {
 	Live(&'a LiveStatement),
 	Show(&'a ShowStatement),
 	Select {
@@ -161,17 +161,17 @@ impl ToSql for Statement<'_> {
 
 impl Statement<'_> {
 	/// Check if this is a SELECT statement
-	pub(crate) fn is_select(&self) -> bool {
+	pub fn is_select(&self) -> bool {
 		matches!(self, Statement::Select { .. })
 	}
 
 	/// Check if this is a CREATE statement
-	pub(crate) fn is_create(&self) -> bool {
+	pub fn is_create(&self) -> bool {
 		matches!(self, Statement::Create(_))
 	}
 
 	/// Check if this is a DELETE statement
-	pub(crate) fn is_delete(&self) -> bool {
+	pub fn is_delete(&self) -> bool {
 		matches!(self, Statement::Delete(_))
 	}
 
@@ -219,7 +219,7 @@ impl Statement<'_> {
 	/// UPSERT |some:1000| WHERE test = true;
 	/// UPSERT |some:1..1000| WHERE test = true;
 	/// UPSERT { id: some:thing } WHERE test = true;
-	pub(crate) fn is_deferable(&self) -> bool {
+	pub fn is_deferable(&self) -> bool {
 		match self {
 			Statement::Upsert(v) if v.cond.is_none() => true,
 			Statement::Create(_) => true,
@@ -262,7 +262,7 @@ impl Statement<'_> {
 	/// UPSERT |some:1000| WHERE test = true;
 	/// UPSERT |some:1..1000| WHERE test = true;
 	/// UPSERT { id: some:thing } WHERE test = true;
-	pub(crate) fn is_repeatable(&self) -> bool {
+	pub fn is_repeatable(&self) -> bool {
 		match self {
 			Statement::Upsert(v) if v.cond.is_none() => match v.data {
 				// We are setting the entire record content
@@ -296,7 +296,7 @@ impl Statement<'_> {
 	///
 	/// UPSERT statements, on the other hand, may be allowed to create the table if it doesn't exist
 	/// depending on the db's strictness.
-	pub(crate) fn requires_table_existence(&self) -> bool {
+	pub fn requires_table_existence(&self) -> bool {
 		match self {
 			Statement::Live(_)
 			| Statement::Show(_)
@@ -325,12 +325,12 @@ impl Statement<'_> {
 	/// must be upserted:
 	///
 	/// UPSERT some WHERE test = true;
-	pub(crate) fn is_guaranteed(&self) -> bool {
+	pub fn is_guaranteed(&self) -> bool {
 		matches!(self, Statement::Upsert(v) if v.cond.is_some())
 	}
 
 	/// Returns any query fields if specified
-	pub(crate) fn expr(&self) -> Option<&Fields> {
+	pub fn expr(&self) -> Option<&Fields> {
 		match self {
 			Statement::Select {
 				stmt,
@@ -345,7 +345,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns any SET, CONTENT, or MERGE clause if specified
-	pub(crate) fn data(&self) -> Option<&Data> {
+	pub fn data(&self) -> Option<&Data> {
 		match self {
 			Statement::Create(v) => v.data.as_ref(),
 			Statement::Upsert(v) => v.data.as_ref(),
@@ -357,7 +357,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns any WHERE clause if specified
-	pub(crate) fn cond(&self) -> Option<&Cond> {
+	pub fn cond(&self) -> Option<&Cond> {
 		match self {
 			Statement::Live(v) => v.cond.as_ref(),
 			Statement::Select {
@@ -373,7 +373,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns any SPLIT clause if specified
-	pub(crate) fn split(&self) -> Option<&Splits> {
+	pub fn split(&self) -> Option<&Splits> {
 		match self {
 			Statement::Select {
 				stmt,
@@ -384,7 +384,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns any GROUP clause if specified
-	pub(crate) fn group(&self) -> Option<&Groups> {
+	pub fn group(&self) -> Option<&Groups> {
 		match self {
 			Statement::Select {
 				stmt,
@@ -395,7 +395,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns any ORDER clause if specified
-	pub(crate) fn order(&self) -> Option<&Ordering> {
+	pub fn order(&self) -> Option<&Ordering> {
 		match self {
 			Statement::Select {
 				stmt,
@@ -406,7 +406,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns any WITH clause if specified
-	pub(crate) fn with(&self) -> Option<&With> {
+	pub fn with(&self) -> Option<&With> {
 		match self {
 			Statement::Select {
 				stmt,
@@ -420,7 +420,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns any FETCH clause if specified
-	pub(crate) fn fetch(&self) -> Option<&Fetchs> {
+	pub fn fetch(&self) -> Option<&Fetchs> {
 		match self {
 			Statement::Select {
 				stmt,
@@ -431,7 +431,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns any START clause if specified
-	pub(crate) fn start(&self) -> Option<&Start> {
+	pub fn start(&self) -> Option<&Start> {
 		match self {
 			Statement::Select {
 				stmt,
@@ -442,7 +442,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns any LIMIT clause if specified
-	pub(crate) fn limit(&self) -> Option<&Limit> {
+	pub fn limit(&self) -> Option<&Limit> {
 		match self {
 			Statement::Select {
 				stmt,
@@ -461,7 +461,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns any OMIT fields if specified
-	pub(crate) fn omit(&self) -> &[Idiom] {
+	pub fn omit(&self) -> &[Idiom] {
 		match self {
 			Statement::Select {
 				omit,
@@ -472,7 +472,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns whether this statement has an ONLY clause
-	pub(crate) fn is_only(&self) -> bool {
+	pub fn is_only(&self) -> bool {
 		match self {
 			Statement::Create(v) => v.only,
 			Statement::Delete(v) => v.only,
@@ -496,7 +496,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns any RETURN clause if specified
-	pub(crate) fn output(&self) -> Option<&Output> {
+	pub fn output(&self) -> Option<&Output> {
 		match self {
 			Statement::Create(v) => v.output.as_ref(),
 			Statement::Upsert(v) => v.output.as_ref(),
@@ -510,7 +510,7 @@ impl Statement<'_> {
 
 	/// Returns any TEMPFILES clause if specified
 	#[cfg(storage)]
-	pub(crate) fn tempfiles(&self) -> bool {
+	pub fn tempfiles(&self) -> bool {
 		match self {
 			Statement::Select {
 				stmt,
@@ -521,7 +521,7 @@ impl Statement<'_> {
 	}
 
 	/// Returns any EXPLAIN clause if specified
-	pub(crate) fn explain(&self) -> Option<&Explain> {
+	pub fn explain(&self) -> Option<&Explain> {
 		match self {
 			Statement::Select {
 				stmt,
@@ -536,7 +536,7 @@ impl Statement<'_> {
 
 	/// Returns a reference to the appropriate `Permission` field within the
 	/// `TableDefinition` structure based on the type of the statement.
-	pub(crate) fn permissions<'b>(
+	pub fn permissions<'b>(
 		&self,
 		table: &'b TableDefinition,
 		doc_is_new: bool,
@@ -552,7 +552,7 @@ impl Statement<'_> {
 		}
 	}
 
-	pub(crate) fn timeout(&self) -> Option<&Expr> {
+	pub fn timeout(&self) -> Option<&Expr> {
 		match self {
 			Statement::Create(s) => Some(&s.timeout),
 			Statement::Delete(s) => Some(&s.timeout),
@@ -566,7 +566,7 @@ impl Statement<'_> {
 			_ => None,
 		}
 	}
-	pub(crate) async fn setup_timeout<'a>(
+	pub async fn setup_timeout<'a>(
 		&self,
 		stk: &mut Stk,
 		ctx: &'a FrozenContext,
@@ -590,7 +590,7 @@ impl Statement<'_> {
 		}
 	}
 
-	pub(crate) fn setup_query_planner<'a>(
+	pub fn setup_query_planner<'a>(
 		&self,
 		planner: QueryPlanner,
 		ctx: Cow<'a, FrozenContext>,
@@ -606,7 +606,7 @@ impl Statement<'_> {
 		}
 	}
 
-	pub(crate) async fn from_select<'a>(
+	pub async fn from_select<'a>(
 		stk: &mut Stk,
 		ctx: &FrozenContext,
 		opt: &Options,

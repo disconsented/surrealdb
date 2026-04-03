@@ -11,11 +11,11 @@ use crate::iam::file::check_is_path_allowed;
 use crate::idx::ft::analyzer::mapper::Mapper;
 
 #[derive(Default)]
-pub(crate) struct Mappers(DashMap<String, Mapper>);
+pub struct Mappers(DashMap<String, Mapper>);
 
 impl Mappers {
 	/// If any mapper is defined, it will be loaded in memory.
-	pub(crate) async fn load(
+	pub async fn load(
 		&self,
 		az: &catalog::AnalyzerDefinition,
 		allow_list: &[PathBuf],
@@ -32,7 +32,7 @@ impl Mappers {
 
 	/// Ensure that if a mapper is defined, that it is also loaded in memory.
 	/// This method does not reload a mapper if it is already in memory.
-	pub(crate) async fn check(
+	pub async fn check(
 		&self,
 		az: &catalog::AnalyzerDefinition,
 		allow_list: &[PathBuf],
@@ -70,7 +70,7 @@ impl Mappers {
 		}
 	}
 
-	pub(crate) fn cleanup(&self, azs: &[catalog::AnalyzerDefinition]) {
+	pub fn cleanup(&self, azs: &[catalog::AnalyzerDefinition]) {
 		// Collect every existing mapper
 		let mut keys: HashSet<String> = self.0.iter().map(|e| e.key().clone()).collect();
 		// Remove keys that still exist in the definitions

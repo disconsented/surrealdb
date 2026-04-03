@@ -163,14 +163,14 @@ pub enum Kind {
 }
 
 impl Kind {
-	pub(crate) fn flatten(self) -> Vec<Kind> {
+	pub fn flatten(self) -> Vec<Kind> {
 		match self {
 			Kind::Either(x) => x.into_iter().flat_map(|k| k.flatten()).collect(),
 			_ => vec![self],
 		}
 	}
 
-	pub(crate) fn either(kinds: Vec<Kind>) -> Kind {
+	pub fn either(kinds: Vec<Kind>) -> Kind {
 		let mut seen = HashSet::new();
 		let mut kinds = kinds
 			.into_iter()

@@ -8,24 +8,24 @@ use crate::expr::FlowResult;
 use crate::fmt::EscapeIdent;
 use crate::val::{RecordId, TableName};
 
-pub(crate) mod key;
-pub(crate) use key::{RecordIdKeyGen, RecordIdKeyLit};
-pub(crate) mod range;
-pub(crate) use range::RecordIdKeyRangeLit;
+pub mod key;
+pub use key::{RecordIdKeyGen, RecordIdKeyLit};
+pub mod range;
+pub use range::RecordIdKeyRangeLit;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct RecordIdLit {
+pub struct RecordIdLit {
 	/// Table name
 	pub table: TableName,
-	pub(crate) key: RecordIdKeyLit,
+	pub key: RecordIdKeyLit,
 }
 
 impl RecordIdLit {
-	pub(crate) fn is_static(&self) -> bool {
+	pub fn is_static(&self) -> bool {
 		self.key.is_static()
 	}
 
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

@@ -15,7 +15,7 @@ use crate::types::{PublicRecordId, PublicValue};
 use crate::val::RecordId;
 
 // Execute the AUTHENTICATE clause for a record access method
-pub(crate) async fn authenticate_record(
+pub async fn authenticate_record(
 	kvs: &Datastore,
 	session: &Session,
 	authenticate: &Expr,
@@ -59,7 +59,7 @@ pub(crate) async fn authenticate_record(
 }
 
 // Execute the AUTHENTICATE clause for any other access method
-pub(crate) async fn authenticate_generic(
+pub async fn authenticate_generic(
 	kvs: &Datastore,
 	session: &Session,
 	authenticate: &Expr,
@@ -105,7 +105,7 @@ pub(crate) async fn authenticate_generic(
 }
 
 // Create a bearer key to act as refresh token for a record user
-pub(crate) async fn create_refresh_token_record(
+pub async fn create_refresh_token_record(
 	kvs: &Datastore,
 	ac: String,
 	ns: &str,

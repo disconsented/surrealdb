@@ -22,14 +22,14 @@ use crate::syn;
 use crate::types::{PublicObject, PublicValue};
 use crate::val::convert_value_to_public_value;
 
-pub(crate) struct Host {
+pub struct Host {
 	// FIXME: We shouldn't be creating a tree stack here.
 	// This is here so that a wasm executable can run the executor, however because it
 	// creates it's own tree-stack this removes it reblessive stack protection ability.
-	pub(crate) stk: TreeStack,
-	pub(crate) ctx: FrozenContext,
-	pub(crate) opt: Options,
-	pub(crate) doc: Option<CursorDoc>,
+	pub stk: TreeStack,
+	pub ctx: FrozenContext,
+	pub opt: Options,
+	pub doc: Option<CursorDoc>,
 	kv: Arc<BTreeMapStore>,
 	module_name: String,
 	#[cfg(feature = "http")]
@@ -38,7 +38,7 @@ pub(crate) struct Host {
 }
 
 impl Host {
-	pub(crate) fn new(
+	pub fn new(
 		ctx: &FrozenContext,
 		opt: &Options,
 		doc: Option<&CursorDoc>,
@@ -77,7 +77,7 @@ impl Host {
 }
 
 /// Parse the module's `allow_net` entries as [`NetTarget`] (same strings as in config).
-pub(crate) fn module_allow_net_targets(module: &SurrealismCapabilities) -> HashSet<NetTarget> {
+pub fn module_allow_net_targets(module: &SurrealismCapabilities) -> HashSet<NetTarget> {
 	module
 		.allow_net
 		.iter()

@@ -1,5 +1,5 @@
-pub(crate) mod cache;
-pub(crate) mod docs;
+pub mod cache;
+pub mod docs;
 mod elements;
 mod filter;
 mod flavor;
@@ -60,7 +60,7 @@ impl HnswSearch {
 /// consistency across concurrent transactions.
 #[revisioned(revision = 1)]
 #[derive(Default, Serialize, Deserialize)]
-pub(crate) struct HnswState {
+pub struct HnswState {
 	/// The entry point element for graph traversal, or `None` if the graph is empty.
 	enter_point: Option<ElementId>,
 	/// The next available element ID for new insertions.
@@ -109,7 +109,7 @@ pub(crate) struct HnswRecordPendingUpdate {
 /// Instead, they are serialized to the key-value store as pending updates and later
 /// applied in batch by a background task via [`HnswIndex::index_pendings`].
 #[revisioned(revision = 1)]
-pub(crate) struct VectorPendingUpdate {
+pub struct VectorPendingUpdate {
 	/// Identifies the document being updated (by doc ID if known, or record key if new).
 	id: VectorId,
 	/// The previous vectors to remove from the index (empty for new documents).
@@ -124,7 +124,7 @@ pub(crate) struct VectorPendingUpdate {
 /// record key is used. Once the pending update is applied, the doc ID is resolved.
 #[revisioned(revision = 1)]
 #[derive(Debug, PartialOrd, Ord, Hash, PartialEq, Eq, Clone)]
-pub(crate) enum VectorId {
+pub enum VectorId {
 	/// A previously resolved internal document ID.
 	DocId(DocId),
 	/// A record key for a document whose doc ID has not yet been resolved.
@@ -169,7 +169,7 @@ where
 }
 
 /// Unique identifier for an element (vector) in the HNSW graph.
-pub(crate) type ElementId = u64;
+pub type ElementId = u64;
 
 impl<L0, L> Hnsw<L0, L>
 where

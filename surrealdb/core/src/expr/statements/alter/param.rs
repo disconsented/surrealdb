@@ -16,7 +16,7 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) struct AlterParamStatement {
+pub struct AlterParamStatement {
 	pub name: Strand,
 	pub if_exists: bool,
 	pub value: Option<Expr>,
@@ -26,7 +26,7 @@ pub(crate) struct AlterParamStatement {
 
 impl AlterParamStatement {
 	#[instrument(level = "trace", name = "AlterParamStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

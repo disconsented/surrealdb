@@ -28,13 +28,13 @@ pub enum ResponseType {
 #[js::class]
 pub struct Response<'js> {
 	#[qjs(skip_trace)]
-	pub(crate) body: Body,
-	pub(crate) init: ResponseInit<'js>,
+	pub body: Body,
+	pub init: ResponseInit<'js>,
 	#[qjs(skip_trace)]
-	pub(crate) url: Option<Url>,
+	pub url: Option<Url>,
 	#[qjs(skip_trace)]
-	pub(crate) r#type: ResponseType,
-	pub(crate) was_redirected: bool,
+	pub r#type: ResponseType,
+	pub was_redirected: bool,
 }
 
 #[js::methods]

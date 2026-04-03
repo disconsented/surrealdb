@@ -16,7 +16,7 @@ use crate::idx::planner::RecordStrategy;
 use crate::val::{Duration, RecordIdKey, TableName};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct InsertStatement {
+pub struct InsertStatement {
 	pub into: Option<Expr>,
 	pub data: Data,
 	/// Does the statement have the ignore clause.
@@ -30,7 +30,7 @@ pub(crate) struct InsertStatement {
 impl InsertStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "InsertStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

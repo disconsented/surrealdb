@@ -68,7 +68,7 @@ impl Stream for IntervalStream {
 	feature = "protocol-http",
 	feature = "protocol-ws",
 ))]
-pub(crate) enum SessionError {
+pub enum SessionError {
 	NotFound(Uuid),
 	Remote(String),
 }
@@ -83,7 +83,7 @@ pub(crate) enum SessionError {
 	feature = "protocol-http",
 	feature = "protocol-ws",
 ))]
-pub(crate) fn session_error_to_error(e: SessionError) -> surrealdb_types::Error {
+pub fn session_error_to_error(e: SessionError) -> surrealdb_types::Error {
 	use surrealdb_types::{Error as TypesError, NotFoundError};
 	match e {
 		SessionError::NotFound(id) => TypesError::not_found(

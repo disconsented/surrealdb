@@ -27,10 +27,10 @@ use crate::{Connection, Error, Result, Surreal, opt};
 #[derive(Debug)]
 #[must_use = "futures do nothing unless you `.await` or poll them"]
 pub struct Query<'r, C: Connection> {
-	pub(crate) txn: Option<Uuid>,
-	pub(crate) client: Cow<'r, Surreal<C>>,
-	pub(crate) queries: Vec<Cow<'r, str>>,
-	pub(crate) variables: Result<Variables>,
+	pub txn: Option<Uuid>,
+	pub client: Cow<'r, Surreal<C>>,
+	pub queries: Vec<Cow<'r, str>>,
+	pub variables: Result<Variables>,
 }
 
 impl<C> WithTransaction for Query<'_, C>
@@ -279,14 +279,14 @@ where
 /// [`IndexedResults::take`](IndexedResults::take).
 #[derive(Debug)]
 pub struct IndexedResults {
-	pub(crate) results: IndexMap<usize, (DbResultStats, std::result::Result<Value, TypesError>)>,
-	pub(crate) live_queries: IndexMap<usize, Result<Stream<Value>>>,
+	pub results: IndexMap<usize, (DbResultStats, std::result::Result<Value, TypesError>)>,
+	pub live_queries: IndexMap<usize, Result<Stream<Value>>>,
 }
 
 /// A `LIVE SELECT` stream from the `query` method
 #[derive(Debug)]
 #[must_use = "streams do nothing unless you poll them"]
-pub struct QueryStream<R>(pub(crate) Either<Stream<R>, SelectAll<Stream<R>>>);
+pub struct QueryStream<R>(pub Either<Stream<R>, SelectAll<Stream<R>>>);
 
 impl futures::Stream for QueryStream<Value> {
 	type Item = Result<Notification<Value>>;
@@ -308,7 +308,7 @@ where
 }
 
 impl IndexedResults {
-	pub(crate) fn new() -> Self {
+	pub fn new() -> Self {
 		Self {
 			results: Default::default(),
 			live_queries: Default::default(),
@@ -318,7 +318,7 @@ impl IndexedResults {
 	/// Returns a mutable reference to the `Ok` value at the given index.
 	/// If the result is an error, the entry is removed and the error is returned.
 	/// Returns `Ok(None)` if no entry exists at the index.
-	pub(crate) fn try_get_value_mut(&mut self, index: usize) -> Result<Option<&mut Value>> {
+	pub fn try_get_value_mut(&mut self, index: usize) -> Result<Option<&mut Value>> {
 		if matches!(self.results.get(&index), Some((_, Err(_)))) {
 			let Some((_, Err(err))) = self.results.swap_remove(&index) else {
 				unreachable!()
@@ -354,12 +354,16 @@ impl IndexedResults {
 	/// # let db = surrealdb::engine::any::connect("mem://").await?;
 	/// #
 	/// // Run multiple queries in a single request
-	/// let mut response = db.query("
-	///     SELECT * FROM user:john;
-	///     SELECT * FROM user WHERE name.first = 'John';
-	///     SELECT address FROM user:john;
-	///     SELECT address FROM user;
-	/// ").await?;
+	/// let mut response = db
+	///     // Get `john`'s details
+	///     .query("SELECT * FROM user:john")
+	///     // List all users whose first name is John
+	///     .query("SELECT * FROM user WHERE name.first = 'John'")
+	///     // Get John's address
+	///     .query("SELECT address FROM user:john")
+	///     // Get all users' addresses
+	///     .query("SELECT address FROM user")
+	///     .await?;
 	///
 	/// // Get the first (and only) user from the first query
 	/// let user: Option<User> = response.take(0)?;
@@ -553,12 +557,16 @@ impl WithStats<IndexedResults> {
 	/// # let db = surrealdb::engine::any::connect("mem://").await?;
 	/// #
 	/// // Run multiple queries in a single request with stats
-	/// let mut response = db.query("
-	///     SELECT * FROM user:john;
-	///     SELECT * FROM user WHERE name.first = 'John';
-	///     SELECT address FROM user:john;
-	///     SELECT address FROM user;
-	/// ")
+	/// let mut response = db
+	///     // Get `john`'s details
+	///     .query("SELECT * FROM user:john")
+	///     // List all users whose first name is John
+	///     .query("SELECT * FROM user WHERE name.first = 'John'")
+	///     // Get John's address
+	///     .query("SELECT address FROM user:john")
+	///     // Get all users' addresses
+	///     .query("SELECT address FROM user")
+	///     // Return stats along with query results
 	///     .with_stats()
 	///     .await?;
 	///

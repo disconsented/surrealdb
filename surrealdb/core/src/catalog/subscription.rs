@@ -31,27 +31,27 @@ impl InfoStructure for SubscriptionFields {
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
 pub struct SubscriptionDefinition {
-	pub(crate) id: Uuid,
-	pub(crate) node: Uuid,
-	pub(crate) fields: SubscriptionFields,
-	pub(crate) what: Expr,
-	pub(crate) cond: Option<Expr>,
-	pub(crate) fetch: Option<Fetchs>,
+	pub id: Uuid,
+	pub node: Uuid,
+	pub fields: SubscriptionFields,
+	pub what: Expr,
+	pub cond: Option<Expr>,
+	pub fetch: Option<Fetchs>,
 	// When a live query is created, we must also store the
 	// authenticated session of the user who made the query,
 	// so we can check it later when sending notifications.
 	// This is optional as it is only set by the database
 	// runtime when storing the live query to storage.
-	pub(crate) auth: Option<Auth>,
+	pub auth: Option<Auth>,
 	// When a live query is created, we must also store the
 	// authenticated session of the user who made the query,
 	// so we can check it later when sending notifications.
 	// This is optional as it is only set by the database
 	// runtime when storing the live query to storage.
-	pub(crate) session: Option<Value>,
+	pub session: Option<Value>,
 	// When a live query is created, we analyze the query
 	// and store the variables that are used in the query.
-	pub(crate) vars: BTreeMap<String, Value>,
+	pub vars: BTreeMap<String, Value>,
 }
 
 impl_kv_value_revisioned!(SubscriptionDefinition);
@@ -94,9 +94,9 @@ impl ToSql for &SubscriptionDefinition {
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct NodeLiveQuery {
-	pub(crate) ns: NamespaceId,
-	pub(crate) db: DatabaseId,
-	pub(crate) tb: TableName,
+pub struct NodeLiveQuery {
+	pub ns: NamespaceId,
+	pub db: DatabaseId,
+	pub tb: TableName,
 }
 impl_kv_value_revisioned!(NodeLiveQuery);

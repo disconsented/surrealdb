@@ -400,7 +400,7 @@ fn vec_start_limit<T>(vec: &mut Vec<T>, start: Option<u32>, limit: Option<u32>) 
 /// of the value in the `ordered` vector is updated to the new position.
 ///
 /// The values and ordered vectors must have the same length.
-pub(crate) fn apply_permutation_in_place<T>(values: &mut [T], ordered: &mut [usize]) {
+pub fn apply_permutation_in_place<T>(values: &mut [T], ordered: &mut [usize]) {
 	debug_assert!(values.len() == ordered.len());
 
 	for i in 0..ordered.len() {

@@ -9,14 +9,14 @@ use crate::expr::Value;
 use crate::iam::{Action, ConfigKind, ResourceKind};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct RemoveConfigStatement {
+pub struct RemoveConfigStatement {
 	pub kind: ConfigKind,
 	pub if_exists: bool,
 }
 
 impl RemoveConfigStatement {
 	/// Process this type returning a computed simple Value
-	pub(crate) async fn compute(&self, ctx: &FrozenContext, opt: &Options) -> Result<Value> {
+	pub async fn compute(&self, ctx: &FrozenContext, opt: &Options) -> Result<Value> {
 		let base = self.kind.base();
 		// Allowed to run?
 		ctx.is_allowed(

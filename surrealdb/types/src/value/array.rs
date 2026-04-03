@@ -13,7 +13,7 @@ use crate::{SurrealValue, Value};
 
 #[derive(Clone, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct Array(pub(crate) Vec<Value>);
+pub struct Array(pub Vec<Value>);
 
 impl Array {
 	/// Create a new empty array

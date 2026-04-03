@@ -10,7 +10,7 @@ use crate::expr::{Base, Value};
 use crate::iam::{Action, ResourceKind};
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) struct RemoveModelStatement {
+pub struct RemoveModelStatement {
 	pub name: Strand,
 	pub version: Strand,
 	pub if_exists: bool,
@@ -18,7 +18,7 @@ pub(crate) struct RemoveModelStatement {
 
 impl RemoveModelStatement {
 	/// Process this type returning a computed simple Value
-	pub(crate) async fn compute(&self, ctx: &FrozenContext, opt: &Options) -> Result<Value> {
+	pub async fn compute(&self, ctx: &FrozenContext, opt: &Options) -> Result<Value> {
 		// Allowed to run?
 		ctx.is_allowed(opt, Action::Edit, ResourceKind::Model, Base::Db)?;
 		// Get the transaction

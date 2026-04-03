@@ -13,7 +13,7 @@ use crate::key::database::sq::Sq;
 use crate::key::sequence::Prefix;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct RemoveSequenceStatement {
+pub struct RemoveSequenceStatement {
 	pub name: Expr,
 	pub if_exists: bool,
 }
@@ -28,7 +28,7 @@ impl Default for RemoveSequenceStatement {
 }
 
 impl RemoveSequenceStatement {
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

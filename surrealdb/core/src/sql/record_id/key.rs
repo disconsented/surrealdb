@@ -38,7 +38,7 @@ impl From<crate::expr::RecordIdKeyGen> for RecordIdKeyGen {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum RecordIdKeyLit {
+pub enum RecordIdKeyLit {
 	Number(i64),
 	String(Strand),
 	Uuid(PublicUuid),

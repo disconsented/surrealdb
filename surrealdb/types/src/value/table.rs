@@ -11,7 +11,7 @@ use crate::sql::{SqlFormat, ToSql};
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[repr(transparent)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct Table(pub(crate) String);
+pub struct Table(pub String);
 
 impl Table {
 	/// Create a new table.

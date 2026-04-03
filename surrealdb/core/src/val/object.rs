@@ -26,7 +26,7 @@ use crate::val::{IndexFormat, RecordId, Strand, Value};
 #[derive(Clone, Debug, Default, Eq, Ord, PartialEq, PartialOrd, Hash, Encode, BorrowDecode)]
 #[storekey(format = "()")]
 #[storekey(format = "IndexFormat")]
-pub(crate) struct Object(#[revision(indexed_map)] pub(crate) VecMap<Strand, Value>);
+pub struct Object(#[revision(indexed_map)] pub VecMap<Strand, Value>);
 
 impl From<BTreeMap<&str, Value>> for Object {
 	fn from(v: BTreeMap<&str, Value>) -> Self {

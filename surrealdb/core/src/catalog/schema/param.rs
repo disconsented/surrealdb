@@ -13,10 +13,10 @@ use crate::val::Value;
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
 #[non_exhaustive]
 pub struct ParamDefinition {
-	pub(crate) name: Strand,
-	pub(crate) value: Value,
-	pub(crate) comment: Option<String>,
-	pub(crate) permissions: Permission,
+	pub name: Strand,
+	pub value: Value,
+	pub comment: Option<String>,
+	pub permissions: Permission,
 }
 impl_kv_value_revisioned!(ParamDefinition);
 

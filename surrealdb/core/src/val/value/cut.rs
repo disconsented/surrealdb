@@ -3,7 +3,7 @@ use crate::val::Value;
 
 impl Value {
 	/// Synchronous method for deleting a field from a `Value`
-	pub(crate) fn cut(&mut self, path: &[Part]) {
+	pub fn cut(&mut self, path: &[Part]) {
 		if let Some(p) = path.first() {
 			// Get the current value at path
 			match self {

@@ -11,7 +11,7 @@ use crate::sql::{Expr, Literal, Param};
 
 #[derive(Clone, Copy, Eq, PartialEq, Debug, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum ExplainFormat {
+pub enum ExplainFormat {
 	#[default]
 	Text,
 	Json,
@@ -37,12 +37,12 @@ impl From<crate::expr::ExplainFormat> for ExplainFormat {
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Ast {
-	pub(crate) expressions: Vec<TopLevelExpr>,
+	pub expressions: Vec<TopLevelExpr>,
 }
 
 impl Ast {
 	/// Creates an ast with a signle expression
-	pub(crate) fn single_expr(expr: Expr) -> Self {
+	pub fn single_expr(expr: Expr) -> Self {
 		Ast {
 			expressions: vec![TopLevelExpr::Expr(expr)],
 		}
@@ -151,7 +151,7 @@ impl From<Ast> for expr::LogicalPlan {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum TopLevelExpr {
+pub enum TopLevelExpr {
 	Begin,
 	Cancel,
 	Commit,

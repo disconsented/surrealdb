@@ -40,7 +40,7 @@ use crate::fnc::util::math::ToFloat;
 use crate::val::{TryAdd, TryDiv, TryFloatDiv, TryMul, TryNeg, TryPow, TryRem, TrySub};
 
 #[derive(Copy, Clone, Encode, BorrowDecode)]
-pub(crate) enum NumberKind {
+pub enum NumberKind {
 	Int,
 	Float,
 	Decimal,
@@ -49,7 +49,7 @@ pub(crate) enum NumberKind {
 #[revisioned(revision = 1)]
 #[derive(Clone, Copy, Debug)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum Number {
+pub enum Number {
 	Int(i64),
 	Float(f64),
 	Decimal(Decimal),
@@ -398,7 +398,7 @@ impl Number {
 	///
 	/// Returns an ordered byte buffer or an error if Decimal conversion fails
 	/// for Decimal variant values.
-	pub(crate) fn as_decimal_buf(&self) -> Vec<u8> {
+	pub fn as_decimal_buf(&self) -> Vec<u8> {
 		match self {
 			Self::Int(v) => {
 				// Convert integer to decimal for consistent encoding across all numeric types
@@ -431,7 +431,7 @@ impl Number {
 	///
 	/// Returns the reconstructed Number or an error if the buffer is empty or
 	/// cannot be decoded.
-	pub(crate) fn from_decimal_buf(b: &[u8]) -> Result<Self> {
+	pub fn from_decimal_buf(b: &[u8]) -> Result<Self> {
 		let dec = DecimalLexEncoder::decode(b)?;
 		if dec.is_finite() {
 			match DecimalLexEncoder::to_decimal(dec) {
@@ -451,7 +451,7 @@ impl Number {
 		}
 	}
 
-	pub(crate) fn from_decimal_buf_kind(b: &[u8], kind: NumberKind) -> Result<Self> {
+	pub fn from_decimal_buf_kind(b: &[u8], kind: NumberKind) -> Result<Self> {
 		let dec = DecimalLexEncoder::decode(b)?;
 		match kind {
 			NumberKind::Int => {

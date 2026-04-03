@@ -5,7 +5,7 @@ use crate::sql::{Cond, Data, Explain, Expr, Literal, Output, With};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct UpdateStatement {
+pub struct UpdateStatement {
 	pub only: bool,
 	#[cfg_attr(feature = "arbitrary", arbitrary(with = crate::sql::arbitrary::atleast_one))]
 	pub what: Vec<Expr>,

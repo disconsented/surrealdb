@@ -17,18 +17,18 @@ use crate::val::{RecordId, RecordIdKey, RecordIdKeyRange, TableName};
 /// A lookup is a unified way of looking up graph edges and record references.
 /// Since they both work very similarly, they also both support the same operations
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) struct Lookup {
-	pub(crate) kind: LookupKind,
-	pub(crate) expr: Option<Fields>,
-	pub(crate) only: bool,
-	pub(crate) what: Vec<LookupSubject>,
-	pub(crate) cond: Option<Cond>,
-	pub(crate) split: Option<Splits>,
-	pub(crate) group: Option<Groups>,
-	pub(crate) order: Option<Ordering>,
-	pub(crate) limit: Option<Limit>,
-	pub(crate) start: Option<Start>,
-	pub(crate) alias: Option<Idiom>,
+pub struct Lookup {
+	pub kind: LookupKind,
+	pub expr: Option<Fields>,
+	pub only: bool,
+	pub what: Vec<LookupSubject>,
+	pub cond: Option<Cond>,
+	pub split: Option<Splits>,
+	pub group: Option<Groups>,
+	pub order: Option<Ordering>,
+	pub limit: Option<Limit>,
+	pub start: Option<Start>,
+	pub alias: Option<Idiom>,
 }
 
 impl ToSql for Lookup {
@@ -62,7 +62,7 @@ impl ToSql for LookupKind {
 
 /// This enum instructs whether we scan all edges on a table or just a specific range
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum LookupSubject {
+pub enum LookupSubject {
 	Table {
 		table: TableName,
 		referencing_field: Option<String>,
@@ -76,7 +76,7 @@ pub(crate) enum LookupSubject {
 
 impl LookupSubject {
 	#[instrument(level = "trace", name = "LookupSubject::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -142,7 +142,7 @@ impl ComputedLookupSubject {
 
 	/// The presuf function generates the prefix and suffix keys for a lookup
 	/// based on the lookup subject and the lookup kind
-	pub(crate) fn presuf(
+	pub fn presuf(
 		&self,
 		ns: NamespaceId,
 		db: DatabaseId,

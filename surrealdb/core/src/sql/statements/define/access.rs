@@ -6,7 +6,7 @@ use crate::sql::access::AccessDuration;
 use crate::sql::{AccessType, Base, Expr, Literal};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) struct DefineAccessStatement {
+pub struct DefineAccessStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub base: Base,

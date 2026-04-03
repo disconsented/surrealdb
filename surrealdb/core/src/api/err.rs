@@ -128,7 +128,7 @@ impl ApiError {
 		}
 	}
 
-	pub(crate) fn to_types_error(&self) -> TypesError {
+	pub fn to_types_error(&self) -> TypesError {
 		let msg = self.to_string();
 		match &self {
 			Self::NotFound => TypesError::not_found(msg, None),

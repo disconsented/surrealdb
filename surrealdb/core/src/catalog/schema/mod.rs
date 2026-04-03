@@ -4,7 +4,7 @@ use surrealdb_types::ToSql;
 mod access;
 mod analyzer;
 mod api;
-pub(crate) mod base;
+pub mod base;
 mod bucket;
 mod config;
 mod event;
@@ -29,7 +29,7 @@ pub use function::*;
 pub use index::*;
 pub use ml::*;
 pub use module::*;
-pub(crate) use param::*;
+pub use param::*;
 pub use sequence::*;
 pub use user::*;
 
@@ -39,7 +39,7 @@ use crate::val::Value;
 
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) enum Permission {
+pub enum Permission {
 	None,
 	#[default]
 	Full,
@@ -89,10 +89,10 @@ impl ToSql for Permissions {
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
 pub struct Permissions {
-	pub(crate) select: Permission,
-	pub(crate) create: Permission,
-	pub(crate) update: Permission,
-	pub(crate) delete: Permission,
+	pub select: Permission,
+	pub create: Permission,
+	pub update: Permission,
+	pub delete: Permission,
 }
 
 impl Permissions {

@@ -22,40 +22,40 @@ use crate::expr::statements::info::InfoStructure;
 use crate::fmt::QuoteStr;
 use crate::sql::expression::convert_public_value_to_internal;
 
-pub(crate) mod array;
-pub(crate) mod bytes;
-pub(crate) mod closure;
-pub(crate) mod datetime;
-pub(crate) mod duration;
-pub(crate) mod file;
-pub(crate) mod geometry;
-pub(crate) mod number;
-pub(crate) mod object;
-pub(crate) mod object_extract;
-pub(crate) mod range;
-pub(crate) mod record_id;
-pub(crate) mod regex;
-pub(crate) mod set;
-pub(crate) mod table;
-pub(crate) mod uuid;
-pub(crate) mod value;
+pub mod array;
+pub mod bytes;
+pub mod closure;
+pub mod datetime;
+pub mod duration;
+pub mod file;
+pub mod geometry;
+pub mod number;
+pub mod object;
+pub mod object_extract;
+pub mod range;
+pub mod record_id;
+pub mod regex;
+pub mod set;
+pub mod table;
+pub mod uuid;
+pub mod value;
 
-pub(crate) use self::array::Array;
-pub(crate) use self::bytes::Bytes;
-pub(crate) use self::closure::Closure;
-pub(crate) use self::datetime::Datetime;
-pub(crate) use self::duration::Duration;
-pub(crate) use self::file::File;
-pub(crate) use self::geometry::Geometry;
-pub(crate) use self::number::{DecimalExt, Number};
-pub(crate) use self::object::Object;
-pub(crate) use self::range::Range;
-pub(crate) use self::record_id::{RecordId, RecordIdKey, RecordIdKeyRange};
-pub(crate) use self::regex::Regex;
-pub(crate) use self::set::Set;
-pub(crate) use self::table::TableName;
-pub(crate) use self::uuid::Uuid;
-pub(crate) use self::value::{CastError, CoerceError};
+pub use self::array::Array;
+pub use self::bytes::Bytes;
+pub use self::closure::Closure;
+pub use self::datetime::Datetime;
+pub use self::duration::Duration;
+pub use self::file::File;
+pub use self::geometry::Geometry;
+pub use self::number::{DecimalExt, Number};
+pub use self::object::Object;
+pub use self::range::Range;
+pub use self::record_id::{RecordId, RecordIdKey, RecordIdKeyRange};
+pub use self::regex::Regex;
+pub use self::set::Set;
+pub use self::table::TableName;
+pub use self::uuid::Uuid;
+pub use self::value::{CastError, CoerceError};
 
 /// Marker type for a different serialization format for value which does not encode type
 /// information which is not required for indexing.
@@ -95,7 +95,7 @@ pub struct Null;
 #[derive(Clone, Debug, Default, PartialEq, PartialOrd, Hash, Encode, BorrowDecode)]
 #[storekey(format = "()")]
 #[storekey(format = "IndexFormat")]
-pub(crate) enum Value {
+pub enum Value {
 	#[default]
 	#[revision(size = "inline")]
 	None,
@@ -638,7 +638,7 @@ impl InfoStructure for Value {
 
 // ------------------------------
 
-pub(crate) trait TryAdd<Rhs = Self> {
+pub trait TryAdd<Rhs = Self> {
 	type Output;
 	fn try_add(self, rhs: Rhs) -> Result<Self::Output>;
 }
@@ -678,7 +678,7 @@ impl TryAdd for Value {
 
 // ------------------------------
 
-pub(crate) trait TrySub<Rhs = Self> {
+pub trait TrySub<Rhs = Self> {
 	type Output;
 	fn try_sub(self, v: Rhs) -> Result<Self::Output>;
 }
@@ -713,7 +713,7 @@ impl TrySub for Value {
 
 // ------------------------------
 
-pub(crate) trait TryMul<Rhs = Self> {
+pub trait TryMul<Rhs = Self> {
 	type Output;
 	fn try_mul(self, v: Self) -> Result<Self::Output>;
 }
@@ -774,7 +774,7 @@ impl TryMul for Value {
 
 // ------------------------------
 
-pub(crate) trait TryDiv<Rhs = Self> {
+pub trait TryDiv<Rhs = Self> {
 	type Output;
 	fn try_div(self, v: Self) -> Result<Self::Output>;
 }
@@ -831,7 +831,7 @@ impl TryDiv for Value {
 
 // ------------------------------
 
-pub(crate) trait TryFloatDiv<Rhs = Self> {
+pub trait TryFloatDiv<Rhs = Self> {
 	type Output;
 	fn try_float_div(self, v: Self) -> Result<Self::Output>;
 }
@@ -848,7 +848,7 @@ impl TryFloatDiv for Value {
 
 // ------------------------------
 
-pub(crate) trait TryRem<Rhs = Self> {
+pub trait TryRem<Rhs = Self> {
 	type Output;
 	fn try_rem(self, v: Self) -> Result<Self::Output>;
 }
@@ -865,7 +865,7 @@ impl TryRem for Value {
 
 // ------------------------------
 
-pub(crate) trait TryPow<Rhs = Self> {
+pub trait TryPow<Rhs = Self> {
 	type Output;
 	fn try_pow(self, v: Self) -> Result<Self::Output>;
 }
@@ -882,7 +882,7 @@ impl TryPow for Value {
 
 // ------------------------------
 
-pub(crate) trait TryNeg<Rhs = Self> {
+pub trait TryNeg<Rhs = Self> {
 	type Output;
 	fn try_neg(self) -> Result<Self::Output>;
 }
@@ -1162,7 +1162,7 @@ impl FromIterator<(String, Value)> for Value {
 ///
 /// In the future, as the two types diverge, this function will need access to the context in order
 /// to convert certain values to the public value.
-pub(crate) fn convert_value_to_public_value(
+pub fn convert_value_to_public_value(
 	value: crate::val::Value,
 ) -> Result<surrealdb_types::Value> {
 	match value {
@@ -1267,7 +1267,7 @@ fn convert_object_to_public(value: crate::val::Object) -> Result<surrealdb_types
 	Ok(surrealdb_types::Value::Object(surrealdb_types::Object::from(converted)))
 }
 
-pub(crate) fn convert_object_to_public_map(
+pub fn convert_object_to_public_map(
 	value: crate::val::Object,
 ) -> Result<BTreeMap<String, surrealdb_types::Value>> {
 	value

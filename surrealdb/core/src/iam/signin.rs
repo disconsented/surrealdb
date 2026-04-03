@@ -1064,7 +1064,7 @@ pub fn validate_grant_bearer(key: &str) -> Result<String> {
 	Ok(kid.to_string())
 }
 
-pub(crate) fn verify_grant_bearer(
+pub fn verify_grant_bearer(
 	gr: &Arc<catalog::AccessGrant>,
 	key: String,
 ) -> Result<&catalog::GrantBearer> {

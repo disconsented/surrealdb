@@ -130,7 +130,7 @@ impl std::fmt::Display for Resource {
 }
 
 impl Resource {
-	pub(crate) fn new(id: String, kind: ResourceKind, level: Level) -> Self {
+	pub fn new(id: String, kind: ResourceKind, level: Level) -> Self {
 		Self {
 			id,
 			kind,
@@ -138,15 +138,15 @@ impl Resource {
 		}
 	}
 
-	pub(crate) fn id(&self) -> &str {
+	pub fn id(&self) -> &str {
 		&self.id
 	}
 
-	pub(crate) fn kind(&self) -> &ResourceKind {
+	pub fn kind(&self) -> &ResourceKind {
 		&self.kind
 	}
 
-	pub(crate) fn level(&self) -> &Level {
+	pub fn level(&self) -> &Level {
 		&self.level
 	}
 }

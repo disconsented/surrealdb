@@ -5,7 +5,7 @@ use crate::sql::{AssignOperator, Expr, Idiom};
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 #[allow(clippy::enum_variant_names)]
-pub(crate) enum Data {
+pub enum Data {
 	#[default]
 	EmptyExpression,
 	SetExpression(Vec<Assignment>),
@@ -21,7 +21,7 @@ pub(crate) enum Data {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct Assignment {
+pub struct Assignment {
 	#[cfg_attr(feature = "arbitrary", arbitrary(with = crate::sql::arbitrary::plain_idiom))]
 	pub place: Idiom,
 	pub operator: AssignOperator,

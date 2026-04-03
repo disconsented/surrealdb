@@ -8,7 +8,7 @@ use crate::sql::tokenizer::{Tokenizer, write_tokenizers_sql};
 use crate::sql::{Expr, Literal};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) struct DefineAnalyzerStatement {
+pub struct DefineAnalyzerStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub function: Option<Strand>,

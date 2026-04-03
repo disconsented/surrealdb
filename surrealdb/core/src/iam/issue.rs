@@ -8,7 +8,7 @@ use jsonwebtoken::EncodingKey;
 use crate::catalog;
 use crate::err::Error;
 
-pub(crate) fn config(alg: catalog::Algorithm, key: &str) -> Result<EncodingKey> {
+pub fn config(alg: catalog::Algorithm, key: &str) -> Result<EncodingKey> {
 	match alg {
 		catalog::Algorithm::Hs256 => Ok(EncodingKey::from_secret(key.as_ref())),
 		catalog::Algorithm::Hs384 => Ok(EncodingKey::from_secret(key.as_ref())),
@@ -32,7 +32,7 @@ pub(crate) fn config(alg: catalog::Algorithm, key: &str) -> Result<EncodingKey> 
 	}
 }
 
-pub(crate) fn expiration(d: Option<Duration>) -> Result<Option<i64>> {
+pub fn expiration(d: Option<Duration>) -> Result<Option<i64>> {
 	let exp = match d {
 		Some(v) => {
 			// The defined duration must be valid

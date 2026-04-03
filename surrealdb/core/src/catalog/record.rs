@@ -49,10 +49,10 @@ use crate::val::{RecordId, Value};
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct Record {
 	/// Optional metadata about the record (e.g., record type)
-	pub(crate) metadata: Option<Metadata>,
+	pub metadata: Option<Metadata>,
 	/// The actual data stored in the record
 	// TODO (DB-655): Switch to `Object`.
-	pub(crate) data: Value,
+	pub data: Value,
 }
 
 /// Strand value for the `"id"` field name. Used by the post-decode id
@@ -95,7 +95,7 @@ impl KVValue for Record {
 
 impl Record {
 	/// Creates a new record with the given data and no metadata
-	pub(crate) fn new(data: Value) -> Self {
+	pub fn new(data: Value) -> Self {
 		Self {
 			metadata: None,
 			data,
@@ -131,12 +131,12 @@ impl Record {
 	}
 
 	/// Wraps this record in an `Arc` for shared ownership.
-	pub(crate) fn into_read_only(self) -> Arc<Self> {
+	pub fn into_read_only(self) -> Arc<Self> {
 		Arc::new(self)
 	}
 
 	/// Sets the record type in the metadata
-	pub(crate) fn set_record_type(&mut self, rtype: RecordType) {
+	pub fn set_record_type(&mut self, rtype: RecordType) {
 		match &mut self.metadata {
 			Some(metadata) => {
 				metadata.record_type = rtype;
@@ -168,7 +168,7 @@ pub(crate) const LATEST_EDGE_VARIANT: u16 = 2;
 /// record was created against and can dispatch accordingly.
 #[revisioned(revision = 2)]
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq, PartialOrd, Hash)]
-pub(crate) enum RecordType {
+pub enum RecordType {
 	/// Represents a normal table record
 	/// From 3.0.0
 	#[default]
@@ -212,13 +212,13 @@ impl RecordType {
 /// of the database.
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, PartialEq)]
-pub(crate) struct Metadata {
+pub struct Metadata {
 	/// The type of the record (e.g., Edge for graph edges)
-	pub(crate) record_type: RecordType,
+	pub record_type: RecordType,
 	/// Statistics related to running aggregations for this record.
 	/// These do not directly correspond to a field but must be used in conjunction with the table
 	/// definition to calculate the final value for this record.
-	pub(crate) aggregation_stats: Vec<AggregationStat>,
+	pub aggregation_stats: Vec<AggregationStat>,
 }
 
 #[cfg(test)]

@@ -159,22 +159,22 @@ pub enum Kind {
 
 impl Kind {
 	/// Returns the kind of a type.
-	pub(crate) fn of<T: HasKind>() -> Kind {
+	pub fn of<T: HasKind>() -> Kind {
 		T::kind()
 	}
 
 	/// Returns true if this type is an `any`
-	pub(crate) fn is_any(&self) -> bool {
+	pub fn is_any(&self) -> bool {
 		matches!(self, Kind::Any)
 	}
 
 	/// Returns true if this type is a record
-	pub(crate) fn is_record(&self) -> bool {
+	pub fn is_record(&self) -> bool {
 		matches!(self, Kind::Record(_))
 	}
 
 	/// Returns true if this type is optional
-	pub(crate) fn can_be_none(&self) -> bool {
+	pub fn can_be_none(&self) -> bool {
 		match self {
 			Kind::None | Kind::Any => true,
 			Kind::Either(x) => x.iter().any(|x| x.can_be_none()),
@@ -183,7 +183,7 @@ impl Kind {
 	}
 
 	/// Returns true if this type is a literal, or contains a literal
-	pub(crate) fn contains_literal(&self) -> bool {
+	pub fn contains_literal(&self) -> bool {
 		match self {
 			Kind::Literal(_) => true,
 			Kind::Either(x) => x.iter().any(|x| x.contains_literal()),
@@ -195,7 +195,7 @@ impl Kind {
 	///
 	/// This covers `object`, `any`, literal object types (e.g. `{ key: string }`),
 	/// and union types where every non-none variant permits sub-field access.
-	pub(crate) fn allows_sub_fields(&self) -> bool {
+	pub fn allows_sub_fields(&self) -> bool {
 		match self {
 			Kind::Any | Kind::Object | Kind::Array(..) | Kind::Set(..) => true,
 			Kind::Literal(KindLiteral::Object(_) | KindLiteral::Array(_)) => true,
@@ -210,7 +210,7 @@ impl Kind {
 	//
 	// For example: for `array<number>` or `set<number>` this returns `number`.
 	// For `array<number> | set<float>` this returns `number | float`.
-	pub(crate) fn inner_kind(&self) -> Option<Kind> {
+	pub fn inner_kind(&self) -> Option<Kind> {
 		match self {
 			Kind::Any
 			| Kind::None
@@ -248,7 +248,7 @@ impl Kind {
 		}
 	}
 
-	pub(crate) fn allows_nested_kind(&self, path: &[Part], kind: &Kind) -> bool {
+	pub fn allows_nested_kind(&self, path: &[Part], kind: &Kind) -> bool {
 		// ANY type won't cause a mismatch
 		if self.is_any() || kind.is_any() {
 			return true;
@@ -294,14 +294,14 @@ impl Kind {
 		}
 	}
 
-	pub(crate) fn flatten(self) -> Vec<Kind> {
+	pub fn flatten(self) -> Vec<Kind> {
 		match self {
 			Kind::Either(x) => x.into_iter().flat_map(|k| k.flatten()).collect(),
 			_ => vec![self],
 		}
 	}
 
-	pub(crate) fn either(kinds: Vec<Kind>) -> Kind {
+	pub fn either(kinds: Vec<Kind>) -> Kind {
 		let mut seen = HashSet::new();
 		let mut kinds = kinds
 			.into_iter()
@@ -315,7 +315,7 @@ impl Kind {
 		}
 	}
 
-	pub(crate) fn option(kind: Kind) -> Kind {
+	pub fn option(kind: Kind) -> Kind {
 		Kind::either(vec![Kind::None, kind])
 	}
 }
@@ -745,7 +745,7 @@ impl KindLiteral {
 		}
 	}
 
-	pub(crate) fn validate_value(&self, value: &Value) -> bool {
+	pub fn validate_value(&self, value: &Value) -> bool {
 		match self {
 			Self::String(v) => match value {
 				Value::String(s) => s == v,
@@ -877,7 +877,7 @@ impl KindLiteral {
 		}
 	}
 
-	pub(crate) fn allows_nested_kind(&self, path: &[Part], kind: &Kind) -> bool {
+	pub fn allows_nested_kind(&self, path: &[Part], kind: &Kind) -> bool {
 		// ANY type won't cause a mismatch
 		if kind.is_any() {
 			return true;

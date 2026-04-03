@@ -13,7 +13,7 @@ use crate::val::{Object, Value};
 
 /// A visitor pass which will capture the value of parameters in the visited expression from the
 /// context.
-pub(crate) struct ParameterCapturePass<'a, 'b> {
+pub struct ParameterCapturePass<'a, 'b> {
 	pub context: &'a FrozenContext,
 	pub captures: &'b mut Variables,
 }
@@ -49,7 +49,7 @@ impl Visitor for ParameterCapturePass<'_, '_> {
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
 #[repr(transparent)]
-pub(crate) struct Variables(pub(crate) BTreeMap<Strand, Value>);
+pub struct Variables(pub BTreeMap<Strand, Value>);
 
 impl Variables {
 	/// Create a new empty variables map.

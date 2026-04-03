@@ -73,7 +73,7 @@ impl InfoStructure for AccessType {
 
 #[revisioned(revision = 1)]
 #[derive(Debug, Hash, Clone, Eq, PartialEq)]
-pub(crate) struct RecordAccess {
+pub struct RecordAccess {
 	pub signup: Option<Expr>,
 	pub signin: Option<Expr>,
 	pub jwt: JwtAccess,
@@ -188,7 +188,7 @@ pub enum Algorithm {
 
 impl Algorithm {
 	// Does the algorithm use the same key for signing and verification?
-	pub(crate) fn is_symmetric(self) -> bool {
+	pub fn is_symmetric(self) -> bool {
 		matches!(self, Algorithm::Hs256 | Algorithm::Hs384 | Algorithm::Hs512)
 	}
 }
@@ -222,14 +222,14 @@ impl ToSql for Algorithm {
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
 pub struct AccessDefinition {
-	pub(crate) name: Strand,
-	pub(crate) access_type: AccessType,
-	pub(crate) base: Base,
-	pub(crate) authenticate: Option<Expr>,
-	pub(crate) grant_duration: Option<Duration>,
-	pub(crate) token_duration: Option<Duration>,
-	pub(crate) session_duration: Option<Duration>,
-	pub(crate) comment: Option<String>,
+	pub name: Strand,
+	pub access_type: AccessType,
+	pub base: Base,
+	pub authenticate: Option<Expr>,
+	pub grant_duration: Option<Duration>,
+	pub token_duration: Option<Duration>,
+	pub session_duration: Option<Duration>,
+	pub comment: Option<String>,
 }
 impl_kv_value_revisioned!(AccessDefinition);
 

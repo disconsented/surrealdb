@@ -15,7 +15,7 @@ use crate::surrealism::cache::SurrealismCacheLookup;
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct DefineModuleStatement {
+pub struct DefineModuleStatement {
 	pub kind: DefineKind,
 	pub name: Option<String>,
 	pub executable: ModuleExecutable,
@@ -26,7 +26,7 @@ pub(crate) struct DefineModuleStatement {
 impl DefineModuleStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "DefineModuleStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

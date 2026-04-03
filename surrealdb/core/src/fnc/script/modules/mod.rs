@@ -67,4 +67,4 @@ macro_rules! impl_module_def {
 		}
 	}
 }
-pub(crate) use impl_module_def;
+pub use impl_module_def;

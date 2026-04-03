@@ -7,7 +7,7 @@ use crate::sql::{Expr, Kind, Literal, Permissions};
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum DefineDefault {
+pub enum DefineDefault {
 	#[default]
 	None,
 	Always(Expr),
@@ -43,7 +43,7 @@ impl From<crate::expr::statements::define::DefineDefault> for DefineDefault {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) struct DefineFieldStatement {
+pub struct DefineFieldStatement {
 	pub kind: DefineKind,
 	pub name: Expr,
 	pub what: Expr,

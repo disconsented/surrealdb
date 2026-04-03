@@ -1,6 +1,6 @@
 #![allow(deprecated)]
 
-pub(crate) mod abstraction;
+pub mod abstraction;
 mod config;
 mod export;
 mod fix;
@@ -19,7 +19,7 @@ mod test;
 mod upgrade;
 mod v2;
 mod validate;
-pub(crate) mod validator;
+pub mod validator;
 mod version;
 mod version_client;
 

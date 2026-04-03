@@ -5,9 +5,9 @@
 //! - `initial`: value before the transaction
 //! - `id`: traditionally an integer but can be an object or collection such as an array
 
-pub(crate) use self::document::*;
+pub use self::document::*;
 pub use self::event::AsyncEventRecord;
-pub(crate) use self::lives::DefaultBroker;
+pub use self::lives::DefaultBroker;
 
 mod document; // The entry point for a document to be processed
 
@@ -50,7 +50,7 @@ impl From<anyhow::Error> for IgnoreError {
 
 /// A type of action that triggers an event or view update
 #[derive(Clone, Debug, Eq, PartialEq, Copy)]
-pub(crate) enum Action {
+pub enum Action {
 	Create,
 	Update,
 	Delete,

@@ -5,9 +5,9 @@
 //! platform-specific implementations in the `native` and `wasm` submodules.
 
 #[cfg(not(target_family = "wasm"))]
-pub(crate) mod native;
+pub mod native;
 #[cfg(target_family = "wasm")]
-pub(crate) mod wasm;
+pub mod wasm;
 
 use std::marker::PhantomData;
 use std::sync::Arc;
@@ -33,7 +33,7 @@ use crate::opt::IntoEndpoint;
 use crate::types::{Array, HashMap, Notification, Number, SurrealValue, Value};
 use crate::{Connect, Error, Surreal};
 
-pub(crate) const PATH: &str = "rpc";
+pub const PATH: &str = "rpc";
 const PING_INTERVAL: Duration = Duration::from_secs(5);
 
 // ============================================================================

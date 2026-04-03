@@ -7,8 +7,8 @@ use crate::expr::Expr;
 
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct Reference {
-	pub(crate) on_delete: ReferenceDeleteStrategy,
+pub struct Reference {
+	pub on_delete: ReferenceDeleteStrategy,
 }
 
 impl ToSql for Reference {
@@ -29,7 +29,7 @@ impl InfoStructure for Reference {
 
 #[revisioned(revision = 1)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum ReferenceDeleteStrategy {
+pub enum ReferenceDeleteStrategy {
 	Reject,
 	Ignore,
 	Cascade,

@@ -13,7 +13,7 @@ use crate::iam::{Action, ResourceKind};
 use crate::val::Value;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct AlterModuleStatement {
+pub struct AlterModuleStatement {
 	pub name: ModuleName,
 	pub if_exists: bool,
 	pub comment: AlterKind<String>,
@@ -22,7 +22,7 @@ pub(crate) struct AlterModuleStatement {
 
 impl AlterModuleStatement {
 	#[instrument(level = "trace", name = "AlterModuleStatement::compute", skip_all)]
-	pub(crate) async fn compute(&self, ctx: &FrozenContext, opt: &Options) -> Result<Value> {
+	pub async fn compute(&self, ctx: &FrozenContext, opt: &Options) -> Result<Value> {
 		ctx.is_allowed(opt, Action::Edit, ResourceKind::Module, Base::Db)?;
 		let (_, _) = opt.ns_db()?;
 		let (ns, db) = ctx.expect_ns_db_ids(opt).await?;

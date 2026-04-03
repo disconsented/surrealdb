@@ -32,7 +32,7 @@ pub fn get_model_path(ns: &str, db: &str, name: &str, version: &str, hash: &str)
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) struct Model {
+pub struct Model {
 	pub name: Strand,
 	pub version: Strand,
 }
@@ -46,7 +46,7 @@ impl ToSql for Model {
 
 impl Model {
 	#[cfg(feature = "ml")]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -219,7 +219,7 @@ impl Model {
 	}
 
 	#[cfg(not(feature = "ml"))]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		_stk: &mut Stk,
 		_ctx: &FrozenContext,

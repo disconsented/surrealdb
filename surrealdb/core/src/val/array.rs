@@ -21,7 +21,7 @@ use crate::val::{IndexFormat, Set, Value};
 #[derive(Clone, Debug, Default, Eq, Ord, PartialEq, PartialOrd, Hash, Encode, BorrowDecode)]
 #[storekey(format = "()")]
 #[storekey(format = "IndexFormat")]
-pub(crate) struct Array(#[revision(indexed_seq)] pub(crate) Vec<Value>);
+pub struct Array(#[revision(indexed_seq)] pub Vec<Value>);
 
 impl<T> From<Vec<T>> for Array
 where
@@ -105,11 +105,11 @@ impl Array {
 		self.into_iter().map(|x| x.into_literal()).collect()
 	}
 
-	pub(crate) fn is_all_none_or_null(&self) -> bool {
+	pub fn is_all_none_or_null(&self) -> bool {
 		self.0.iter().all(|v| v.is_nullish())
 	}
 
-	pub(crate) fn is_any_none_or_null(&self) -> bool {
+	pub fn is_any_none_or_null(&self) -> bool {
 		self.0.iter().any(|v| v.is_nullish())
 	}
 
@@ -182,7 +182,7 @@ impl Array {
 	/// assert_eq!(array("[[0, 1], [2]]").transpose(), array("[[0, 2], [1]]"));
 	/// assert_eq!(array("[0, 1, 2]").transpose(), array("[[0, 1, 2]]"));
 	/// ```
-	pub(crate) fn transpose(self) -> Array {
+	pub fn transpose(self) -> Array {
 		if self.is_empty() {
 			return self;
 		}
@@ -244,7 +244,7 @@ impl ToSql for Array {
 
 // ------------------------------
 
-pub(crate) trait Clump<T> {
+pub trait Clump<T> {
 	fn clump(self, clump_size: usize) -> Result<T>;
 }
 
@@ -269,7 +269,7 @@ impl Clump<Array> for Array {
 
 // ------------------------------
 
-pub(crate) trait Combine<T> {
+pub trait Combine<T> {
 	fn combine(self, other: T) -> T;
 }
 
@@ -287,7 +287,7 @@ impl Combine<Array> for Array {
 
 // ------------------------------
 
-pub(crate) trait Complement<T> {
+pub trait Complement<T> {
 	fn complement(self, other: T) -> T;
 }
 
@@ -310,7 +310,7 @@ impl Complement<Array> for Array {
 
 // ------------------------------
 
-pub(crate) trait Difference<T> {
+pub trait Difference<T> {
 	fn difference(self, other: T) -> T;
 }
 
@@ -332,7 +332,7 @@ impl Difference<Array> for Array {
 
 // ------------------------------
 
-pub(crate) trait Flatten<T> {
+pub trait Flatten<T> {
 	fn flatten(self) -> T;
 }
 
@@ -351,7 +351,7 @@ impl Flatten<Array> for Array {
 
 // ------------------------------
 
-pub(crate) trait Intersect<T> {
+pub trait Intersect<T> {
 	fn intersect(self, other: T) -> T;
 }
 
@@ -371,7 +371,7 @@ impl Intersect<Self> for Array {
 // ------------------------------
 
 // Documented with the assumption that it is just for arrays.
-pub(crate) trait Matches<T> {
+pub trait Matches<T> {
 	/// Returns an array complimenting the original where each value is true or
 	/// false depending on whether it is == to the compared value.
 	///
@@ -389,7 +389,7 @@ impl Matches<Array> for Array {
 
 // ------------------------------
 
-pub(crate) trait Union<T> {
+pub trait Union<T> {
 	fn union(self, other: T) -> T;
 }
 
@@ -402,7 +402,7 @@ impl Union<Self> for Array {
 
 // ------------------------------
 
-pub(crate) trait Uniq<T> {
+pub trait Uniq<T> {
 	fn uniq(self) -> T;
 }
 
@@ -422,7 +422,7 @@ impl Uniq<Array> for Array {
 
 // ------------------------------
 
-pub(crate) trait Windows<T> {
+pub trait Windows<T> {
 	fn windows(self, window_size: usize) -> Result<T>;
 }
 

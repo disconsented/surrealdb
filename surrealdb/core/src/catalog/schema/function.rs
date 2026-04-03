@@ -14,15 +14,15 @@ use crate::val::Value;
 #[revisioned(revision = 3)]
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
 pub struct FunctionDefinition {
-	pub(crate) name: Strand,
-	pub(crate) args: Vec<(String, Kind)>,
-	pub(crate) block: Block,
-	pub(crate) comment: Option<String>,
-	pub(crate) permissions: Permission,
-	pub(crate) returns: Option<Kind>,
+	pub name: Strand,
+	pub args: Vec<(String, Kind)>,
+	pub block: Block,
+	pub comment: Option<String>,
+	pub permissions: Permission,
+	pub returns: Option<Kind>,
 	/// The auth limit of the API.
 	#[revision(start = 2, default_fn = "default_auth_limit")]
-	pub(crate) auth_limit: AuthLimit,
+	pub auth_limit: AuthLimit,
 	/// Optional alias used as the GraphQL Query field name. See GitHub issue
 	/// #4537. `Option<String>::default()` already returns `None`.
 	#[revision(start = 3)]

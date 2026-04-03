@@ -5,7 +5,7 @@ use crate::sql::Expr;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct Limit(pub(crate) Expr);
+pub struct Limit(pub Expr);
 
 impl ToSql for Limit {
 	fn fmt_sql(&self, f: &mut String, fmt: SqlFormat) {

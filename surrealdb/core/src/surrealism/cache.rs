@@ -114,7 +114,7 @@ impl Equivalent<SurrealismCacheKey> for SurrealismCacheLookup<'_> {
 
 /// Cached surrealism module: compiled runtime plus values derived once from the loaded package.
 #[derive(Clone)]
-pub(crate) struct SurrealismCachedModule {
+pub struct SurrealismCachedModule {
 	pub runtime: Arc<Runtime>,
 	/// `organisation::name` for logging / host context.
 	pub module_display_name: Arc<str>,
@@ -125,14 +125,14 @@ pub(crate) struct SurrealismCachedModule {
 
 #[derive(Clone)]
 pub struct SurrealismCacheValue {
-	pub(crate) runtime: Arc<Runtime>,
-	pub(crate) module_display_name: Arc<str>,
+	pub runtime: Arc<Runtime>,
+	pub module_display_name: Arc<str>,
 	#[cfg(feature = "http")]
-	pub(crate) client: Arc<HttpClient>,
+	pub client: Arc<HttpClient>,
 }
 
 #[derive(Clone)]
-pub(crate) struct Weight;
+pub struct Weight;
 
 impl Weighter<SurrealismCacheKey, SurrealismCacheValue> for Weight {
 	fn weight(&self, _key: &SurrealismCacheKey, _val: &SurrealismCacheValue) -> u64 {

@@ -10,7 +10,7 @@ mod notification;
 #[macro_use]
 mod sql;
 mod traits;
-pub(crate) mod utils;
+pub mod utils;
 mod value;
 mod variables;
 

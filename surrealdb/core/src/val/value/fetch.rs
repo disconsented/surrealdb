@@ -12,7 +12,7 @@ use crate::expr::{Expr, FlowResultExt as _, Idiom, Literal, Lookup, Part};
 use crate::val::Value;
 
 impl Value {
-	pub(crate) async fn fetch(
+	pub async fn fetch(
 		&mut self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

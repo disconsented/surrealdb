@@ -20,7 +20,7 @@ pub enum RecordIdKeyGen {
 }
 
 impl RecordIdKeyGen {
-	pub(crate) fn compute(&self) -> RecordIdKey {
+	pub fn compute(&self) -> RecordIdKey {
 		match self {
 			RecordIdKeyGen::Rand => RecordIdKey::rand(),
 			RecordIdKeyGen::Ulid => RecordIdKey::ulid(),
@@ -30,7 +30,7 @@ impl RecordIdKeyGen {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum RecordIdKeyLit {
+pub enum RecordIdKeyLit {
 	Number(i64),
 	String(Strand),
 	Uuid(Uuid),
@@ -41,7 +41,7 @@ pub(crate) enum RecordIdKeyLit {
 }
 
 impl RecordIdKeyLit {
-	pub(crate) fn kind_supported(kind: &Kind) -> bool {
+	pub fn kind_supported(kind: &Kind) -> bool {
 		match kind {
 			Kind::Any => true,
 			Kind::Number => true,
@@ -78,7 +78,7 @@ impl ToSql for RecordIdKeyLit {
 }
 
 impl RecordIdKeyLit {
-	pub(crate) fn is_static(&self) -> bool {
+	pub fn is_static(&self) -> bool {
 		match self {
 			RecordIdKeyLit::Number(_)
 			| RecordIdKeyLit::String(_)
@@ -91,7 +91,7 @@ impl RecordIdKeyLit {
 	}
 
 	/// Process this type returning a computed simple Value
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

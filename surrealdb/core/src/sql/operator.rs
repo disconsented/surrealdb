@@ -123,7 +123,7 @@ impl ToSql for PostfixOperator {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum BinaryOperator {
+pub enum BinaryOperator {
 	/// `-`
 	Subtract,
 	/// `+`
@@ -389,7 +389,7 @@ impl From<crate::expr::BinaryOperator> for BinaryOperator {
 
 #[derive(Clone, Debug, Eq, PartialEq, PartialOrd, Hash)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum NearestNeighbor {
+pub enum NearestNeighbor {
 	/// `<|k, dist|>`
 	K(u32, Distance),
 	/// `<|k|>`

@@ -22,7 +22,7 @@ impl<'r, C, R> InsertRelation<'r, C, R>
 where
 	C: Connection,
 {
-	pub(crate) fn from_closure<F>(client: Cow<'r, Surreal<C>>, f: F) -> Self
+	pub fn from_closure<F>(client: Cow<'r, Surreal<C>>, f: F) -> Self
 	where
 		F: FnOnce() -> Result<Command>,
 	{

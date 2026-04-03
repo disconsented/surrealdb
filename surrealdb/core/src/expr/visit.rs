@@ -55,7 +55,7 @@ macro_rules! implement_visitor{
 
 		/// A trait for types which can be visited with the `expr` visitor
 		#[allow(dead_code)]
-		pub(crate) trait Visit<V: Visitor>{
+		pub trait Visit<V: Visitor>{
 			fn visit(&self, v: &mut V) -> Result<(), V::Error>;
 		}
 
@@ -65,7 +65,7 @@ macro_rules! implement_visitor{
 		/// the error type. All visiting functions have default implementations so to visit a
 		/// specific type you just need to implement only the `visit_{type}` function.
 		#[allow(dead_code)]
-		pub(crate) trait Visitor: Sized {
+		pub trait Visitor: Sized {
 			type Error;
 
 			$(
@@ -94,7 +94,7 @@ macro_rules! implement_visitor_mut{
 
 		/// A trait for types which can be visited with mutable access with the `expr` visitor
 		#[allow(dead_code)]
-		pub(crate) trait VisitMut<V: MutVisitor>{
+		pub trait VisitMut<V: MutVisitor>{
 			fn visit_mut(&mut self, v: &mut V) -> Result<(), V::Error>;
 		}
 
@@ -104,7 +104,7 @@ macro_rules! implement_visitor_mut{
 		/// the error type. All visiting functions have default implementations so to visit a
 		/// specific type you just need to implement only the `visit_mut_{type}` function.
 		#[allow(dead_code)]
-		pub(crate) trait MutVisitor: Sized {
+		pub trait MutVisitor: Sized {
 			type Error;
 
 			$(

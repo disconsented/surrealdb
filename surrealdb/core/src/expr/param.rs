@@ -19,7 +19,7 @@ use crate::iam::Action;
 use crate::val::Value;
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) struct Param(Strand);
+pub struct Param(Strand);
 
 impl Revisioned for Param {
 	fn revision() -> u16 {
@@ -100,7 +100,7 @@ impl Deref for Param {
 impl Param {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "Param::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

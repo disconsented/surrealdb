@@ -14,7 +14,7 @@ use crate::idx::planner::RecordStrategy;
 use crate::val::{Duration, RecordId, RecordIdKey, TableName};
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct RelateStatement {
+pub struct RelateStatement {
 	pub only: bool,
 	/// The expression resulting in the table through which we create a relation
 	pub through: Expr,
@@ -33,7 +33,7 @@ pub(crate) struct RelateStatement {
 impl RelateStatement {
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "RelateStatement::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,
@@ -207,7 +207,7 @@ impl RelateStatement {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum RelateThrough {
+pub enum RelateThrough {
 	RecordId(RecordId),
 	Table(TableName),
 }

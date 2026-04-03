@@ -22,7 +22,7 @@ use crate::val::TableName;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) enum Expr {
+pub enum Expr {
 	Literal(Literal),
 
 	Param(Param),
@@ -77,7 +77,7 @@ pub(crate) enum Expr {
 }
 
 impl Expr {
-	pub(crate) fn to_idiom(&self) -> Idiom {
+	pub fn to_idiom(&self) -> Idiom {
 		match self {
 			Expr::Idiom(i) => i.simplify(),
 			Expr::Param(i) => Idiom::field(i.clone().into_strand()),
@@ -91,7 +91,7 @@ impl Expr {
 		}
 	}
 
-	pub(crate) fn from_public_value(value: PublicValue) -> Self {
+	pub fn from_public_value(value: PublicValue) -> Self {
 		match value {
 			PublicValue::None => Expr::Literal(Literal::None),
 			PublicValue::Null => Expr::Literal(Literal::Null),
@@ -136,7 +136,7 @@ impl Expr {
 	// NOTE: Changes to this function also likely require changes to
 	// crate::expr::Expr::needs_parentheses
 	/// Returns if this expression needs to be parenthesized when inside another expression.
-	pub(crate) fn needs_parentheses(&self) -> bool {
+	pub fn needs_parentheses(&self) -> bool {
 		match self {
 			Expr::Literal(Literal::UnboundedRange | Literal::RecordId(_))
 			| Expr::Closure(_)
@@ -312,7 +312,7 @@ fn convert_public_range_to_literal(range: surrealdb_types::Range) -> Expr {
 	}
 }
 
-pub(crate) fn convert_public_value_to_internal(value: surrealdb_types::Value) -> crate::val::Value {
+pub fn convert_public_value_to_internal(value: surrealdb_types::Value) -> crate::val::Value {
 	match value {
 		surrealdb_types::Value::None => crate::val::Value::None,
 		surrealdb_types::Value::Null => crate::val::Value::Null,
@@ -703,5 +703,11 @@ impl From<crate::expr::Expr> for Expr {
 				statement: Box::new((*statement).into()),
 			},
 		}
+	}
+}
+
+impl Default for Expr {
+	fn default() -> Self {
+		Expr::Literal(Literal::None)
 	}
 }

@@ -12,7 +12,7 @@ use crate::expr::statements::info::InfoStructure;
 use crate::expr::{Expr, Value};
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Hash)]
-pub(crate) struct Block(pub(crate) Vec<Expr>);
+pub struct Block(pub Vec<Expr>);
 
 impl Revisioned for Block {
 	fn revision() -> u16 {
@@ -67,13 +67,13 @@ impl Deref for Block {
 
 impl Block {
 	/// Check if this block does only reads.
-	pub(crate) fn read_only(&self) -> bool {
+	pub fn read_only(&self) -> bool {
 		self.0.iter().all(|x| x.read_only())
 	}
 
 	/// Process this type returning a computed simple Value
 	#[instrument(level = "trace", name = "Block::compute", skip_all)]
-	pub(crate) async fn compute(
+	pub async fn compute(
 		&self,
 		stk: &mut Stk,
 		ctx: &FrozenContext,

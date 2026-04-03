@@ -11,8 +11,8 @@ use crate::opt::{IntoEndpoint, IntoExportDestination, WaitFor, auth};
 use crate::types::{SurrealValue, Value, Variables};
 use crate::{Connect, Connection, OnceLockExt, SessionClone, Surreal};
 
-pub(crate) mod live;
-pub(crate) mod query;
+pub mod live;
+pub mod query;
 
 mod authenticate;
 mod begin;
@@ -82,7 +82,7 @@ use super::opt::{CreateResource, IntoResource};
 
 /// An alias for an often used type of future returned by async methods in this
 /// library
-pub(crate) type BoxFuture<'a, T> = Pin<Box<dyn Future<Output = T> + Send + Sync + 'a>>;
+pub type BoxFuture<'a, T> = Pin<Box<dyn Future<Output = T> + Send + Sync + 'a>>;
 
 /// Type-state marker for [`Export::ml`](Export::ml) on an [`Export`] from
 /// [`Surreal::export`](crate::Surreal::export).
@@ -649,7 +649,8 @@ where
 	///
 	/// // Run queries
 	/// let mut result = db
-	///     .query("CREATE person; SELECT * FROM $table")
+	///     .query("CREATE person")
+	///     .query("SELECT * FROM $table")
 	///     .bind(("table", Table::from("person")))
 	///     .await?;
 	///

@@ -26,13 +26,13 @@
 #[derive(Debug, Clone)]
 pub struct WebsocketConfig {
 	/// The size of the read buffer for incoming WebSocket data (default: 128 KiB)
-	pub(crate) read_buffer_size: usize,
+	pub read_buffer_size: usize,
 	/// The size of the write buffer for outgoing WebSocket data (default: 128 KiB)
-	pub(crate) write_buffer_size: usize,
+	pub write_buffer_size: usize,
 	/// The maximum size of the write buffer before backpressure is applied (default: unlimited)
-	pub(crate) max_write_buffer_size: usize,
+	pub max_write_buffer_size: usize,
 	/// The maximum size of a complete WebSocket message (default: 64 MiB)
-	pub(crate) max_message_size: Option<usize>,
+	pub max_message_size: Option<usize>,
 }
 
 impl Default for WebsocketConfig {

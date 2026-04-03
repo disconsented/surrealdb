@@ -12,7 +12,7 @@ use crate::val::TableName;
 
 /// Information about a single relation table and which tables it connects.
 #[derive(Debug, Clone)]
-pub(crate) struct RelationInfo {
+pub struct RelationInfo {
 	/// The name of the relation table.
 	pub table_name: TableName,
 	/// Tables the relation originates from (the `IN` / `FROM` clause).
@@ -25,7 +25,7 @@ pub(crate) struct RelationInfo {
 
 /// The direction of a relation from the perspective of the table the field is added to.
 #[derive(Debug, Clone, Copy)]
-pub(crate) enum RelationDirection {
+pub enum RelationDirection {
 	/// This table is the source (appears in the `FROM` / `IN` list).
 	/// Resolved by filtering: `WHERE in = $current_record`.
 	Outgoing,
@@ -39,7 +39,7 @@ pub(crate) enum RelationDirection {
 /// Only returns relations where at least one of `FROM` or `TO` tables are
 /// specified, so that relation fields can be meaningfully generated on the
 /// connected tables.
-pub(crate) fn collect_relations(tbs: &[TableDefinition]) -> Vec<RelationInfo> {
+pub fn collect_relations(tbs: &[TableDefinition]) -> Vec<RelationInfo> {
 	tbs.iter()
 		.filter_map(|tb| {
 			if let TableType::Relation(ref rel) = tb.table_type {

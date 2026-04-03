@@ -4,14 +4,14 @@ use crate::fmt::EscapeIdent;
 use crate::val::TableName;
 
 pub mod key;
-pub(crate) use key::{RecordIdKeyGen, RecordIdKeyLit};
+pub use key::{RecordIdKeyGen, RecordIdKeyLit};
 pub mod range;
 pub use range::RecordIdKeyRangeLit;
 
 /// A record id literal, needs to be evaluated to get the actual record id.
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct RecordIdLit {
+pub struct RecordIdLit {
 	/// Table name
 	pub table: TableName,
 	pub key: RecordIdKeyLit,

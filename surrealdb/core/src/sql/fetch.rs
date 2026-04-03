@@ -7,9 +7,9 @@ use crate::sql::Expr;
 
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub(crate) struct Fetchs(
+pub struct Fetchs(
 	#[cfg_attr(feature = "arbitrary", arbitrary(with = crate::sql::arbitrary::atleast_one))]
-	pub(crate) Vec<Fetch>,
+	pub Vec<Fetch>,
 );
 
 impl Deref for Fetchs {
@@ -37,7 +37,7 @@ impl From<crate::expr::Fetchs> for Fetchs {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-pub(crate) struct Fetch(pub(crate) Expr);
+pub struct Fetch(pub Expr);
 
 impl ToSql for Fetch {
 	fn fmt_sql(&self, f: &mut String, fmt: SqlFormat) {
