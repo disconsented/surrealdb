@@ -30,7 +30,7 @@ use std::time::Duration;
 
 use anyhow::Result;
 use clap::{Parser, Subcommand, ValueEnum};
-pub use config::{Config, ConfigCheck, ConfigCheckRequirements};
+pub use config::{Config, ConfigCheck};
 use export::ExportCommandArguments;
 use fix::FixCommandArguments;
 use fmt::FormatCommandArguments;
