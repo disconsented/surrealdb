@@ -100,7 +100,7 @@ pub async fn init(
 	if write {
 		fs::write(file, formatted).await?
 	} else {
-		println!("{formatted}");
+		print!("{formatted}");
 	}
 
 	Ok(())
