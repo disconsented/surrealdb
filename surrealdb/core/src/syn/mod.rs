@@ -17,8 +17,6 @@ pub trait Parse<T> {
 }
 
 #[cfg(test)]
-mod format_test;
-#[cfg(test)]
 mod test;
 
 use anyhow::{Result, bail, ensure};
@@ -56,33 +54,6 @@ where
 /// type, never its meaning.
 fn lift<T>(result: std::result::Result<T, ParseError>) -> Result<T> {
 	result.map_err(anyhow::Error::new)
-}
-
-/// Inserts a single space when `output` already holds content on the current
-/// line, so the next token is never appended directly onto the previous one.
-fn separate_same_line(output: &mut String) {
-	if !output.is_empty() && !output.ends_with('\n') {
-		output.push(' ');
-	}
-}
-
-/// Whether a statement's source contains a comment in any inter-token gap.
-///
-/// Between two lexed tokens the lexer only ever skips whitespace and comments,
-/// so a gap holding a non-whitespace byte marks a comment. Content inside string
-/// or quoted-identifier literals lives within a token span, never in a gap, so
-/// it cannot be mistaken for one. A non-ASCII (e.g. Unicode whitespace) gap is
-/// treated conservatively as a comment, which only keeps the statement verbatim.
-fn statement_has_comment(source: &[u8]) -> bool {
-	let mut prev_end = 0usize;
-	for token in Lexer::new(source) {
-		let start = token.span.offset as usize;
-		if source[prev_end..start].iter().any(|b| !b.is_ascii_whitespace()) {
-			return true;
-		}
-		prev_end = start + token.span.len as usize;
-	}
-	source[prev_end..].iter().any(|b| !b.is_ascii_whitespace())
 }
 
 /// Creates the parser settings struct from the global configuration values as
